@@ -1,0 +1,4 @@
+vhdl xil_defaultlib  \
+"../../../../nvdla_bp.srcs/sources_1/ip/fp_multi/sim/fp_multi.vhd" \
+
+nosort

@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Wed Sep 29 20:06:07 2021
+# Process ID: 20280
+# Current directory: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.runs/fp_multi_synth_1
+# Command line: vivado.exe -log fp_multi.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source fp_multi.tcl
+# Log file: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.runs/fp_multi_synth_1/fp_multi.vds
+# Journal file: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.runs/fp_multi_synth_1\vivado.jou
+#-----------------------------------------------------------
+source fp_multi.tcl -notrace

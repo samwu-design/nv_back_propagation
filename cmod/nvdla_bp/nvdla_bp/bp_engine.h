@@ -10,7 +10,7 @@
 
 #define ATOM_ELE_NUM	8		// 模拟为axi内存逻辑mem数据处理带宽，nvdla中定义为atom，这里指8个element，FP32则对应4*8个byte=256bits
 
-#define CUBE_ATOM_SPACE	1024	// 32*32 224*224 (max)  模拟BUFF的空间大小
+#define CUBE_ATOM_SPACE	1024	   // 至少大于w*h  模拟BUFF的空间大小
 
 #define KENERL_CUBE_NUM 8       //对应逻辑规模一次可以计算的kernel数
 
@@ -19,40 +19,7 @@
 #define STRIPE_SPACE 1024       // 与输入w与h大小有关，至少大于(w-r+1)*(h-s+1)
 #define BLOCK_SPACE 1024        // 与输入w与h大小有关，至少大于w*h
 
-
-typedef struct
-{
-	int fCubeWidth;
-	int fCubeHeight;
-	int fCubeChannel;
-
-	int kCubeWidth;
-	int kCubeHeight;
-	int kCubeChannel;
-	int kCubeNum;
-
-
-	int oCubeWidth;
-	int oCubeHeight;
-	int oCubeChannel;
-
-}CUBE_PAR;
-
-
-typedef struct
-{
-	CUBE_PAR cube_par;
-
-	// cube in buff  存储格式等同NVDLA要求
-	float BPbuf_inCube[CUBE_ATOM_SPACE][ATOM_ELE_NUM];
-	float BPbuf_kCube[CUBE_ATOM_SPACE][ATOM_ELE_NUM];
-
-	// cube out buff 存储格式等同NVDLA要求
-	float BPbuf_oCube[CUBE_ATOM_SPACE][ATOM_ELE_NUM];
-
-}BP_CUBE;
-
-
+/*
 typedef struct
 {
 	float inDat_a[ATOM_ELE_NUM];
@@ -94,6 +61,30 @@ typedef struct
 
 
 
+typedef struct
+{
+	int fCubeWidth;
+	int fCubeHeight;
+	int fCubeChannel;
+
+	int kCubeWidth;
+	int kCubeHeight;
+	int kCubeChannel;
+	int kCubeNum;
+
+
+	int oCubeWidth;
+	int oCubeHeight;
+	int oCubeChannel;
+
+	// cube in buff  存储格式等同NVDLA要求
+	//float BPbuf_inCube[CUBE_ATOM_SPACE][ATOM_ELE_NUM];
+	//float BPbuf_kCube[CUBE_ATOM_SPACE][ATOM_ELE_NUM];
+
+	// cube out buff 存储格式等同NVDLA要求
+	//float BPbuf_oCube[CUBE_ATOM_SPACE][ATOM_ELE_NUM];
+
+}BP_CUBE;
 
 
 
@@ -102,6 +93,10 @@ typedef struct
 
 
 void mac_unit(MAC_UNIT*mac);
-void Atom_op(ATOM_OP*atom_op);
-void Stripe_op(STRIPE_OP*str_op);
-void Block_op(BLOCK_OP*blk_op, BP_CUBE*bp_cube);
+void Atom_op(ATOM_OP*atom_op, MAC_UNIT*mac);
+void Stripe_op(STRIPE_OP*str_op, ATOM_OP*atom_op);
+void Block_op(BP_CUBE*bp_cube, BLOCK_OP*blk_op, STRIPE_OP*str_op);
+
+
+
+*/

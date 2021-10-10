@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Sun Oct 10 10:46:25 2021
+# Process ID: 1728
+# Current directory: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.runs/blk_ram256_1024_bb_synth_1
+# Command line: vivado.exe -log blk_ram256_1024_bb.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source blk_ram256_1024_bb.tcl
+# Log file: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.runs/blk_ram256_1024_bb_synth_1/blk_ram256_1024_bb.vds
+# Journal file: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.runs/blk_ram256_1024_bb_synth_1\vivado.jou
+#-----------------------------------------------------------
+source blk_ram256_1024_bb.tcl -notrace

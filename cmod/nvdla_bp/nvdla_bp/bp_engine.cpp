@@ -1,5 +1,6 @@
 #include "bp_engine.h" 
 
+/*
 //--------------------------------------------------------------------------------
 //尽可能的将数据流程展开,每一步都独立出来，便于调试。
 //cube是硬件逻辑硬件核心，超出此范围的计算都围绕此核心进行迭代运算
@@ -26,10 +27,8 @@ void mac_unit(MAC_UNIT*mac) {
 //   KENERL_CUBE_NUM代表硬件逻辑核一次处理的
 //   卷积核个数能力
 //****************************************
-void Atom_op(ATOM_OP*atom_op) {
+void Atom_op(ATOM_OP*atom_op, MAC_UNIT*mac) {
 
-	//例化乘法器单元
-	MAC_UNIT*mac;
 	int k, a;
 
 	// mac 更新
@@ -56,10 +55,7 @@ void Atom_op(ATOM_OP*atom_op) {
 //   梯度时不需要累加，因此，为共用乘法电路，
 //   累加操作提取出来作为后续流程。
 //****************************************
-void Stripe_op(STRIPE_OP*str_op) {
-
-	//定义一个atom操作
-	ATOM_OP*atom_op;
+void Stripe_op(STRIPE_OP*str_op, ATOM_OP*atom_op) {
 
 	int i, j, a, k;
 	int stride_x, stride_y;
@@ -104,23 +100,14 @@ void Stripe_op(STRIPE_OP*str_op) {
 //   继续求累加后得到3维卷积计算结果。
 //   更大size的cube计算都是基于block操作迭代计算
 //****************************************
-void Block_op(BLOCK_OP*blk_op, BP_CUBE*bp_cube) {
-
-	//定义一个stripe操作
-	STRIPE_OP*str_op;
-
-	//initial 初始化操作数据缓存为0
-	str_op->f_stripe_atom[STRIPE_SPACE][ATOM_ELE_NUM] = 0;
-	str_op->k_stripe_atom[KENERL_CUBE_NUM][ATOM_ELE_NUM] = 0;
-	str_op->o_stripe_atom[STRIPE_SPACE][KENERL_CUBE_NUM][ATOM_ELE_NUM] = 0;
-
+void Block_op(BP_CUBE*bp_cube, BLOCK_OP*blk_op, STRIPE_OP*str_op) {
 
 	int kCubeWidth, kCubeHeight;
 	int fCubeWidth, fCubeHeight;
-	kCubeWidth = bp_cube->cube_par.kCubeWidth;
-	kCubeHeight = bp_cube->cube_par.kCubeHeight;
-	fCubeWidth = bp_cube->cube_par.fCubeWidth;
-	fCubeHeight = bp_cube->cube_par.fCubeHeight;
+	kCubeWidth = bp_cube->kCubeWidth;
+	kCubeHeight = bp_cube->kCubeHeight;
+	fCubeWidth = bp_cube->fCubeWidth;
+	fCubeHeight = bp_cube->fCubeHeight;
 
 	int stride_x, stride_y;
 	//计算stride
@@ -168,22 +155,19 @@ void Block_op(BLOCK_OP*blk_op, BP_CUBE*bp_cube) {
 }
 
 
-//=========================================================================================
-//还有2个层次操作，这两个操作思想也是调用前一级层次来完成。
-
 //****************************************
 //  
 //****************************************
-void Channel_op(BLOCK_OP*blk_op);
+void Channel_op();
 
 //****************************************
 //
 //****************************************
-void Group_op(BLOCK_OP*blk_op);
+void Group_op();
 
 
 
-
+*/
 
 
 
