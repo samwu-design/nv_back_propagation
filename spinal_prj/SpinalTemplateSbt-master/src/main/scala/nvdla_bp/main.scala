@@ -10,7 +10,7 @@ import spinal.core._
 object MyTopLevelVerilog {
   def main(args: Array[String]) {
     SpinalConfig(targetDirectory = "VerilogHDL")//, oneFilePerComponent = true)
-      .generateVerilog(new array_adder(32)).printPruned()
+      .generateVerilog(new conv_mux(32)).printPruned()
     //SpinalVerilog(new MyTopLevel)
   }
 }
