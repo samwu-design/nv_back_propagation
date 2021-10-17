@@ -11,11 +11,13 @@ case class read_req4conv(eleWidth : Int,addrwidth:Int)extends Component{
 
     // input ram port
     val dt_ramrd = ram_rd(addrwidth,eleWidth*8)
-    val wt_ramrd = Array.fill((8)) (ram_rd(addrwidth,eleWidth*8))
+    //val wt_ramrd = Array.fill((8)) (ram_rd(addrwidth,eleWidth*8))
+    val wt_ramrd = Vec(ram_rd(addrwidth, eleWidth * 8),8)
 
     // output
     val o_ft = master Stream(UInt(eleWidth*8 bits))
-    val o_wt = Array.fill(8)(master Stream(UInt(eleWidth*8 bits)))
+    //val o_wt = Array.fill(8)(master Stream(UInt(eleWidth*8 bits)))
+    val o_wt = Vec(master Stream(UInt(eleWidth*8 bits)),8)
 
     // control flag
     val read_enable = in Bool()

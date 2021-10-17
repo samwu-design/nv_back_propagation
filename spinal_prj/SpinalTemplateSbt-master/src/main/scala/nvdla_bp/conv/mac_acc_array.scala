@@ -6,8 +6,10 @@ import spinal.lib._
 case class mac_acc_array(eleWidth:Int) extends Component{
   val io = new Bundle{
     val s_ft = Vec(slave Stream(SInt(eleWidth bits)),8)
-    val s_wt = Array.fill(8) (Vec(slave Stream(SInt(eleWidth bits)),8))
-    val s_out = Array.fill(8) (Vec(master Stream(SInt(eleWidth bits)),8))
+    //val s_wt = Array.fill(8) (Vec(slave Stream(SInt(eleWidth bits)),8))
+    //val s_out = Array.fill(8) (Vec(master Stream(SInt(eleWidth bits)),8))
+    val s_wt = Vec(Vec(slave Stream(SInt(eleWidth bits)),8),8)
+    val s_out = Vec(Vec(master Stream(SInt(eleWidth bits)),8),8)
 
     val par_acc_cnt = in UInt (16 bits) // r*s kernel size
     val acc_enable = in Bool()

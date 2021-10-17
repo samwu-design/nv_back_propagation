@@ -6,10 +6,12 @@ import spinal.lib._
 case class dataType_cvt_in(eleWidth:Int)extends Component{
   val io = new Bundle{
     val i_ft = slave Stream(UInt(eleWidth*8 bits))
-    val i_wt = Array.fill(8)(slave Stream(UInt(eleWidth*8 bits)))
+    //val i_wt = Array.fill(8)(slave Stream(UInt(eleWidth*8 bits)))
+    val i_wt = Vec(slave Stream(UInt(eleWidth*8 bits)),8)
 
     val o_ft = Vec(master Stream(SInt(eleWidth bits)),8)
-    val o_wt = Array.fill(8) (Vec(master Stream(SInt(eleWidth bits)),8))
+    //val o_wt = Array.fill(8) (Vec(master Stream(SInt(eleWidth bits)),8))
+    val o_wt = Vec(Vec(master Stream(SInt(eleWidth bits)),8),8)
 
   }
 

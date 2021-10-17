@@ -9,9 +9,13 @@ case class conv_mux(eleWidth : Int) extends  Component{
   val io = new Bundle{
     val is_delta_wt = in (Bool())
 
-    val indata = Array.fill(8) (Vec(slave Stream(SInt(eleWidth bits)),8))
-    val o_delta_wt = Array.fill(8) (Vec(master Stream(SInt(eleWidth bits)),8))
-    val o_sigma = Array.fill(8) (Vec(master Stream(SInt(eleWidth bits)),8))
+    //val indata = Array.fill(8) (Vec(slave Stream(SInt(eleWidth bits)),8))
+    val indata = Vec(Vec(slave Stream(SInt(eleWidth bits)),8),8)
+
+    //val o_delta_wt = Array.fill(8) (Vec(master Stream(SInt(eleWidth bits)),8))
+    val o_delta_wt = Vec(Vec(master Stream (SInt(eleWidth bits)), 8),8)
+    //val o_sigma = Array.fill(8) (Vec(master Stream(SInt(eleWidth bits)),8))
+    val o_sigma = Vec(Vec(master Stream (SInt(eleWidth bits)), 8),8)
 
   }
 

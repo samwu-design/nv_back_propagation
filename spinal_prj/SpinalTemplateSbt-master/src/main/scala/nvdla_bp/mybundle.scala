@@ -24,7 +24,15 @@ case class conv_cfg_param() extends Bundle{
   val wt_stridex = UInt(16 bits)
   val wt_stridey = UInt(16 bits)
 
+  val par_acc_cnt = UInt(16 bits)
 }
+
+case class conv_ctrl_flag() extends  Bundle {
+  val read_enable = Bool()
+  val acc_enable = Bool()
+  val is_delta_wt = Bool()
+}
+
 
 case class ram_rd(addrwidth:Int,datawidth:Int) extends Bundle{
   val addr = out UInt(addrwidth bits)
