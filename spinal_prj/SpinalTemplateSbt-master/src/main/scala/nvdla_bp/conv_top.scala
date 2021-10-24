@@ -22,6 +22,7 @@ case class conv_top(eleWidth: Int, addrwidth: Int) extends Component {
 
   }
 
+  noIoPrefix()
 
   val read_req = new read_req4conv(eleWidth, addrwidth)
   val data_cvt = new dataType_cvt_in(eleWidth)

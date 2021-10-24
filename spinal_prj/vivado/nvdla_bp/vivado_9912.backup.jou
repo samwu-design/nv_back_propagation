@@ -1,0 +1,25 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Mon Oct 18 20:52:06 2021
+# Process ID: 9912
+# Current directory: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent1872 D:\VM_share\NVDLA_BP\spinal_prj\vivado\nvdla_bp\nvdla_bp.xpr
+# Log file: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/vivado.log
+# Journal file: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.xpr
+update_compile_order -fileset sources_1
+set_property SOURCE_SET sources_1 [get_filesets sim_1]
+close [ open D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.srcs/sim_1/new/conv_tb.v w ]
+add_files -fileset sim_1 D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.srcs/sim_1/new/conv_tb.v
+update_compile_order -fileset sim_1
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top conv_tb [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sim_1

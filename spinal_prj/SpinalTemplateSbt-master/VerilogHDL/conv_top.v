@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.5.0    git head : 83a031922866b078c411ec5529e00f1b6e79f8e7
 // Component : conv_top
-// Git hash  : 8ace3c3a21e1ac42895008ea365c21a808b7ba88
+// Git hash  : 4b713bfe97cfc123fdb083a63b49b96328c070fd
 
 
 `define read_req_fsm_enumDefinition_binary_sequential_type [3:0]
@@ -603,439 +603,439 @@
 
 
 module conv_top (
-  input      [15:0]   io_cfg_fea_width,
-  input      [15:0]   io_cfg_fea_height,
-  input      [15:0]   io_cfg_fea_channel,
-  input      [15:0]   io_cfg_wt_width,
-  input      [15:0]   io_cfg_wt_height,
-  input      [15:0]   io_cfg_wt_channel,
-  input      [15:0]   io_cfg_kerNum,
-  input      [15:0]   io_cfg_o_width,
-  input      [15:0]   io_cfg_o_height,
-  input      [15:0]   io_cfg_o_channel,
-  input      [15:0]   io_cfg_top_pad,
-  input      [15:0]   io_cfg_bot_pad,
-  input      [15:0]   io_cfg_left_pad,
-  input      [15:0]   io_cfg_right_pad,
-  input      [15:0]   io_cfg_dt_stridex,
-  input      [15:0]   io_cfg_dt_stridey,
-  input      [15:0]   io_cfg_wt_stridex,
-  input      [15:0]   io_cfg_wt_stridey,
-  input      [15:0]   io_cfg_par_acc_cnt,
-  input               io_ctrl_read_enable,
-  input               io_ctrl_acc_enable,
-  input               io_ctrl_is_delta_wt,
-  output     [31:0]   io_dt_ramrd_addr,
-  input      [255:0]  io_dt_ramrd_data,
-  output              io_dt_ramrd_en,
-  output     [31:0]   io_wt_ramrd_0_addr,
-  input      [255:0]  io_wt_ramrd_0_data,
-  output              io_wt_ramrd_0_en,
-  output     [31:0]   io_wt_ramrd_1_addr,
-  input      [255:0]  io_wt_ramrd_1_data,
-  output              io_wt_ramrd_1_en,
-  output     [31:0]   io_wt_ramrd_2_addr,
-  input      [255:0]  io_wt_ramrd_2_data,
-  output              io_wt_ramrd_2_en,
-  output     [31:0]   io_wt_ramrd_3_addr,
-  input      [255:0]  io_wt_ramrd_3_data,
-  output              io_wt_ramrd_3_en,
-  output     [31:0]   io_wt_ramrd_4_addr,
-  input      [255:0]  io_wt_ramrd_4_data,
-  output              io_wt_ramrd_4_en,
-  output     [31:0]   io_wt_ramrd_5_addr,
-  input      [255:0]  io_wt_ramrd_5_data,
-  output              io_wt_ramrd_5_en,
-  output     [31:0]   io_wt_ramrd_6_addr,
-  input      [255:0]  io_wt_ramrd_6_data,
-  output              io_wt_ramrd_6_en,
-  output     [31:0]   io_wt_ramrd_7_addr,
-  input      [255:0]  io_wt_ramrd_7_data,
-  output              io_wt_ramrd_7_en,
-  output              io_o_delta_wt_0_0_valid,
-  input               io_o_delta_wt_0_0_ready,
-  output     [31:0]   io_o_delta_wt_0_0_payload,
-  output              io_o_delta_wt_0_1_valid,
-  input               io_o_delta_wt_0_1_ready,
-  output     [31:0]   io_o_delta_wt_0_1_payload,
-  output              io_o_delta_wt_0_2_valid,
-  input               io_o_delta_wt_0_2_ready,
-  output     [31:0]   io_o_delta_wt_0_2_payload,
-  output              io_o_delta_wt_0_3_valid,
-  input               io_o_delta_wt_0_3_ready,
-  output     [31:0]   io_o_delta_wt_0_3_payload,
-  output              io_o_delta_wt_0_4_valid,
-  input               io_o_delta_wt_0_4_ready,
-  output     [31:0]   io_o_delta_wt_0_4_payload,
-  output              io_o_delta_wt_0_5_valid,
-  input               io_o_delta_wt_0_5_ready,
-  output     [31:0]   io_o_delta_wt_0_5_payload,
-  output              io_o_delta_wt_0_6_valid,
-  input               io_o_delta_wt_0_6_ready,
-  output     [31:0]   io_o_delta_wt_0_6_payload,
-  output              io_o_delta_wt_0_7_valid,
-  input               io_o_delta_wt_0_7_ready,
-  output     [31:0]   io_o_delta_wt_0_7_payload,
-  output              io_o_delta_wt_1_0_valid,
-  input               io_o_delta_wt_1_0_ready,
-  output     [31:0]   io_o_delta_wt_1_0_payload,
-  output              io_o_delta_wt_1_1_valid,
-  input               io_o_delta_wt_1_1_ready,
-  output     [31:0]   io_o_delta_wt_1_1_payload,
-  output              io_o_delta_wt_1_2_valid,
-  input               io_o_delta_wt_1_2_ready,
-  output     [31:0]   io_o_delta_wt_1_2_payload,
-  output              io_o_delta_wt_1_3_valid,
-  input               io_o_delta_wt_1_3_ready,
-  output     [31:0]   io_o_delta_wt_1_3_payload,
-  output              io_o_delta_wt_1_4_valid,
-  input               io_o_delta_wt_1_4_ready,
-  output     [31:0]   io_o_delta_wt_1_4_payload,
-  output              io_o_delta_wt_1_5_valid,
-  input               io_o_delta_wt_1_5_ready,
-  output     [31:0]   io_o_delta_wt_1_5_payload,
-  output              io_o_delta_wt_1_6_valid,
-  input               io_o_delta_wt_1_6_ready,
-  output     [31:0]   io_o_delta_wt_1_6_payload,
-  output              io_o_delta_wt_1_7_valid,
-  input               io_o_delta_wt_1_7_ready,
-  output     [31:0]   io_o_delta_wt_1_7_payload,
-  output              io_o_delta_wt_2_0_valid,
-  input               io_o_delta_wt_2_0_ready,
-  output     [31:0]   io_o_delta_wt_2_0_payload,
-  output              io_o_delta_wt_2_1_valid,
-  input               io_o_delta_wt_2_1_ready,
-  output     [31:0]   io_o_delta_wt_2_1_payload,
-  output              io_o_delta_wt_2_2_valid,
-  input               io_o_delta_wt_2_2_ready,
-  output     [31:0]   io_o_delta_wt_2_2_payload,
-  output              io_o_delta_wt_2_3_valid,
-  input               io_o_delta_wt_2_3_ready,
-  output     [31:0]   io_o_delta_wt_2_3_payload,
-  output              io_o_delta_wt_2_4_valid,
-  input               io_o_delta_wt_2_4_ready,
-  output     [31:0]   io_o_delta_wt_2_4_payload,
-  output              io_o_delta_wt_2_5_valid,
-  input               io_o_delta_wt_2_5_ready,
-  output     [31:0]   io_o_delta_wt_2_5_payload,
-  output              io_o_delta_wt_2_6_valid,
-  input               io_o_delta_wt_2_6_ready,
-  output     [31:0]   io_o_delta_wt_2_6_payload,
-  output              io_o_delta_wt_2_7_valid,
-  input               io_o_delta_wt_2_7_ready,
-  output     [31:0]   io_o_delta_wt_2_7_payload,
-  output              io_o_delta_wt_3_0_valid,
-  input               io_o_delta_wt_3_0_ready,
-  output     [31:0]   io_o_delta_wt_3_0_payload,
-  output              io_o_delta_wt_3_1_valid,
-  input               io_o_delta_wt_3_1_ready,
-  output     [31:0]   io_o_delta_wt_3_1_payload,
-  output              io_o_delta_wt_3_2_valid,
-  input               io_o_delta_wt_3_2_ready,
-  output     [31:0]   io_o_delta_wt_3_2_payload,
-  output              io_o_delta_wt_3_3_valid,
-  input               io_o_delta_wt_3_3_ready,
-  output     [31:0]   io_o_delta_wt_3_3_payload,
-  output              io_o_delta_wt_3_4_valid,
-  input               io_o_delta_wt_3_4_ready,
-  output     [31:0]   io_o_delta_wt_3_4_payload,
-  output              io_o_delta_wt_3_5_valid,
-  input               io_o_delta_wt_3_5_ready,
-  output     [31:0]   io_o_delta_wt_3_5_payload,
-  output              io_o_delta_wt_3_6_valid,
-  input               io_o_delta_wt_3_6_ready,
-  output     [31:0]   io_o_delta_wt_3_6_payload,
-  output              io_o_delta_wt_3_7_valid,
-  input               io_o_delta_wt_3_7_ready,
-  output     [31:0]   io_o_delta_wt_3_7_payload,
-  output              io_o_delta_wt_4_0_valid,
-  input               io_o_delta_wt_4_0_ready,
-  output     [31:0]   io_o_delta_wt_4_0_payload,
-  output              io_o_delta_wt_4_1_valid,
-  input               io_o_delta_wt_4_1_ready,
-  output     [31:0]   io_o_delta_wt_4_1_payload,
-  output              io_o_delta_wt_4_2_valid,
-  input               io_o_delta_wt_4_2_ready,
-  output     [31:0]   io_o_delta_wt_4_2_payload,
-  output              io_o_delta_wt_4_3_valid,
-  input               io_o_delta_wt_4_3_ready,
-  output     [31:0]   io_o_delta_wt_4_3_payload,
-  output              io_o_delta_wt_4_4_valid,
-  input               io_o_delta_wt_4_4_ready,
-  output     [31:0]   io_o_delta_wt_4_4_payload,
-  output              io_o_delta_wt_4_5_valid,
-  input               io_o_delta_wt_4_5_ready,
-  output     [31:0]   io_o_delta_wt_4_5_payload,
-  output              io_o_delta_wt_4_6_valid,
-  input               io_o_delta_wt_4_6_ready,
-  output     [31:0]   io_o_delta_wt_4_6_payload,
-  output              io_o_delta_wt_4_7_valid,
-  input               io_o_delta_wt_4_7_ready,
-  output     [31:0]   io_o_delta_wt_4_7_payload,
-  output              io_o_delta_wt_5_0_valid,
-  input               io_o_delta_wt_5_0_ready,
-  output     [31:0]   io_o_delta_wt_5_0_payload,
-  output              io_o_delta_wt_5_1_valid,
-  input               io_o_delta_wt_5_1_ready,
-  output     [31:0]   io_o_delta_wt_5_1_payload,
-  output              io_o_delta_wt_5_2_valid,
-  input               io_o_delta_wt_5_2_ready,
-  output     [31:0]   io_o_delta_wt_5_2_payload,
-  output              io_o_delta_wt_5_3_valid,
-  input               io_o_delta_wt_5_3_ready,
-  output     [31:0]   io_o_delta_wt_5_3_payload,
-  output              io_o_delta_wt_5_4_valid,
-  input               io_o_delta_wt_5_4_ready,
-  output     [31:0]   io_o_delta_wt_5_4_payload,
-  output              io_o_delta_wt_5_5_valid,
-  input               io_o_delta_wt_5_5_ready,
-  output     [31:0]   io_o_delta_wt_5_5_payload,
-  output              io_o_delta_wt_5_6_valid,
-  input               io_o_delta_wt_5_6_ready,
-  output     [31:0]   io_o_delta_wt_5_6_payload,
-  output              io_o_delta_wt_5_7_valid,
-  input               io_o_delta_wt_5_7_ready,
-  output     [31:0]   io_o_delta_wt_5_7_payload,
-  output              io_o_delta_wt_6_0_valid,
-  input               io_o_delta_wt_6_0_ready,
-  output     [31:0]   io_o_delta_wt_6_0_payload,
-  output              io_o_delta_wt_6_1_valid,
-  input               io_o_delta_wt_6_1_ready,
-  output     [31:0]   io_o_delta_wt_6_1_payload,
-  output              io_o_delta_wt_6_2_valid,
-  input               io_o_delta_wt_6_2_ready,
-  output     [31:0]   io_o_delta_wt_6_2_payload,
-  output              io_o_delta_wt_6_3_valid,
-  input               io_o_delta_wt_6_3_ready,
-  output     [31:0]   io_o_delta_wt_6_3_payload,
-  output              io_o_delta_wt_6_4_valid,
-  input               io_o_delta_wt_6_4_ready,
-  output     [31:0]   io_o_delta_wt_6_4_payload,
-  output              io_o_delta_wt_6_5_valid,
-  input               io_o_delta_wt_6_5_ready,
-  output     [31:0]   io_o_delta_wt_6_5_payload,
-  output              io_o_delta_wt_6_6_valid,
-  input               io_o_delta_wt_6_6_ready,
-  output     [31:0]   io_o_delta_wt_6_6_payload,
-  output              io_o_delta_wt_6_7_valid,
-  input               io_o_delta_wt_6_7_ready,
-  output     [31:0]   io_o_delta_wt_6_7_payload,
-  output              io_o_delta_wt_7_0_valid,
-  input               io_o_delta_wt_7_0_ready,
-  output     [31:0]   io_o_delta_wt_7_0_payload,
-  output              io_o_delta_wt_7_1_valid,
-  input               io_o_delta_wt_7_1_ready,
-  output     [31:0]   io_o_delta_wt_7_1_payload,
-  output              io_o_delta_wt_7_2_valid,
-  input               io_o_delta_wt_7_2_ready,
-  output     [31:0]   io_o_delta_wt_7_2_payload,
-  output              io_o_delta_wt_7_3_valid,
-  input               io_o_delta_wt_7_3_ready,
-  output     [31:0]   io_o_delta_wt_7_3_payload,
-  output              io_o_delta_wt_7_4_valid,
-  input               io_o_delta_wt_7_4_ready,
-  output     [31:0]   io_o_delta_wt_7_4_payload,
-  output              io_o_delta_wt_7_5_valid,
-  input               io_o_delta_wt_7_5_ready,
-  output     [31:0]   io_o_delta_wt_7_5_payload,
-  output              io_o_delta_wt_7_6_valid,
-  input               io_o_delta_wt_7_6_ready,
-  output     [31:0]   io_o_delta_wt_7_6_payload,
-  output              io_o_delta_wt_7_7_valid,
-  input               io_o_delta_wt_7_7_ready,
-  output     [31:0]   io_o_delta_wt_7_7_payload,
-  output              io_o_sigma_0_0_valid,
-  input               io_o_sigma_0_0_ready,
-  output     [31:0]   io_o_sigma_0_0_payload,
-  output              io_o_sigma_0_1_valid,
-  input               io_o_sigma_0_1_ready,
-  output     [31:0]   io_o_sigma_0_1_payload,
-  output              io_o_sigma_0_2_valid,
-  input               io_o_sigma_0_2_ready,
-  output     [31:0]   io_o_sigma_0_2_payload,
-  output              io_o_sigma_0_3_valid,
-  input               io_o_sigma_0_3_ready,
-  output     [31:0]   io_o_sigma_0_3_payload,
-  output              io_o_sigma_0_4_valid,
-  input               io_o_sigma_0_4_ready,
-  output     [31:0]   io_o_sigma_0_4_payload,
-  output              io_o_sigma_0_5_valid,
-  input               io_o_sigma_0_5_ready,
-  output     [31:0]   io_o_sigma_0_5_payload,
-  output              io_o_sigma_0_6_valid,
-  input               io_o_sigma_0_6_ready,
-  output     [31:0]   io_o_sigma_0_6_payload,
-  output              io_o_sigma_0_7_valid,
-  input               io_o_sigma_0_7_ready,
-  output     [31:0]   io_o_sigma_0_7_payload,
-  output              io_o_sigma_1_0_valid,
-  input               io_o_sigma_1_0_ready,
-  output     [31:0]   io_o_sigma_1_0_payload,
-  output              io_o_sigma_1_1_valid,
-  input               io_o_sigma_1_1_ready,
-  output     [31:0]   io_o_sigma_1_1_payload,
-  output              io_o_sigma_1_2_valid,
-  input               io_o_sigma_1_2_ready,
-  output     [31:0]   io_o_sigma_1_2_payload,
-  output              io_o_sigma_1_3_valid,
-  input               io_o_sigma_1_3_ready,
-  output     [31:0]   io_o_sigma_1_3_payload,
-  output              io_o_sigma_1_4_valid,
-  input               io_o_sigma_1_4_ready,
-  output     [31:0]   io_o_sigma_1_4_payload,
-  output              io_o_sigma_1_5_valid,
-  input               io_o_sigma_1_5_ready,
-  output     [31:0]   io_o_sigma_1_5_payload,
-  output              io_o_sigma_1_6_valid,
-  input               io_o_sigma_1_6_ready,
-  output     [31:0]   io_o_sigma_1_6_payload,
-  output              io_o_sigma_1_7_valid,
-  input               io_o_sigma_1_7_ready,
-  output     [31:0]   io_o_sigma_1_7_payload,
-  output              io_o_sigma_2_0_valid,
-  input               io_o_sigma_2_0_ready,
-  output     [31:0]   io_o_sigma_2_0_payload,
-  output              io_o_sigma_2_1_valid,
-  input               io_o_sigma_2_1_ready,
-  output     [31:0]   io_o_sigma_2_1_payload,
-  output              io_o_sigma_2_2_valid,
-  input               io_o_sigma_2_2_ready,
-  output     [31:0]   io_o_sigma_2_2_payload,
-  output              io_o_sigma_2_3_valid,
-  input               io_o_sigma_2_3_ready,
-  output     [31:0]   io_o_sigma_2_3_payload,
-  output              io_o_sigma_2_4_valid,
-  input               io_o_sigma_2_4_ready,
-  output     [31:0]   io_o_sigma_2_4_payload,
-  output              io_o_sigma_2_5_valid,
-  input               io_o_sigma_2_5_ready,
-  output     [31:0]   io_o_sigma_2_5_payload,
-  output              io_o_sigma_2_6_valid,
-  input               io_o_sigma_2_6_ready,
-  output     [31:0]   io_o_sigma_2_6_payload,
-  output              io_o_sigma_2_7_valid,
-  input               io_o_sigma_2_7_ready,
-  output     [31:0]   io_o_sigma_2_7_payload,
-  output              io_o_sigma_3_0_valid,
-  input               io_o_sigma_3_0_ready,
-  output     [31:0]   io_o_sigma_3_0_payload,
-  output              io_o_sigma_3_1_valid,
-  input               io_o_sigma_3_1_ready,
-  output     [31:0]   io_o_sigma_3_1_payload,
-  output              io_o_sigma_3_2_valid,
-  input               io_o_sigma_3_2_ready,
-  output     [31:0]   io_o_sigma_3_2_payload,
-  output              io_o_sigma_3_3_valid,
-  input               io_o_sigma_3_3_ready,
-  output     [31:0]   io_o_sigma_3_3_payload,
-  output              io_o_sigma_3_4_valid,
-  input               io_o_sigma_3_4_ready,
-  output     [31:0]   io_o_sigma_3_4_payload,
-  output              io_o_sigma_3_5_valid,
-  input               io_o_sigma_3_5_ready,
-  output     [31:0]   io_o_sigma_3_5_payload,
-  output              io_o_sigma_3_6_valid,
-  input               io_o_sigma_3_6_ready,
-  output     [31:0]   io_o_sigma_3_6_payload,
-  output              io_o_sigma_3_7_valid,
-  input               io_o_sigma_3_7_ready,
-  output     [31:0]   io_o_sigma_3_7_payload,
-  output              io_o_sigma_4_0_valid,
-  input               io_o_sigma_4_0_ready,
-  output     [31:0]   io_o_sigma_4_0_payload,
-  output              io_o_sigma_4_1_valid,
-  input               io_o_sigma_4_1_ready,
-  output     [31:0]   io_o_sigma_4_1_payload,
-  output              io_o_sigma_4_2_valid,
-  input               io_o_sigma_4_2_ready,
-  output     [31:0]   io_o_sigma_4_2_payload,
-  output              io_o_sigma_4_3_valid,
-  input               io_o_sigma_4_3_ready,
-  output     [31:0]   io_o_sigma_4_3_payload,
-  output              io_o_sigma_4_4_valid,
-  input               io_o_sigma_4_4_ready,
-  output     [31:0]   io_o_sigma_4_4_payload,
-  output              io_o_sigma_4_5_valid,
-  input               io_o_sigma_4_5_ready,
-  output     [31:0]   io_o_sigma_4_5_payload,
-  output              io_o_sigma_4_6_valid,
-  input               io_o_sigma_4_6_ready,
-  output     [31:0]   io_o_sigma_4_6_payload,
-  output              io_o_sigma_4_7_valid,
-  input               io_o_sigma_4_7_ready,
-  output     [31:0]   io_o_sigma_4_7_payload,
-  output              io_o_sigma_5_0_valid,
-  input               io_o_sigma_5_0_ready,
-  output     [31:0]   io_o_sigma_5_0_payload,
-  output              io_o_sigma_5_1_valid,
-  input               io_o_sigma_5_1_ready,
-  output     [31:0]   io_o_sigma_5_1_payload,
-  output              io_o_sigma_5_2_valid,
-  input               io_o_sigma_5_2_ready,
-  output     [31:0]   io_o_sigma_5_2_payload,
-  output              io_o_sigma_5_3_valid,
-  input               io_o_sigma_5_3_ready,
-  output     [31:0]   io_o_sigma_5_3_payload,
-  output              io_o_sigma_5_4_valid,
-  input               io_o_sigma_5_4_ready,
-  output     [31:0]   io_o_sigma_5_4_payload,
-  output              io_o_sigma_5_5_valid,
-  input               io_o_sigma_5_5_ready,
-  output     [31:0]   io_o_sigma_5_5_payload,
-  output              io_o_sigma_5_6_valid,
-  input               io_o_sigma_5_6_ready,
-  output     [31:0]   io_o_sigma_5_6_payload,
-  output              io_o_sigma_5_7_valid,
-  input               io_o_sigma_5_7_ready,
-  output     [31:0]   io_o_sigma_5_7_payload,
-  output              io_o_sigma_6_0_valid,
-  input               io_o_sigma_6_0_ready,
-  output     [31:0]   io_o_sigma_6_0_payload,
-  output              io_o_sigma_6_1_valid,
-  input               io_o_sigma_6_1_ready,
-  output     [31:0]   io_o_sigma_6_1_payload,
-  output              io_o_sigma_6_2_valid,
-  input               io_o_sigma_6_2_ready,
-  output     [31:0]   io_o_sigma_6_2_payload,
-  output              io_o_sigma_6_3_valid,
-  input               io_o_sigma_6_3_ready,
-  output     [31:0]   io_o_sigma_6_3_payload,
-  output              io_o_sigma_6_4_valid,
-  input               io_o_sigma_6_4_ready,
-  output     [31:0]   io_o_sigma_6_4_payload,
-  output              io_o_sigma_6_5_valid,
-  input               io_o_sigma_6_5_ready,
-  output     [31:0]   io_o_sigma_6_5_payload,
-  output              io_o_sigma_6_6_valid,
-  input               io_o_sigma_6_6_ready,
-  output     [31:0]   io_o_sigma_6_6_payload,
-  output              io_o_sigma_6_7_valid,
-  input               io_o_sigma_6_7_ready,
-  output     [31:0]   io_o_sigma_6_7_payload,
-  output              io_o_sigma_7_0_valid,
-  input               io_o_sigma_7_0_ready,
-  output     [31:0]   io_o_sigma_7_0_payload,
-  output              io_o_sigma_7_1_valid,
-  input               io_o_sigma_7_1_ready,
-  output     [31:0]   io_o_sigma_7_1_payload,
-  output              io_o_sigma_7_2_valid,
-  input               io_o_sigma_7_2_ready,
-  output     [31:0]   io_o_sigma_7_2_payload,
-  output              io_o_sigma_7_3_valid,
-  input               io_o_sigma_7_3_ready,
-  output     [31:0]   io_o_sigma_7_3_payload,
-  output              io_o_sigma_7_4_valid,
-  input               io_o_sigma_7_4_ready,
-  output     [31:0]   io_o_sigma_7_4_payload,
-  output              io_o_sigma_7_5_valid,
-  input               io_o_sigma_7_5_ready,
-  output     [31:0]   io_o_sigma_7_5_payload,
-  output              io_o_sigma_7_6_valid,
-  input               io_o_sigma_7_6_ready,
-  output     [31:0]   io_o_sigma_7_6_payload,
-  output              io_o_sigma_7_7_valid,
-  input               io_o_sigma_7_7_ready,
-  output     [31:0]   io_o_sigma_7_7_payload,
+  input      [15:0]   cfg_fea_width,
+  input      [15:0]   cfg_fea_height,
+  input      [15:0]   cfg_fea_channel,
+  input      [15:0]   cfg_wt_width,
+  input      [15:0]   cfg_wt_height,
+  input      [15:0]   cfg_wt_channel,
+  input      [15:0]   cfg_kerNum,
+  input      [15:0]   cfg_o_width,
+  input      [15:0]   cfg_o_height,
+  input      [15:0]   cfg_o_channel,
+  input      [15:0]   cfg_top_pad,
+  input      [15:0]   cfg_bot_pad,
+  input      [15:0]   cfg_left_pad,
+  input      [15:0]   cfg_right_pad,
+  input      [15:0]   cfg_dt_stridex,
+  input      [15:0]   cfg_dt_stridey,
+  input      [15:0]   cfg_wt_stridex,
+  input      [15:0]   cfg_wt_stridey,
+  input      [15:0]   cfg_par_acc_cnt,
+  input               ctrl_read_enable,
+  input               ctrl_acc_enable,
+  input               ctrl_is_delta_wt,
+  output     [31:0]   dt_ramrd_addr,
+  input      [255:0]  dt_ramrd_data,
+  output              dt_ramrd_en,
+  output     [31:0]   wt_ramrd_0_addr,
+  input      [255:0]  wt_ramrd_0_data,
+  output              wt_ramrd_0_en,
+  output     [31:0]   wt_ramrd_1_addr,
+  input      [255:0]  wt_ramrd_1_data,
+  output              wt_ramrd_1_en,
+  output     [31:0]   wt_ramrd_2_addr,
+  input      [255:0]  wt_ramrd_2_data,
+  output              wt_ramrd_2_en,
+  output     [31:0]   wt_ramrd_3_addr,
+  input      [255:0]  wt_ramrd_3_data,
+  output              wt_ramrd_3_en,
+  output     [31:0]   wt_ramrd_4_addr,
+  input      [255:0]  wt_ramrd_4_data,
+  output              wt_ramrd_4_en,
+  output     [31:0]   wt_ramrd_5_addr,
+  input      [255:0]  wt_ramrd_5_data,
+  output              wt_ramrd_5_en,
+  output     [31:0]   wt_ramrd_6_addr,
+  input      [255:0]  wt_ramrd_6_data,
+  output              wt_ramrd_6_en,
+  output     [31:0]   wt_ramrd_7_addr,
+  input      [255:0]  wt_ramrd_7_data,
+  output              wt_ramrd_7_en,
+  output              o_delta_wt_0_0_valid,
+  input               o_delta_wt_0_0_ready,
+  output     [31:0]   o_delta_wt_0_0_payload,
+  output              o_delta_wt_0_1_valid,
+  input               o_delta_wt_0_1_ready,
+  output     [31:0]   o_delta_wt_0_1_payload,
+  output              o_delta_wt_0_2_valid,
+  input               o_delta_wt_0_2_ready,
+  output     [31:0]   o_delta_wt_0_2_payload,
+  output              o_delta_wt_0_3_valid,
+  input               o_delta_wt_0_3_ready,
+  output     [31:0]   o_delta_wt_0_3_payload,
+  output              o_delta_wt_0_4_valid,
+  input               o_delta_wt_0_4_ready,
+  output     [31:0]   o_delta_wt_0_4_payload,
+  output              o_delta_wt_0_5_valid,
+  input               o_delta_wt_0_5_ready,
+  output     [31:0]   o_delta_wt_0_5_payload,
+  output              o_delta_wt_0_6_valid,
+  input               o_delta_wt_0_6_ready,
+  output     [31:0]   o_delta_wt_0_6_payload,
+  output              o_delta_wt_0_7_valid,
+  input               o_delta_wt_0_7_ready,
+  output     [31:0]   o_delta_wt_0_7_payload,
+  output              o_delta_wt_1_0_valid,
+  input               o_delta_wt_1_0_ready,
+  output     [31:0]   o_delta_wt_1_0_payload,
+  output              o_delta_wt_1_1_valid,
+  input               o_delta_wt_1_1_ready,
+  output     [31:0]   o_delta_wt_1_1_payload,
+  output              o_delta_wt_1_2_valid,
+  input               o_delta_wt_1_2_ready,
+  output     [31:0]   o_delta_wt_1_2_payload,
+  output              o_delta_wt_1_3_valid,
+  input               o_delta_wt_1_3_ready,
+  output     [31:0]   o_delta_wt_1_3_payload,
+  output              o_delta_wt_1_4_valid,
+  input               o_delta_wt_1_4_ready,
+  output     [31:0]   o_delta_wt_1_4_payload,
+  output              o_delta_wt_1_5_valid,
+  input               o_delta_wt_1_5_ready,
+  output     [31:0]   o_delta_wt_1_5_payload,
+  output              o_delta_wt_1_6_valid,
+  input               o_delta_wt_1_6_ready,
+  output     [31:0]   o_delta_wt_1_6_payload,
+  output              o_delta_wt_1_7_valid,
+  input               o_delta_wt_1_7_ready,
+  output     [31:0]   o_delta_wt_1_7_payload,
+  output              o_delta_wt_2_0_valid,
+  input               o_delta_wt_2_0_ready,
+  output     [31:0]   o_delta_wt_2_0_payload,
+  output              o_delta_wt_2_1_valid,
+  input               o_delta_wt_2_1_ready,
+  output     [31:0]   o_delta_wt_2_1_payload,
+  output              o_delta_wt_2_2_valid,
+  input               o_delta_wt_2_2_ready,
+  output     [31:0]   o_delta_wt_2_2_payload,
+  output              o_delta_wt_2_3_valid,
+  input               o_delta_wt_2_3_ready,
+  output     [31:0]   o_delta_wt_2_3_payload,
+  output              o_delta_wt_2_4_valid,
+  input               o_delta_wt_2_4_ready,
+  output     [31:0]   o_delta_wt_2_4_payload,
+  output              o_delta_wt_2_5_valid,
+  input               o_delta_wt_2_5_ready,
+  output     [31:0]   o_delta_wt_2_5_payload,
+  output              o_delta_wt_2_6_valid,
+  input               o_delta_wt_2_6_ready,
+  output     [31:0]   o_delta_wt_2_6_payload,
+  output              o_delta_wt_2_7_valid,
+  input               o_delta_wt_2_7_ready,
+  output     [31:0]   o_delta_wt_2_7_payload,
+  output              o_delta_wt_3_0_valid,
+  input               o_delta_wt_3_0_ready,
+  output     [31:0]   o_delta_wt_3_0_payload,
+  output              o_delta_wt_3_1_valid,
+  input               o_delta_wt_3_1_ready,
+  output     [31:0]   o_delta_wt_3_1_payload,
+  output              o_delta_wt_3_2_valid,
+  input               o_delta_wt_3_2_ready,
+  output     [31:0]   o_delta_wt_3_2_payload,
+  output              o_delta_wt_3_3_valid,
+  input               o_delta_wt_3_3_ready,
+  output     [31:0]   o_delta_wt_3_3_payload,
+  output              o_delta_wt_3_4_valid,
+  input               o_delta_wt_3_4_ready,
+  output     [31:0]   o_delta_wt_3_4_payload,
+  output              o_delta_wt_3_5_valid,
+  input               o_delta_wt_3_5_ready,
+  output     [31:0]   o_delta_wt_3_5_payload,
+  output              o_delta_wt_3_6_valid,
+  input               o_delta_wt_3_6_ready,
+  output     [31:0]   o_delta_wt_3_6_payload,
+  output              o_delta_wt_3_7_valid,
+  input               o_delta_wt_3_7_ready,
+  output     [31:0]   o_delta_wt_3_7_payload,
+  output              o_delta_wt_4_0_valid,
+  input               o_delta_wt_4_0_ready,
+  output     [31:0]   o_delta_wt_4_0_payload,
+  output              o_delta_wt_4_1_valid,
+  input               o_delta_wt_4_1_ready,
+  output     [31:0]   o_delta_wt_4_1_payload,
+  output              o_delta_wt_4_2_valid,
+  input               o_delta_wt_4_2_ready,
+  output     [31:0]   o_delta_wt_4_2_payload,
+  output              o_delta_wt_4_3_valid,
+  input               o_delta_wt_4_3_ready,
+  output     [31:0]   o_delta_wt_4_3_payload,
+  output              o_delta_wt_4_4_valid,
+  input               o_delta_wt_4_4_ready,
+  output     [31:0]   o_delta_wt_4_4_payload,
+  output              o_delta_wt_4_5_valid,
+  input               o_delta_wt_4_5_ready,
+  output     [31:0]   o_delta_wt_4_5_payload,
+  output              o_delta_wt_4_6_valid,
+  input               o_delta_wt_4_6_ready,
+  output     [31:0]   o_delta_wt_4_6_payload,
+  output              o_delta_wt_4_7_valid,
+  input               o_delta_wt_4_7_ready,
+  output     [31:0]   o_delta_wt_4_7_payload,
+  output              o_delta_wt_5_0_valid,
+  input               o_delta_wt_5_0_ready,
+  output     [31:0]   o_delta_wt_5_0_payload,
+  output              o_delta_wt_5_1_valid,
+  input               o_delta_wt_5_1_ready,
+  output     [31:0]   o_delta_wt_5_1_payload,
+  output              o_delta_wt_5_2_valid,
+  input               o_delta_wt_5_2_ready,
+  output     [31:0]   o_delta_wt_5_2_payload,
+  output              o_delta_wt_5_3_valid,
+  input               o_delta_wt_5_3_ready,
+  output     [31:0]   o_delta_wt_5_3_payload,
+  output              o_delta_wt_5_4_valid,
+  input               o_delta_wt_5_4_ready,
+  output     [31:0]   o_delta_wt_5_4_payload,
+  output              o_delta_wt_5_5_valid,
+  input               o_delta_wt_5_5_ready,
+  output     [31:0]   o_delta_wt_5_5_payload,
+  output              o_delta_wt_5_6_valid,
+  input               o_delta_wt_5_6_ready,
+  output     [31:0]   o_delta_wt_5_6_payload,
+  output              o_delta_wt_5_7_valid,
+  input               o_delta_wt_5_7_ready,
+  output     [31:0]   o_delta_wt_5_7_payload,
+  output              o_delta_wt_6_0_valid,
+  input               o_delta_wt_6_0_ready,
+  output     [31:0]   o_delta_wt_6_0_payload,
+  output              o_delta_wt_6_1_valid,
+  input               o_delta_wt_6_1_ready,
+  output     [31:0]   o_delta_wt_6_1_payload,
+  output              o_delta_wt_6_2_valid,
+  input               o_delta_wt_6_2_ready,
+  output     [31:0]   o_delta_wt_6_2_payload,
+  output              o_delta_wt_6_3_valid,
+  input               o_delta_wt_6_3_ready,
+  output     [31:0]   o_delta_wt_6_3_payload,
+  output              o_delta_wt_6_4_valid,
+  input               o_delta_wt_6_4_ready,
+  output     [31:0]   o_delta_wt_6_4_payload,
+  output              o_delta_wt_6_5_valid,
+  input               o_delta_wt_6_5_ready,
+  output     [31:0]   o_delta_wt_6_5_payload,
+  output              o_delta_wt_6_6_valid,
+  input               o_delta_wt_6_6_ready,
+  output     [31:0]   o_delta_wt_6_6_payload,
+  output              o_delta_wt_6_7_valid,
+  input               o_delta_wt_6_7_ready,
+  output     [31:0]   o_delta_wt_6_7_payload,
+  output              o_delta_wt_7_0_valid,
+  input               o_delta_wt_7_0_ready,
+  output     [31:0]   o_delta_wt_7_0_payload,
+  output              o_delta_wt_7_1_valid,
+  input               o_delta_wt_7_1_ready,
+  output     [31:0]   o_delta_wt_7_1_payload,
+  output              o_delta_wt_7_2_valid,
+  input               o_delta_wt_7_2_ready,
+  output     [31:0]   o_delta_wt_7_2_payload,
+  output              o_delta_wt_7_3_valid,
+  input               o_delta_wt_7_3_ready,
+  output     [31:0]   o_delta_wt_7_3_payload,
+  output              o_delta_wt_7_4_valid,
+  input               o_delta_wt_7_4_ready,
+  output     [31:0]   o_delta_wt_7_4_payload,
+  output              o_delta_wt_7_5_valid,
+  input               o_delta_wt_7_5_ready,
+  output     [31:0]   o_delta_wt_7_5_payload,
+  output              o_delta_wt_7_6_valid,
+  input               o_delta_wt_7_6_ready,
+  output     [31:0]   o_delta_wt_7_6_payload,
+  output              o_delta_wt_7_7_valid,
+  input               o_delta_wt_7_7_ready,
+  output     [31:0]   o_delta_wt_7_7_payload,
+  output              o_sigma_0_0_valid,
+  input               o_sigma_0_0_ready,
+  output     [31:0]   o_sigma_0_0_payload,
+  output              o_sigma_0_1_valid,
+  input               o_sigma_0_1_ready,
+  output     [31:0]   o_sigma_0_1_payload,
+  output              o_sigma_0_2_valid,
+  input               o_sigma_0_2_ready,
+  output     [31:0]   o_sigma_0_2_payload,
+  output              o_sigma_0_3_valid,
+  input               o_sigma_0_3_ready,
+  output     [31:0]   o_sigma_0_3_payload,
+  output              o_sigma_0_4_valid,
+  input               o_sigma_0_4_ready,
+  output     [31:0]   o_sigma_0_4_payload,
+  output              o_sigma_0_5_valid,
+  input               o_sigma_0_5_ready,
+  output     [31:0]   o_sigma_0_5_payload,
+  output              o_sigma_0_6_valid,
+  input               o_sigma_0_6_ready,
+  output     [31:0]   o_sigma_0_6_payload,
+  output              o_sigma_0_7_valid,
+  input               o_sigma_0_7_ready,
+  output     [31:0]   o_sigma_0_7_payload,
+  output              o_sigma_1_0_valid,
+  input               o_sigma_1_0_ready,
+  output     [31:0]   o_sigma_1_0_payload,
+  output              o_sigma_1_1_valid,
+  input               o_sigma_1_1_ready,
+  output     [31:0]   o_sigma_1_1_payload,
+  output              o_sigma_1_2_valid,
+  input               o_sigma_1_2_ready,
+  output     [31:0]   o_sigma_1_2_payload,
+  output              o_sigma_1_3_valid,
+  input               o_sigma_1_3_ready,
+  output     [31:0]   o_sigma_1_3_payload,
+  output              o_sigma_1_4_valid,
+  input               o_sigma_1_4_ready,
+  output     [31:0]   o_sigma_1_4_payload,
+  output              o_sigma_1_5_valid,
+  input               o_sigma_1_5_ready,
+  output     [31:0]   o_sigma_1_5_payload,
+  output              o_sigma_1_6_valid,
+  input               o_sigma_1_6_ready,
+  output     [31:0]   o_sigma_1_6_payload,
+  output              o_sigma_1_7_valid,
+  input               o_sigma_1_7_ready,
+  output     [31:0]   o_sigma_1_7_payload,
+  output              o_sigma_2_0_valid,
+  input               o_sigma_2_0_ready,
+  output     [31:0]   o_sigma_2_0_payload,
+  output              o_sigma_2_1_valid,
+  input               o_sigma_2_1_ready,
+  output     [31:0]   o_sigma_2_1_payload,
+  output              o_sigma_2_2_valid,
+  input               o_sigma_2_2_ready,
+  output     [31:0]   o_sigma_2_2_payload,
+  output              o_sigma_2_3_valid,
+  input               o_sigma_2_3_ready,
+  output     [31:0]   o_sigma_2_3_payload,
+  output              o_sigma_2_4_valid,
+  input               o_sigma_2_4_ready,
+  output     [31:0]   o_sigma_2_4_payload,
+  output              o_sigma_2_5_valid,
+  input               o_sigma_2_5_ready,
+  output     [31:0]   o_sigma_2_5_payload,
+  output              o_sigma_2_6_valid,
+  input               o_sigma_2_6_ready,
+  output     [31:0]   o_sigma_2_6_payload,
+  output              o_sigma_2_7_valid,
+  input               o_sigma_2_7_ready,
+  output     [31:0]   o_sigma_2_7_payload,
+  output              o_sigma_3_0_valid,
+  input               o_sigma_3_0_ready,
+  output     [31:0]   o_sigma_3_0_payload,
+  output              o_sigma_3_1_valid,
+  input               o_sigma_3_1_ready,
+  output     [31:0]   o_sigma_3_1_payload,
+  output              o_sigma_3_2_valid,
+  input               o_sigma_3_2_ready,
+  output     [31:0]   o_sigma_3_2_payload,
+  output              o_sigma_3_3_valid,
+  input               o_sigma_3_3_ready,
+  output     [31:0]   o_sigma_3_3_payload,
+  output              o_sigma_3_4_valid,
+  input               o_sigma_3_4_ready,
+  output     [31:0]   o_sigma_3_4_payload,
+  output              o_sigma_3_5_valid,
+  input               o_sigma_3_5_ready,
+  output     [31:0]   o_sigma_3_5_payload,
+  output              o_sigma_3_6_valid,
+  input               o_sigma_3_6_ready,
+  output     [31:0]   o_sigma_3_6_payload,
+  output              o_sigma_3_7_valid,
+  input               o_sigma_3_7_ready,
+  output     [31:0]   o_sigma_3_7_payload,
+  output              o_sigma_4_0_valid,
+  input               o_sigma_4_0_ready,
+  output     [31:0]   o_sigma_4_0_payload,
+  output              o_sigma_4_1_valid,
+  input               o_sigma_4_1_ready,
+  output     [31:0]   o_sigma_4_1_payload,
+  output              o_sigma_4_2_valid,
+  input               o_sigma_4_2_ready,
+  output     [31:0]   o_sigma_4_2_payload,
+  output              o_sigma_4_3_valid,
+  input               o_sigma_4_3_ready,
+  output     [31:0]   o_sigma_4_3_payload,
+  output              o_sigma_4_4_valid,
+  input               o_sigma_4_4_ready,
+  output     [31:0]   o_sigma_4_4_payload,
+  output              o_sigma_4_5_valid,
+  input               o_sigma_4_5_ready,
+  output     [31:0]   o_sigma_4_5_payload,
+  output              o_sigma_4_6_valid,
+  input               o_sigma_4_6_ready,
+  output     [31:0]   o_sigma_4_6_payload,
+  output              o_sigma_4_7_valid,
+  input               o_sigma_4_7_ready,
+  output     [31:0]   o_sigma_4_7_payload,
+  output              o_sigma_5_0_valid,
+  input               o_sigma_5_0_ready,
+  output     [31:0]   o_sigma_5_0_payload,
+  output              o_sigma_5_1_valid,
+  input               o_sigma_5_1_ready,
+  output     [31:0]   o_sigma_5_1_payload,
+  output              o_sigma_5_2_valid,
+  input               o_sigma_5_2_ready,
+  output     [31:0]   o_sigma_5_2_payload,
+  output              o_sigma_5_3_valid,
+  input               o_sigma_5_3_ready,
+  output     [31:0]   o_sigma_5_3_payload,
+  output              o_sigma_5_4_valid,
+  input               o_sigma_5_4_ready,
+  output     [31:0]   o_sigma_5_4_payload,
+  output              o_sigma_5_5_valid,
+  input               o_sigma_5_5_ready,
+  output     [31:0]   o_sigma_5_5_payload,
+  output              o_sigma_5_6_valid,
+  input               o_sigma_5_6_ready,
+  output     [31:0]   o_sigma_5_6_payload,
+  output              o_sigma_5_7_valid,
+  input               o_sigma_5_7_ready,
+  output     [31:0]   o_sigma_5_7_payload,
+  output              o_sigma_6_0_valid,
+  input               o_sigma_6_0_ready,
+  output     [31:0]   o_sigma_6_0_payload,
+  output              o_sigma_6_1_valid,
+  input               o_sigma_6_1_ready,
+  output     [31:0]   o_sigma_6_1_payload,
+  output              o_sigma_6_2_valid,
+  input               o_sigma_6_2_ready,
+  output     [31:0]   o_sigma_6_2_payload,
+  output              o_sigma_6_3_valid,
+  input               o_sigma_6_3_ready,
+  output     [31:0]   o_sigma_6_3_payload,
+  output              o_sigma_6_4_valid,
+  input               o_sigma_6_4_ready,
+  output     [31:0]   o_sigma_6_4_payload,
+  output              o_sigma_6_5_valid,
+  input               o_sigma_6_5_ready,
+  output     [31:0]   o_sigma_6_5_payload,
+  output              o_sigma_6_6_valid,
+  input               o_sigma_6_6_ready,
+  output     [31:0]   o_sigma_6_6_payload,
+  output              o_sigma_6_7_valid,
+  input               o_sigma_6_7_ready,
+  output     [31:0]   o_sigma_6_7_payload,
+  output              o_sigma_7_0_valid,
+  input               o_sigma_7_0_ready,
+  output     [31:0]   o_sigma_7_0_payload,
+  output              o_sigma_7_1_valid,
+  input               o_sigma_7_1_ready,
+  output     [31:0]   o_sigma_7_1_payload,
+  output              o_sigma_7_2_valid,
+  input               o_sigma_7_2_ready,
+  output     [31:0]   o_sigma_7_2_payload,
+  output              o_sigma_7_3_valid,
+  input               o_sigma_7_3_ready,
+  output     [31:0]   o_sigma_7_3_payload,
+  output              o_sigma_7_4_valid,
+  input               o_sigma_7_4_ready,
+  output     [31:0]   o_sigma_7_4_payload,
+  output              o_sigma_7_5_valid,
+  input               o_sigma_7_5_ready,
+  output     [31:0]   o_sigma_7_5_payload,
+  output              o_sigma_7_6_valid,
+  input               o_sigma_7_6_ready,
+  output     [31:0]   o_sigma_7_6_payload,
+  output              o_sigma_7_7_valid,
+  input               o_sigma_7_7_ready,
+  output     [31:0]   o_sigma_7_7_payload,
   input               clk,
   input               reset
 );
@@ -1750,51 +1750,51 @@ module conv_top (
   wire       [31:0]   mux_io_o_sigma_7_7_payload;
 
   read_req4conv read_req (
-    .cfg_fea_width      (io_cfg_fea_width          ), //i
-    .cfg_fea_height     (io_cfg_fea_height         ), //i
-    .cfg_fea_channel    (io_cfg_fea_channel        ), //i
-    .cfg_wt_width       (io_cfg_wt_width           ), //i
-    .cfg_wt_height      (io_cfg_wt_height          ), //i
-    .cfg_wt_channel     (io_cfg_wt_channel         ), //i
-    .cfg_kerNum         (io_cfg_kerNum             ), //i
-    .cfg_o_width        (io_cfg_o_width            ), //i
-    .cfg_o_height       (io_cfg_o_height           ), //i
-    .cfg_o_channel      (io_cfg_o_channel          ), //i
-    .cfg_top_pad        (io_cfg_top_pad            ), //i
-    .cfg_bot_pad        (io_cfg_bot_pad            ), //i
-    .cfg_left_pad       (io_cfg_left_pad           ), //i
-    .cfg_right_pad      (io_cfg_right_pad          ), //i
-    .cfg_dt_stridex     (io_cfg_dt_stridex         ), //i
-    .cfg_dt_stridey     (io_cfg_dt_stridey         ), //i
-    .cfg_wt_stridex     (io_cfg_wt_stridex         ), //i
-    .cfg_wt_stridey     (io_cfg_wt_stridey         ), //i
-    .cfg_par_acc_cnt    (io_cfg_par_acc_cnt        ), //i
+    .cfg_fea_width      (cfg_fea_width             ), //i
+    .cfg_fea_height     (cfg_fea_height            ), //i
+    .cfg_fea_channel    (cfg_fea_channel           ), //i
+    .cfg_wt_width       (cfg_wt_width              ), //i
+    .cfg_wt_height      (cfg_wt_height             ), //i
+    .cfg_wt_channel     (cfg_wt_channel            ), //i
+    .cfg_kerNum         (cfg_kerNum                ), //i
+    .cfg_o_width        (cfg_o_width               ), //i
+    .cfg_o_height       (cfg_o_height              ), //i
+    .cfg_o_channel      (cfg_o_channel             ), //i
+    .cfg_top_pad        (cfg_top_pad               ), //i
+    .cfg_bot_pad        (cfg_bot_pad               ), //i
+    .cfg_left_pad       (cfg_left_pad              ), //i
+    .cfg_right_pad      (cfg_right_pad             ), //i
+    .cfg_dt_stridex     (cfg_dt_stridex            ), //i
+    .cfg_dt_stridey     (cfg_dt_stridey            ), //i
+    .cfg_wt_stridex     (cfg_wt_stridex            ), //i
+    .cfg_wt_stridey     (cfg_wt_stridey            ), //i
+    .cfg_par_acc_cnt    (cfg_par_acc_cnt           ), //i
     .dt_ramrd_addr      (read_req_dt_ramrd_addr    ), //o
-    .dt_ramrd_data      (io_dt_ramrd_data          ), //i
+    .dt_ramrd_data      (dt_ramrd_data             ), //i
     .dt_ramrd_en        (read_req_dt_ramrd_en      ), //o
     .wt_ramrd_0_addr    (read_req_wt_ramrd_0_addr  ), //o
-    .wt_ramrd_0_data    (io_wt_ramrd_0_data        ), //i
+    .wt_ramrd_0_data    (wt_ramrd_0_data           ), //i
     .wt_ramrd_0_en      (read_req_wt_ramrd_0_en    ), //o
     .wt_ramrd_1_addr    (read_req_wt_ramrd_1_addr  ), //o
-    .wt_ramrd_1_data    (io_wt_ramrd_1_data        ), //i
+    .wt_ramrd_1_data    (wt_ramrd_1_data           ), //i
     .wt_ramrd_1_en      (read_req_wt_ramrd_1_en    ), //o
     .wt_ramrd_2_addr    (read_req_wt_ramrd_2_addr  ), //o
-    .wt_ramrd_2_data    (io_wt_ramrd_2_data        ), //i
+    .wt_ramrd_2_data    (wt_ramrd_2_data           ), //i
     .wt_ramrd_2_en      (read_req_wt_ramrd_2_en    ), //o
     .wt_ramrd_3_addr    (read_req_wt_ramrd_3_addr  ), //o
-    .wt_ramrd_3_data    (io_wt_ramrd_3_data        ), //i
+    .wt_ramrd_3_data    (wt_ramrd_3_data           ), //i
     .wt_ramrd_3_en      (read_req_wt_ramrd_3_en    ), //o
     .wt_ramrd_4_addr    (read_req_wt_ramrd_4_addr  ), //o
-    .wt_ramrd_4_data    (io_wt_ramrd_4_data        ), //i
+    .wt_ramrd_4_data    (wt_ramrd_4_data           ), //i
     .wt_ramrd_4_en      (read_req_wt_ramrd_4_en    ), //o
     .wt_ramrd_5_addr    (read_req_wt_ramrd_5_addr  ), //o
-    .wt_ramrd_5_data    (io_wt_ramrd_5_data        ), //i
+    .wt_ramrd_5_data    (wt_ramrd_5_data           ), //i
     .wt_ramrd_5_en      (read_req_wt_ramrd_5_en    ), //o
     .wt_ramrd_6_addr    (read_req_wt_ramrd_6_addr  ), //o
-    .wt_ramrd_6_data    (io_wt_ramrd_6_data        ), //i
+    .wt_ramrd_6_data    (wt_ramrd_6_data           ), //i
     .wt_ramrd_6_en      (read_req_wt_ramrd_6_en    ), //o
     .wt_ramrd_7_addr    (read_req_wt_ramrd_7_addr  ), //o
-    .wt_ramrd_7_data    (io_wt_ramrd_7_data        ), //i
+    .wt_ramrd_7_data    (wt_ramrd_7_data           ), //i
     .wt_ramrd_7_en      (read_req_wt_ramrd_7_en    ), //o
     .o_ft_valid         (read_req_o_ft_valid       ), //o
     .o_ft_ready         (data_cvt_io_i_ft_ready    ), //i
@@ -1823,7 +1823,7 @@ module conv_top (
     .o_wt_7_valid       (read_req_o_wt_7_valid     ), //o
     .o_wt_7_ready       (data_cvt_io_i_wt_7_ready  ), //i
     .o_wt_7_payload     (read_req_o_wt_7_payload   ), //o
-    .read_enable        (io_ctrl_read_enable       ), //i
+    .read_enable        (ctrl_read_enable          ), //i
     .clk                (clk                       ), //i
     .reset              (reset                     )  //i
   );
@@ -2481,13 +2481,13 @@ module conv_top (
     .s_out_7_7_valid      (conv_core_s_out_7_7_valid     ), //o
     .s_out_7_7_ready      (mux_io_indata_7_7_ready       ), //i
     .s_out_7_7_payload    (conv_core_s_out_7_7_payload   ), //o
-    .par_acc_cnt          (io_cfg_par_acc_cnt            ), //i
-    .acc_enable           (io_ctrl_acc_enable            ), //i
+    .par_acc_cnt          (cfg_par_acc_cnt               ), //i
+    .acc_enable           (ctrl_acc_enable               ), //i
     .clk                  (clk                           ), //i
     .reset                (reset                         )  //i
   );
   conv_mux mux (
-    .io_is_delta_wt               (io_ctrl_is_delta_wt            ), //i
+    .io_is_delta_wt               (ctrl_is_delta_wt               ), //i
     .io_indata_0_0_valid          (conv_core_s_out_0_0_valid      ), //i
     .io_indata_0_0_ready          (mux_io_indata_0_0_ready        ), //o
     .io_indata_0_0_payload        (conv_core_s_out_0_0_payload    ), //i
@@ -2681,666 +2681,666 @@ module conv_top (
     .io_indata_7_7_ready          (mux_io_indata_7_7_ready        ), //o
     .io_indata_7_7_payload        (conv_core_s_out_7_7_payload    ), //i
     .io_o_delta_wt_0_0_valid      (mux_io_o_delta_wt_0_0_valid    ), //o
-    .io_o_delta_wt_0_0_ready      (io_o_delta_wt_0_0_ready        ), //i
+    .io_o_delta_wt_0_0_ready      (o_delta_wt_0_0_ready           ), //i
     .io_o_delta_wt_0_0_payload    (mux_io_o_delta_wt_0_0_payload  ), //o
     .io_o_delta_wt_0_1_valid      (mux_io_o_delta_wt_0_1_valid    ), //o
-    .io_o_delta_wt_0_1_ready      (io_o_delta_wt_0_1_ready        ), //i
+    .io_o_delta_wt_0_1_ready      (o_delta_wt_0_1_ready           ), //i
     .io_o_delta_wt_0_1_payload    (mux_io_o_delta_wt_0_1_payload  ), //o
     .io_o_delta_wt_0_2_valid      (mux_io_o_delta_wt_0_2_valid    ), //o
-    .io_o_delta_wt_0_2_ready      (io_o_delta_wt_0_2_ready        ), //i
+    .io_o_delta_wt_0_2_ready      (o_delta_wt_0_2_ready           ), //i
     .io_o_delta_wt_0_2_payload    (mux_io_o_delta_wt_0_2_payload  ), //o
     .io_o_delta_wt_0_3_valid      (mux_io_o_delta_wt_0_3_valid    ), //o
-    .io_o_delta_wt_0_3_ready      (io_o_delta_wt_0_3_ready        ), //i
+    .io_o_delta_wt_0_3_ready      (o_delta_wt_0_3_ready           ), //i
     .io_o_delta_wt_0_3_payload    (mux_io_o_delta_wt_0_3_payload  ), //o
     .io_o_delta_wt_0_4_valid      (mux_io_o_delta_wt_0_4_valid    ), //o
-    .io_o_delta_wt_0_4_ready      (io_o_delta_wt_0_4_ready        ), //i
+    .io_o_delta_wt_0_4_ready      (o_delta_wt_0_4_ready           ), //i
     .io_o_delta_wt_0_4_payload    (mux_io_o_delta_wt_0_4_payload  ), //o
     .io_o_delta_wt_0_5_valid      (mux_io_o_delta_wt_0_5_valid    ), //o
-    .io_o_delta_wt_0_5_ready      (io_o_delta_wt_0_5_ready        ), //i
+    .io_o_delta_wt_0_5_ready      (o_delta_wt_0_5_ready           ), //i
     .io_o_delta_wt_0_5_payload    (mux_io_o_delta_wt_0_5_payload  ), //o
     .io_o_delta_wt_0_6_valid      (mux_io_o_delta_wt_0_6_valid    ), //o
-    .io_o_delta_wt_0_6_ready      (io_o_delta_wt_0_6_ready        ), //i
+    .io_o_delta_wt_0_6_ready      (o_delta_wt_0_6_ready           ), //i
     .io_o_delta_wt_0_6_payload    (mux_io_o_delta_wt_0_6_payload  ), //o
     .io_o_delta_wt_0_7_valid      (mux_io_o_delta_wt_0_7_valid    ), //o
-    .io_o_delta_wt_0_7_ready      (io_o_delta_wt_0_7_ready        ), //i
+    .io_o_delta_wt_0_7_ready      (o_delta_wt_0_7_ready           ), //i
     .io_o_delta_wt_0_7_payload    (mux_io_o_delta_wt_0_7_payload  ), //o
     .io_o_delta_wt_1_0_valid      (mux_io_o_delta_wt_1_0_valid    ), //o
-    .io_o_delta_wt_1_0_ready      (io_o_delta_wt_1_0_ready        ), //i
+    .io_o_delta_wt_1_0_ready      (o_delta_wt_1_0_ready           ), //i
     .io_o_delta_wt_1_0_payload    (mux_io_o_delta_wt_1_0_payload  ), //o
     .io_o_delta_wt_1_1_valid      (mux_io_o_delta_wt_1_1_valid    ), //o
-    .io_o_delta_wt_1_1_ready      (io_o_delta_wt_1_1_ready        ), //i
+    .io_o_delta_wt_1_1_ready      (o_delta_wt_1_1_ready           ), //i
     .io_o_delta_wt_1_1_payload    (mux_io_o_delta_wt_1_1_payload  ), //o
     .io_o_delta_wt_1_2_valid      (mux_io_o_delta_wt_1_2_valid    ), //o
-    .io_o_delta_wt_1_2_ready      (io_o_delta_wt_1_2_ready        ), //i
+    .io_o_delta_wt_1_2_ready      (o_delta_wt_1_2_ready           ), //i
     .io_o_delta_wt_1_2_payload    (mux_io_o_delta_wt_1_2_payload  ), //o
     .io_o_delta_wt_1_3_valid      (mux_io_o_delta_wt_1_3_valid    ), //o
-    .io_o_delta_wt_1_3_ready      (io_o_delta_wt_1_3_ready        ), //i
+    .io_o_delta_wt_1_3_ready      (o_delta_wt_1_3_ready           ), //i
     .io_o_delta_wt_1_3_payload    (mux_io_o_delta_wt_1_3_payload  ), //o
     .io_o_delta_wt_1_4_valid      (mux_io_o_delta_wt_1_4_valid    ), //o
-    .io_o_delta_wt_1_4_ready      (io_o_delta_wt_1_4_ready        ), //i
+    .io_o_delta_wt_1_4_ready      (o_delta_wt_1_4_ready           ), //i
     .io_o_delta_wt_1_4_payload    (mux_io_o_delta_wt_1_4_payload  ), //o
     .io_o_delta_wt_1_5_valid      (mux_io_o_delta_wt_1_5_valid    ), //o
-    .io_o_delta_wt_1_5_ready      (io_o_delta_wt_1_5_ready        ), //i
+    .io_o_delta_wt_1_5_ready      (o_delta_wt_1_5_ready           ), //i
     .io_o_delta_wt_1_5_payload    (mux_io_o_delta_wt_1_5_payload  ), //o
     .io_o_delta_wt_1_6_valid      (mux_io_o_delta_wt_1_6_valid    ), //o
-    .io_o_delta_wt_1_6_ready      (io_o_delta_wt_1_6_ready        ), //i
+    .io_o_delta_wt_1_6_ready      (o_delta_wt_1_6_ready           ), //i
     .io_o_delta_wt_1_6_payload    (mux_io_o_delta_wt_1_6_payload  ), //o
     .io_o_delta_wt_1_7_valid      (mux_io_o_delta_wt_1_7_valid    ), //o
-    .io_o_delta_wt_1_7_ready      (io_o_delta_wt_1_7_ready        ), //i
+    .io_o_delta_wt_1_7_ready      (o_delta_wt_1_7_ready           ), //i
     .io_o_delta_wt_1_7_payload    (mux_io_o_delta_wt_1_7_payload  ), //o
     .io_o_delta_wt_2_0_valid      (mux_io_o_delta_wt_2_0_valid    ), //o
-    .io_o_delta_wt_2_0_ready      (io_o_delta_wt_2_0_ready        ), //i
+    .io_o_delta_wt_2_0_ready      (o_delta_wt_2_0_ready           ), //i
     .io_o_delta_wt_2_0_payload    (mux_io_o_delta_wt_2_0_payload  ), //o
     .io_o_delta_wt_2_1_valid      (mux_io_o_delta_wt_2_1_valid    ), //o
-    .io_o_delta_wt_2_1_ready      (io_o_delta_wt_2_1_ready        ), //i
+    .io_o_delta_wt_2_1_ready      (o_delta_wt_2_1_ready           ), //i
     .io_o_delta_wt_2_1_payload    (mux_io_o_delta_wt_2_1_payload  ), //o
     .io_o_delta_wt_2_2_valid      (mux_io_o_delta_wt_2_2_valid    ), //o
-    .io_o_delta_wt_2_2_ready      (io_o_delta_wt_2_2_ready        ), //i
+    .io_o_delta_wt_2_2_ready      (o_delta_wt_2_2_ready           ), //i
     .io_o_delta_wt_2_2_payload    (mux_io_o_delta_wt_2_2_payload  ), //o
     .io_o_delta_wt_2_3_valid      (mux_io_o_delta_wt_2_3_valid    ), //o
-    .io_o_delta_wt_2_3_ready      (io_o_delta_wt_2_3_ready        ), //i
+    .io_o_delta_wt_2_3_ready      (o_delta_wt_2_3_ready           ), //i
     .io_o_delta_wt_2_3_payload    (mux_io_o_delta_wt_2_3_payload  ), //o
     .io_o_delta_wt_2_4_valid      (mux_io_o_delta_wt_2_4_valid    ), //o
-    .io_o_delta_wt_2_4_ready      (io_o_delta_wt_2_4_ready        ), //i
+    .io_o_delta_wt_2_4_ready      (o_delta_wt_2_4_ready           ), //i
     .io_o_delta_wt_2_4_payload    (mux_io_o_delta_wt_2_4_payload  ), //o
     .io_o_delta_wt_2_5_valid      (mux_io_o_delta_wt_2_5_valid    ), //o
-    .io_o_delta_wt_2_5_ready      (io_o_delta_wt_2_5_ready        ), //i
+    .io_o_delta_wt_2_5_ready      (o_delta_wt_2_5_ready           ), //i
     .io_o_delta_wt_2_5_payload    (mux_io_o_delta_wt_2_5_payload  ), //o
     .io_o_delta_wt_2_6_valid      (mux_io_o_delta_wt_2_6_valid    ), //o
-    .io_o_delta_wt_2_6_ready      (io_o_delta_wt_2_6_ready        ), //i
+    .io_o_delta_wt_2_6_ready      (o_delta_wt_2_6_ready           ), //i
     .io_o_delta_wt_2_6_payload    (mux_io_o_delta_wt_2_6_payload  ), //o
     .io_o_delta_wt_2_7_valid      (mux_io_o_delta_wt_2_7_valid    ), //o
-    .io_o_delta_wt_2_7_ready      (io_o_delta_wt_2_7_ready        ), //i
+    .io_o_delta_wt_2_7_ready      (o_delta_wt_2_7_ready           ), //i
     .io_o_delta_wt_2_7_payload    (mux_io_o_delta_wt_2_7_payload  ), //o
     .io_o_delta_wt_3_0_valid      (mux_io_o_delta_wt_3_0_valid    ), //o
-    .io_o_delta_wt_3_0_ready      (io_o_delta_wt_3_0_ready        ), //i
+    .io_o_delta_wt_3_0_ready      (o_delta_wt_3_0_ready           ), //i
     .io_o_delta_wt_3_0_payload    (mux_io_o_delta_wt_3_0_payload  ), //o
     .io_o_delta_wt_3_1_valid      (mux_io_o_delta_wt_3_1_valid    ), //o
-    .io_o_delta_wt_3_1_ready      (io_o_delta_wt_3_1_ready        ), //i
+    .io_o_delta_wt_3_1_ready      (o_delta_wt_3_1_ready           ), //i
     .io_o_delta_wt_3_1_payload    (mux_io_o_delta_wt_3_1_payload  ), //o
     .io_o_delta_wt_3_2_valid      (mux_io_o_delta_wt_3_2_valid    ), //o
-    .io_o_delta_wt_3_2_ready      (io_o_delta_wt_3_2_ready        ), //i
+    .io_o_delta_wt_3_2_ready      (o_delta_wt_3_2_ready           ), //i
     .io_o_delta_wt_3_2_payload    (mux_io_o_delta_wt_3_2_payload  ), //o
     .io_o_delta_wt_3_3_valid      (mux_io_o_delta_wt_3_3_valid    ), //o
-    .io_o_delta_wt_3_3_ready      (io_o_delta_wt_3_3_ready        ), //i
+    .io_o_delta_wt_3_3_ready      (o_delta_wt_3_3_ready           ), //i
     .io_o_delta_wt_3_3_payload    (mux_io_o_delta_wt_3_3_payload  ), //o
     .io_o_delta_wt_3_4_valid      (mux_io_o_delta_wt_3_4_valid    ), //o
-    .io_o_delta_wt_3_4_ready      (io_o_delta_wt_3_4_ready        ), //i
+    .io_o_delta_wt_3_4_ready      (o_delta_wt_3_4_ready           ), //i
     .io_o_delta_wt_3_4_payload    (mux_io_o_delta_wt_3_4_payload  ), //o
     .io_o_delta_wt_3_5_valid      (mux_io_o_delta_wt_3_5_valid    ), //o
-    .io_o_delta_wt_3_5_ready      (io_o_delta_wt_3_5_ready        ), //i
+    .io_o_delta_wt_3_5_ready      (o_delta_wt_3_5_ready           ), //i
     .io_o_delta_wt_3_5_payload    (mux_io_o_delta_wt_3_5_payload  ), //o
     .io_o_delta_wt_3_6_valid      (mux_io_o_delta_wt_3_6_valid    ), //o
-    .io_o_delta_wt_3_6_ready      (io_o_delta_wt_3_6_ready        ), //i
+    .io_o_delta_wt_3_6_ready      (o_delta_wt_3_6_ready           ), //i
     .io_o_delta_wt_3_6_payload    (mux_io_o_delta_wt_3_6_payload  ), //o
     .io_o_delta_wt_3_7_valid      (mux_io_o_delta_wt_3_7_valid    ), //o
-    .io_o_delta_wt_3_7_ready      (io_o_delta_wt_3_7_ready        ), //i
+    .io_o_delta_wt_3_7_ready      (o_delta_wt_3_7_ready           ), //i
     .io_o_delta_wt_3_7_payload    (mux_io_o_delta_wt_3_7_payload  ), //o
     .io_o_delta_wt_4_0_valid      (mux_io_o_delta_wt_4_0_valid    ), //o
-    .io_o_delta_wt_4_0_ready      (io_o_delta_wt_4_0_ready        ), //i
+    .io_o_delta_wt_4_0_ready      (o_delta_wt_4_0_ready           ), //i
     .io_o_delta_wt_4_0_payload    (mux_io_o_delta_wt_4_0_payload  ), //o
     .io_o_delta_wt_4_1_valid      (mux_io_o_delta_wt_4_1_valid    ), //o
-    .io_o_delta_wt_4_1_ready      (io_o_delta_wt_4_1_ready        ), //i
+    .io_o_delta_wt_4_1_ready      (o_delta_wt_4_1_ready           ), //i
     .io_o_delta_wt_4_1_payload    (mux_io_o_delta_wt_4_1_payload  ), //o
     .io_o_delta_wt_4_2_valid      (mux_io_o_delta_wt_4_2_valid    ), //o
-    .io_o_delta_wt_4_2_ready      (io_o_delta_wt_4_2_ready        ), //i
+    .io_o_delta_wt_4_2_ready      (o_delta_wt_4_2_ready           ), //i
     .io_o_delta_wt_4_2_payload    (mux_io_o_delta_wt_4_2_payload  ), //o
     .io_o_delta_wt_4_3_valid      (mux_io_o_delta_wt_4_3_valid    ), //o
-    .io_o_delta_wt_4_3_ready      (io_o_delta_wt_4_3_ready        ), //i
+    .io_o_delta_wt_4_3_ready      (o_delta_wt_4_3_ready           ), //i
     .io_o_delta_wt_4_3_payload    (mux_io_o_delta_wt_4_3_payload  ), //o
     .io_o_delta_wt_4_4_valid      (mux_io_o_delta_wt_4_4_valid    ), //o
-    .io_o_delta_wt_4_4_ready      (io_o_delta_wt_4_4_ready        ), //i
+    .io_o_delta_wt_4_4_ready      (o_delta_wt_4_4_ready           ), //i
     .io_o_delta_wt_4_4_payload    (mux_io_o_delta_wt_4_4_payload  ), //o
     .io_o_delta_wt_4_5_valid      (mux_io_o_delta_wt_4_5_valid    ), //o
-    .io_o_delta_wt_4_5_ready      (io_o_delta_wt_4_5_ready        ), //i
+    .io_o_delta_wt_4_5_ready      (o_delta_wt_4_5_ready           ), //i
     .io_o_delta_wt_4_5_payload    (mux_io_o_delta_wt_4_5_payload  ), //o
     .io_o_delta_wt_4_6_valid      (mux_io_o_delta_wt_4_6_valid    ), //o
-    .io_o_delta_wt_4_6_ready      (io_o_delta_wt_4_6_ready        ), //i
+    .io_o_delta_wt_4_6_ready      (o_delta_wt_4_6_ready           ), //i
     .io_o_delta_wt_4_6_payload    (mux_io_o_delta_wt_4_6_payload  ), //o
     .io_o_delta_wt_4_7_valid      (mux_io_o_delta_wt_4_7_valid    ), //o
-    .io_o_delta_wt_4_7_ready      (io_o_delta_wt_4_7_ready        ), //i
+    .io_o_delta_wt_4_7_ready      (o_delta_wt_4_7_ready           ), //i
     .io_o_delta_wt_4_7_payload    (mux_io_o_delta_wt_4_7_payload  ), //o
     .io_o_delta_wt_5_0_valid      (mux_io_o_delta_wt_5_0_valid    ), //o
-    .io_o_delta_wt_5_0_ready      (io_o_delta_wt_5_0_ready        ), //i
+    .io_o_delta_wt_5_0_ready      (o_delta_wt_5_0_ready           ), //i
     .io_o_delta_wt_5_0_payload    (mux_io_o_delta_wt_5_0_payload  ), //o
     .io_o_delta_wt_5_1_valid      (mux_io_o_delta_wt_5_1_valid    ), //o
-    .io_o_delta_wt_5_1_ready      (io_o_delta_wt_5_1_ready        ), //i
+    .io_o_delta_wt_5_1_ready      (o_delta_wt_5_1_ready           ), //i
     .io_o_delta_wt_5_1_payload    (mux_io_o_delta_wt_5_1_payload  ), //o
     .io_o_delta_wt_5_2_valid      (mux_io_o_delta_wt_5_2_valid    ), //o
-    .io_o_delta_wt_5_2_ready      (io_o_delta_wt_5_2_ready        ), //i
+    .io_o_delta_wt_5_2_ready      (o_delta_wt_5_2_ready           ), //i
     .io_o_delta_wt_5_2_payload    (mux_io_o_delta_wt_5_2_payload  ), //o
     .io_o_delta_wt_5_3_valid      (mux_io_o_delta_wt_5_3_valid    ), //o
-    .io_o_delta_wt_5_3_ready      (io_o_delta_wt_5_3_ready        ), //i
+    .io_o_delta_wt_5_3_ready      (o_delta_wt_5_3_ready           ), //i
     .io_o_delta_wt_5_3_payload    (mux_io_o_delta_wt_5_3_payload  ), //o
     .io_o_delta_wt_5_4_valid      (mux_io_o_delta_wt_5_4_valid    ), //o
-    .io_o_delta_wt_5_4_ready      (io_o_delta_wt_5_4_ready        ), //i
+    .io_o_delta_wt_5_4_ready      (o_delta_wt_5_4_ready           ), //i
     .io_o_delta_wt_5_4_payload    (mux_io_o_delta_wt_5_4_payload  ), //o
     .io_o_delta_wt_5_5_valid      (mux_io_o_delta_wt_5_5_valid    ), //o
-    .io_o_delta_wt_5_5_ready      (io_o_delta_wt_5_5_ready        ), //i
+    .io_o_delta_wt_5_5_ready      (o_delta_wt_5_5_ready           ), //i
     .io_o_delta_wt_5_5_payload    (mux_io_o_delta_wt_5_5_payload  ), //o
     .io_o_delta_wt_5_6_valid      (mux_io_o_delta_wt_5_6_valid    ), //o
-    .io_o_delta_wt_5_6_ready      (io_o_delta_wt_5_6_ready        ), //i
+    .io_o_delta_wt_5_6_ready      (o_delta_wt_5_6_ready           ), //i
     .io_o_delta_wt_5_6_payload    (mux_io_o_delta_wt_5_6_payload  ), //o
     .io_o_delta_wt_5_7_valid      (mux_io_o_delta_wt_5_7_valid    ), //o
-    .io_o_delta_wt_5_7_ready      (io_o_delta_wt_5_7_ready        ), //i
+    .io_o_delta_wt_5_7_ready      (o_delta_wt_5_7_ready           ), //i
     .io_o_delta_wt_5_7_payload    (mux_io_o_delta_wt_5_7_payload  ), //o
     .io_o_delta_wt_6_0_valid      (mux_io_o_delta_wt_6_0_valid    ), //o
-    .io_o_delta_wt_6_0_ready      (io_o_delta_wt_6_0_ready        ), //i
+    .io_o_delta_wt_6_0_ready      (o_delta_wt_6_0_ready           ), //i
     .io_o_delta_wt_6_0_payload    (mux_io_o_delta_wt_6_0_payload  ), //o
     .io_o_delta_wt_6_1_valid      (mux_io_o_delta_wt_6_1_valid    ), //o
-    .io_o_delta_wt_6_1_ready      (io_o_delta_wt_6_1_ready        ), //i
+    .io_o_delta_wt_6_1_ready      (o_delta_wt_6_1_ready           ), //i
     .io_o_delta_wt_6_1_payload    (mux_io_o_delta_wt_6_1_payload  ), //o
     .io_o_delta_wt_6_2_valid      (mux_io_o_delta_wt_6_2_valid    ), //o
-    .io_o_delta_wt_6_2_ready      (io_o_delta_wt_6_2_ready        ), //i
+    .io_o_delta_wt_6_2_ready      (o_delta_wt_6_2_ready           ), //i
     .io_o_delta_wt_6_2_payload    (mux_io_o_delta_wt_6_2_payload  ), //o
     .io_o_delta_wt_6_3_valid      (mux_io_o_delta_wt_6_3_valid    ), //o
-    .io_o_delta_wt_6_3_ready      (io_o_delta_wt_6_3_ready        ), //i
+    .io_o_delta_wt_6_3_ready      (o_delta_wt_6_3_ready           ), //i
     .io_o_delta_wt_6_3_payload    (mux_io_o_delta_wt_6_3_payload  ), //o
     .io_o_delta_wt_6_4_valid      (mux_io_o_delta_wt_6_4_valid    ), //o
-    .io_o_delta_wt_6_4_ready      (io_o_delta_wt_6_4_ready        ), //i
+    .io_o_delta_wt_6_4_ready      (o_delta_wt_6_4_ready           ), //i
     .io_o_delta_wt_6_4_payload    (mux_io_o_delta_wt_6_4_payload  ), //o
     .io_o_delta_wt_6_5_valid      (mux_io_o_delta_wt_6_5_valid    ), //o
-    .io_o_delta_wt_6_5_ready      (io_o_delta_wt_6_5_ready        ), //i
+    .io_o_delta_wt_6_5_ready      (o_delta_wt_6_5_ready           ), //i
     .io_o_delta_wt_6_5_payload    (mux_io_o_delta_wt_6_5_payload  ), //o
     .io_o_delta_wt_6_6_valid      (mux_io_o_delta_wt_6_6_valid    ), //o
-    .io_o_delta_wt_6_6_ready      (io_o_delta_wt_6_6_ready        ), //i
+    .io_o_delta_wt_6_6_ready      (o_delta_wt_6_6_ready           ), //i
     .io_o_delta_wt_6_6_payload    (mux_io_o_delta_wt_6_6_payload  ), //o
     .io_o_delta_wt_6_7_valid      (mux_io_o_delta_wt_6_7_valid    ), //o
-    .io_o_delta_wt_6_7_ready      (io_o_delta_wt_6_7_ready        ), //i
+    .io_o_delta_wt_6_7_ready      (o_delta_wt_6_7_ready           ), //i
     .io_o_delta_wt_6_7_payload    (mux_io_o_delta_wt_6_7_payload  ), //o
     .io_o_delta_wt_7_0_valid      (mux_io_o_delta_wt_7_0_valid    ), //o
-    .io_o_delta_wt_7_0_ready      (io_o_delta_wt_7_0_ready        ), //i
+    .io_o_delta_wt_7_0_ready      (o_delta_wt_7_0_ready           ), //i
     .io_o_delta_wt_7_0_payload    (mux_io_o_delta_wt_7_0_payload  ), //o
     .io_o_delta_wt_7_1_valid      (mux_io_o_delta_wt_7_1_valid    ), //o
-    .io_o_delta_wt_7_1_ready      (io_o_delta_wt_7_1_ready        ), //i
+    .io_o_delta_wt_7_1_ready      (o_delta_wt_7_1_ready           ), //i
     .io_o_delta_wt_7_1_payload    (mux_io_o_delta_wt_7_1_payload  ), //o
     .io_o_delta_wt_7_2_valid      (mux_io_o_delta_wt_7_2_valid    ), //o
-    .io_o_delta_wt_7_2_ready      (io_o_delta_wt_7_2_ready        ), //i
+    .io_o_delta_wt_7_2_ready      (o_delta_wt_7_2_ready           ), //i
     .io_o_delta_wt_7_2_payload    (mux_io_o_delta_wt_7_2_payload  ), //o
     .io_o_delta_wt_7_3_valid      (mux_io_o_delta_wt_7_3_valid    ), //o
-    .io_o_delta_wt_7_3_ready      (io_o_delta_wt_7_3_ready        ), //i
+    .io_o_delta_wt_7_3_ready      (o_delta_wt_7_3_ready           ), //i
     .io_o_delta_wt_7_3_payload    (mux_io_o_delta_wt_7_3_payload  ), //o
     .io_o_delta_wt_7_4_valid      (mux_io_o_delta_wt_7_4_valid    ), //o
-    .io_o_delta_wt_7_4_ready      (io_o_delta_wt_7_4_ready        ), //i
+    .io_o_delta_wt_7_4_ready      (o_delta_wt_7_4_ready           ), //i
     .io_o_delta_wt_7_4_payload    (mux_io_o_delta_wt_7_4_payload  ), //o
     .io_o_delta_wt_7_5_valid      (mux_io_o_delta_wt_7_5_valid    ), //o
-    .io_o_delta_wt_7_5_ready      (io_o_delta_wt_7_5_ready        ), //i
+    .io_o_delta_wt_7_5_ready      (o_delta_wt_7_5_ready           ), //i
     .io_o_delta_wt_7_5_payload    (mux_io_o_delta_wt_7_5_payload  ), //o
     .io_o_delta_wt_7_6_valid      (mux_io_o_delta_wt_7_6_valid    ), //o
-    .io_o_delta_wt_7_6_ready      (io_o_delta_wt_7_6_ready        ), //i
+    .io_o_delta_wt_7_6_ready      (o_delta_wt_7_6_ready           ), //i
     .io_o_delta_wt_7_6_payload    (mux_io_o_delta_wt_7_6_payload  ), //o
     .io_o_delta_wt_7_7_valid      (mux_io_o_delta_wt_7_7_valid    ), //o
-    .io_o_delta_wt_7_7_ready      (io_o_delta_wt_7_7_ready        ), //i
+    .io_o_delta_wt_7_7_ready      (o_delta_wt_7_7_ready           ), //i
     .io_o_delta_wt_7_7_payload    (mux_io_o_delta_wt_7_7_payload  ), //o
     .io_o_sigma_0_0_valid         (mux_io_o_sigma_0_0_valid       ), //o
-    .io_o_sigma_0_0_ready         (io_o_sigma_0_0_ready           ), //i
+    .io_o_sigma_0_0_ready         (o_sigma_0_0_ready              ), //i
     .io_o_sigma_0_0_payload       (mux_io_o_sigma_0_0_payload     ), //o
     .io_o_sigma_0_1_valid         (mux_io_o_sigma_0_1_valid       ), //o
-    .io_o_sigma_0_1_ready         (io_o_sigma_0_1_ready           ), //i
+    .io_o_sigma_0_1_ready         (o_sigma_0_1_ready              ), //i
     .io_o_sigma_0_1_payload       (mux_io_o_sigma_0_1_payload     ), //o
     .io_o_sigma_0_2_valid         (mux_io_o_sigma_0_2_valid       ), //o
-    .io_o_sigma_0_2_ready         (io_o_sigma_0_2_ready           ), //i
+    .io_o_sigma_0_2_ready         (o_sigma_0_2_ready              ), //i
     .io_o_sigma_0_2_payload       (mux_io_o_sigma_0_2_payload     ), //o
     .io_o_sigma_0_3_valid         (mux_io_o_sigma_0_3_valid       ), //o
-    .io_o_sigma_0_3_ready         (io_o_sigma_0_3_ready           ), //i
+    .io_o_sigma_0_3_ready         (o_sigma_0_3_ready              ), //i
     .io_o_sigma_0_3_payload       (mux_io_o_sigma_0_3_payload     ), //o
     .io_o_sigma_0_4_valid         (mux_io_o_sigma_0_4_valid       ), //o
-    .io_o_sigma_0_4_ready         (io_o_sigma_0_4_ready           ), //i
+    .io_o_sigma_0_4_ready         (o_sigma_0_4_ready              ), //i
     .io_o_sigma_0_4_payload       (mux_io_o_sigma_0_4_payload     ), //o
     .io_o_sigma_0_5_valid         (mux_io_o_sigma_0_5_valid       ), //o
-    .io_o_sigma_0_5_ready         (io_o_sigma_0_5_ready           ), //i
+    .io_o_sigma_0_5_ready         (o_sigma_0_5_ready              ), //i
     .io_o_sigma_0_5_payload       (mux_io_o_sigma_0_5_payload     ), //o
     .io_o_sigma_0_6_valid         (mux_io_o_sigma_0_6_valid       ), //o
-    .io_o_sigma_0_6_ready         (io_o_sigma_0_6_ready           ), //i
+    .io_o_sigma_0_6_ready         (o_sigma_0_6_ready              ), //i
     .io_o_sigma_0_6_payload       (mux_io_o_sigma_0_6_payload     ), //o
     .io_o_sigma_0_7_valid         (mux_io_o_sigma_0_7_valid       ), //o
-    .io_o_sigma_0_7_ready         (io_o_sigma_0_7_ready           ), //i
+    .io_o_sigma_0_7_ready         (o_sigma_0_7_ready              ), //i
     .io_o_sigma_0_7_payload       (mux_io_o_sigma_0_7_payload     ), //o
     .io_o_sigma_1_0_valid         (mux_io_o_sigma_1_0_valid       ), //o
-    .io_o_sigma_1_0_ready         (io_o_sigma_1_0_ready           ), //i
+    .io_o_sigma_1_0_ready         (o_sigma_1_0_ready              ), //i
     .io_o_sigma_1_0_payload       (mux_io_o_sigma_1_0_payload     ), //o
     .io_o_sigma_1_1_valid         (mux_io_o_sigma_1_1_valid       ), //o
-    .io_o_sigma_1_1_ready         (io_o_sigma_1_1_ready           ), //i
+    .io_o_sigma_1_1_ready         (o_sigma_1_1_ready              ), //i
     .io_o_sigma_1_1_payload       (mux_io_o_sigma_1_1_payload     ), //o
     .io_o_sigma_1_2_valid         (mux_io_o_sigma_1_2_valid       ), //o
-    .io_o_sigma_1_2_ready         (io_o_sigma_1_2_ready           ), //i
+    .io_o_sigma_1_2_ready         (o_sigma_1_2_ready              ), //i
     .io_o_sigma_1_2_payload       (mux_io_o_sigma_1_2_payload     ), //o
     .io_o_sigma_1_3_valid         (mux_io_o_sigma_1_3_valid       ), //o
-    .io_o_sigma_1_3_ready         (io_o_sigma_1_3_ready           ), //i
+    .io_o_sigma_1_3_ready         (o_sigma_1_3_ready              ), //i
     .io_o_sigma_1_3_payload       (mux_io_o_sigma_1_3_payload     ), //o
     .io_o_sigma_1_4_valid         (mux_io_o_sigma_1_4_valid       ), //o
-    .io_o_sigma_1_4_ready         (io_o_sigma_1_4_ready           ), //i
+    .io_o_sigma_1_4_ready         (o_sigma_1_4_ready              ), //i
     .io_o_sigma_1_4_payload       (mux_io_o_sigma_1_4_payload     ), //o
     .io_o_sigma_1_5_valid         (mux_io_o_sigma_1_5_valid       ), //o
-    .io_o_sigma_1_5_ready         (io_o_sigma_1_5_ready           ), //i
+    .io_o_sigma_1_5_ready         (o_sigma_1_5_ready              ), //i
     .io_o_sigma_1_5_payload       (mux_io_o_sigma_1_5_payload     ), //o
     .io_o_sigma_1_6_valid         (mux_io_o_sigma_1_6_valid       ), //o
-    .io_o_sigma_1_6_ready         (io_o_sigma_1_6_ready           ), //i
+    .io_o_sigma_1_6_ready         (o_sigma_1_6_ready              ), //i
     .io_o_sigma_1_6_payload       (mux_io_o_sigma_1_6_payload     ), //o
     .io_o_sigma_1_7_valid         (mux_io_o_sigma_1_7_valid       ), //o
-    .io_o_sigma_1_7_ready         (io_o_sigma_1_7_ready           ), //i
+    .io_o_sigma_1_7_ready         (o_sigma_1_7_ready              ), //i
     .io_o_sigma_1_7_payload       (mux_io_o_sigma_1_7_payload     ), //o
     .io_o_sigma_2_0_valid         (mux_io_o_sigma_2_0_valid       ), //o
-    .io_o_sigma_2_0_ready         (io_o_sigma_2_0_ready           ), //i
+    .io_o_sigma_2_0_ready         (o_sigma_2_0_ready              ), //i
     .io_o_sigma_2_0_payload       (mux_io_o_sigma_2_0_payload     ), //o
     .io_o_sigma_2_1_valid         (mux_io_o_sigma_2_1_valid       ), //o
-    .io_o_sigma_2_1_ready         (io_o_sigma_2_1_ready           ), //i
+    .io_o_sigma_2_1_ready         (o_sigma_2_1_ready              ), //i
     .io_o_sigma_2_1_payload       (mux_io_o_sigma_2_1_payload     ), //o
     .io_o_sigma_2_2_valid         (mux_io_o_sigma_2_2_valid       ), //o
-    .io_o_sigma_2_2_ready         (io_o_sigma_2_2_ready           ), //i
+    .io_o_sigma_2_2_ready         (o_sigma_2_2_ready              ), //i
     .io_o_sigma_2_2_payload       (mux_io_o_sigma_2_2_payload     ), //o
     .io_o_sigma_2_3_valid         (mux_io_o_sigma_2_3_valid       ), //o
-    .io_o_sigma_2_3_ready         (io_o_sigma_2_3_ready           ), //i
+    .io_o_sigma_2_3_ready         (o_sigma_2_3_ready              ), //i
     .io_o_sigma_2_3_payload       (mux_io_o_sigma_2_3_payload     ), //o
     .io_o_sigma_2_4_valid         (mux_io_o_sigma_2_4_valid       ), //o
-    .io_o_sigma_2_4_ready         (io_o_sigma_2_4_ready           ), //i
+    .io_o_sigma_2_4_ready         (o_sigma_2_4_ready              ), //i
     .io_o_sigma_2_4_payload       (mux_io_o_sigma_2_4_payload     ), //o
     .io_o_sigma_2_5_valid         (mux_io_o_sigma_2_5_valid       ), //o
-    .io_o_sigma_2_5_ready         (io_o_sigma_2_5_ready           ), //i
+    .io_o_sigma_2_5_ready         (o_sigma_2_5_ready              ), //i
     .io_o_sigma_2_5_payload       (mux_io_o_sigma_2_5_payload     ), //o
     .io_o_sigma_2_6_valid         (mux_io_o_sigma_2_6_valid       ), //o
-    .io_o_sigma_2_6_ready         (io_o_sigma_2_6_ready           ), //i
+    .io_o_sigma_2_6_ready         (o_sigma_2_6_ready              ), //i
     .io_o_sigma_2_6_payload       (mux_io_o_sigma_2_6_payload     ), //o
     .io_o_sigma_2_7_valid         (mux_io_o_sigma_2_7_valid       ), //o
-    .io_o_sigma_2_7_ready         (io_o_sigma_2_7_ready           ), //i
+    .io_o_sigma_2_7_ready         (o_sigma_2_7_ready              ), //i
     .io_o_sigma_2_7_payload       (mux_io_o_sigma_2_7_payload     ), //o
     .io_o_sigma_3_0_valid         (mux_io_o_sigma_3_0_valid       ), //o
-    .io_o_sigma_3_0_ready         (io_o_sigma_3_0_ready           ), //i
+    .io_o_sigma_3_0_ready         (o_sigma_3_0_ready              ), //i
     .io_o_sigma_3_0_payload       (mux_io_o_sigma_3_0_payload     ), //o
     .io_o_sigma_3_1_valid         (mux_io_o_sigma_3_1_valid       ), //o
-    .io_o_sigma_3_1_ready         (io_o_sigma_3_1_ready           ), //i
+    .io_o_sigma_3_1_ready         (o_sigma_3_1_ready              ), //i
     .io_o_sigma_3_1_payload       (mux_io_o_sigma_3_1_payload     ), //o
     .io_o_sigma_3_2_valid         (mux_io_o_sigma_3_2_valid       ), //o
-    .io_o_sigma_3_2_ready         (io_o_sigma_3_2_ready           ), //i
+    .io_o_sigma_3_2_ready         (o_sigma_3_2_ready              ), //i
     .io_o_sigma_3_2_payload       (mux_io_o_sigma_3_2_payload     ), //o
     .io_o_sigma_3_3_valid         (mux_io_o_sigma_3_3_valid       ), //o
-    .io_o_sigma_3_3_ready         (io_o_sigma_3_3_ready           ), //i
+    .io_o_sigma_3_3_ready         (o_sigma_3_3_ready              ), //i
     .io_o_sigma_3_3_payload       (mux_io_o_sigma_3_3_payload     ), //o
     .io_o_sigma_3_4_valid         (mux_io_o_sigma_3_4_valid       ), //o
-    .io_o_sigma_3_4_ready         (io_o_sigma_3_4_ready           ), //i
+    .io_o_sigma_3_4_ready         (o_sigma_3_4_ready              ), //i
     .io_o_sigma_3_4_payload       (mux_io_o_sigma_3_4_payload     ), //o
     .io_o_sigma_3_5_valid         (mux_io_o_sigma_3_5_valid       ), //o
-    .io_o_sigma_3_5_ready         (io_o_sigma_3_5_ready           ), //i
+    .io_o_sigma_3_5_ready         (o_sigma_3_5_ready              ), //i
     .io_o_sigma_3_5_payload       (mux_io_o_sigma_3_5_payload     ), //o
     .io_o_sigma_3_6_valid         (mux_io_o_sigma_3_6_valid       ), //o
-    .io_o_sigma_3_6_ready         (io_o_sigma_3_6_ready           ), //i
+    .io_o_sigma_3_6_ready         (o_sigma_3_6_ready              ), //i
     .io_o_sigma_3_6_payload       (mux_io_o_sigma_3_6_payload     ), //o
     .io_o_sigma_3_7_valid         (mux_io_o_sigma_3_7_valid       ), //o
-    .io_o_sigma_3_7_ready         (io_o_sigma_3_7_ready           ), //i
+    .io_o_sigma_3_7_ready         (o_sigma_3_7_ready              ), //i
     .io_o_sigma_3_7_payload       (mux_io_o_sigma_3_7_payload     ), //o
     .io_o_sigma_4_0_valid         (mux_io_o_sigma_4_0_valid       ), //o
-    .io_o_sigma_4_0_ready         (io_o_sigma_4_0_ready           ), //i
+    .io_o_sigma_4_0_ready         (o_sigma_4_0_ready              ), //i
     .io_o_sigma_4_0_payload       (mux_io_o_sigma_4_0_payload     ), //o
     .io_o_sigma_4_1_valid         (mux_io_o_sigma_4_1_valid       ), //o
-    .io_o_sigma_4_1_ready         (io_o_sigma_4_1_ready           ), //i
+    .io_o_sigma_4_1_ready         (o_sigma_4_1_ready              ), //i
     .io_o_sigma_4_1_payload       (mux_io_o_sigma_4_1_payload     ), //o
     .io_o_sigma_4_2_valid         (mux_io_o_sigma_4_2_valid       ), //o
-    .io_o_sigma_4_2_ready         (io_o_sigma_4_2_ready           ), //i
+    .io_o_sigma_4_2_ready         (o_sigma_4_2_ready              ), //i
     .io_o_sigma_4_2_payload       (mux_io_o_sigma_4_2_payload     ), //o
     .io_o_sigma_4_3_valid         (mux_io_o_sigma_4_3_valid       ), //o
-    .io_o_sigma_4_3_ready         (io_o_sigma_4_3_ready           ), //i
+    .io_o_sigma_4_3_ready         (o_sigma_4_3_ready              ), //i
     .io_o_sigma_4_3_payload       (mux_io_o_sigma_4_3_payload     ), //o
     .io_o_sigma_4_4_valid         (mux_io_o_sigma_4_4_valid       ), //o
-    .io_o_sigma_4_4_ready         (io_o_sigma_4_4_ready           ), //i
+    .io_o_sigma_4_4_ready         (o_sigma_4_4_ready              ), //i
     .io_o_sigma_4_4_payload       (mux_io_o_sigma_4_4_payload     ), //o
     .io_o_sigma_4_5_valid         (mux_io_o_sigma_4_5_valid       ), //o
-    .io_o_sigma_4_5_ready         (io_o_sigma_4_5_ready           ), //i
+    .io_o_sigma_4_5_ready         (o_sigma_4_5_ready              ), //i
     .io_o_sigma_4_5_payload       (mux_io_o_sigma_4_5_payload     ), //o
     .io_o_sigma_4_6_valid         (mux_io_o_sigma_4_6_valid       ), //o
-    .io_o_sigma_4_6_ready         (io_o_sigma_4_6_ready           ), //i
+    .io_o_sigma_4_6_ready         (o_sigma_4_6_ready              ), //i
     .io_o_sigma_4_6_payload       (mux_io_o_sigma_4_6_payload     ), //o
     .io_o_sigma_4_7_valid         (mux_io_o_sigma_4_7_valid       ), //o
-    .io_o_sigma_4_7_ready         (io_o_sigma_4_7_ready           ), //i
+    .io_o_sigma_4_7_ready         (o_sigma_4_7_ready              ), //i
     .io_o_sigma_4_7_payload       (mux_io_o_sigma_4_7_payload     ), //o
     .io_o_sigma_5_0_valid         (mux_io_o_sigma_5_0_valid       ), //o
-    .io_o_sigma_5_0_ready         (io_o_sigma_5_0_ready           ), //i
+    .io_o_sigma_5_0_ready         (o_sigma_5_0_ready              ), //i
     .io_o_sigma_5_0_payload       (mux_io_o_sigma_5_0_payload     ), //o
     .io_o_sigma_5_1_valid         (mux_io_o_sigma_5_1_valid       ), //o
-    .io_o_sigma_5_1_ready         (io_o_sigma_5_1_ready           ), //i
+    .io_o_sigma_5_1_ready         (o_sigma_5_1_ready              ), //i
     .io_o_sigma_5_1_payload       (mux_io_o_sigma_5_1_payload     ), //o
     .io_o_sigma_5_2_valid         (mux_io_o_sigma_5_2_valid       ), //o
-    .io_o_sigma_5_2_ready         (io_o_sigma_5_2_ready           ), //i
+    .io_o_sigma_5_2_ready         (o_sigma_5_2_ready              ), //i
     .io_o_sigma_5_2_payload       (mux_io_o_sigma_5_2_payload     ), //o
     .io_o_sigma_5_3_valid         (mux_io_o_sigma_5_3_valid       ), //o
-    .io_o_sigma_5_3_ready         (io_o_sigma_5_3_ready           ), //i
+    .io_o_sigma_5_3_ready         (o_sigma_5_3_ready              ), //i
     .io_o_sigma_5_3_payload       (mux_io_o_sigma_5_3_payload     ), //o
     .io_o_sigma_5_4_valid         (mux_io_o_sigma_5_4_valid       ), //o
-    .io_o_sigma_5_4_ready         (io_o_sigma_5_4_ready           ), //i
+    .io_o_sigma_5_4_ready         (o_sigma_5_4_ready              ), //i
     .io_o_sigma_5_4_payload       (mux_io_o_sigma_5_4_payload     ), //o
     .io_o_sigma_5_5_valid         (mux_io_o_sigma_5_5_valid       ), //o
-    .io_o_sigma_5_5_ready         (io_o_sigma_5_5_ready           ), //i
+    .io_o_sigma_5_5_ready         (o_sigma_5_5_ready              ), //i
     .io_o_sigma_5_5_payload       (mux_io_o_sigma_5_5_payload     ), //o
     .io_o_sigma_5_6_valid         (mux_io_o_sigma_5_6_valid       ), //o
-    .io_o_sigma_5_6_ready         (io_o_sigma_5_6_ready           ), //i
+    .io_o_sigma_5_6_ready         (o_sigma_5_6_ready              ), //i
     .io_o_sigma_5_6_payload       (mux_io_o_sigma_5_6_payload     ), //o
     .io_o_sigma_5_7_valid         (mux_io_o_sigma_5_7_valid       ), //o
-    .io_o_sigma_5_7_ready         (io_o_sigma_5_7_ready           ), //i
+    .io_o_sigma_5_7_ready         (o_sigma_5_7_ready              ), //i
     .io_o_sigma_5_7_payload       (mux_io_o_sigma_5_7_payload     ), //o
     .io_o_sigma_6_0_valid         (mux_io_o_sigma_6_0_valid       ), //o
-    .io_o_sigma_6_0_ready         (io_o_sigma_6_0_ready           ), //i
+    .io_o_sigma_6_0_ready         (o_sigma_6_0_ready              ), //i
     .io_o_sigma_6_0_payload       (mux_io_o_sigma_6_0_payload     ), //o
     .io_o_sigma_6_1_valid         (mux_io_o_sigma_6_1_valid       ), //o
-    .io_o_sigma_6_1_ready         (io_o_sigma_6_1_ready           ), //i
+    .io_o_sigma_6_1_ready         (o_sigma_6_1_ready              ), //i
     .io_o_sigma_6_1_payload       (mux_io_o_sigma_6_1_payload     ), //o
     .io_o_sigma_6_2_valid         (mux_io_o_sigma_6_2_valid       ), //o
-    .io_o_sigma_6_2_ready         (io_o_sigma_6_2_ready           ), //i
+    .io_o_sigma_6_2_ready         (o_sigma_6_2_ready              ), //i
     .io_o_sigma_6_2_payload       (mux_io_o_sigma_6_2_payload     ), //o
     .io_o_sigma_6_3_valid         (mux_io_o_sigma_6_3_valid       ), //o
-    .io_o_sigma_6_3_ready         (io_o_sigma_6_3_ready           ), //i
+    .io_o_sigma_6_3_ready         (o_sigma_6_3_ready              ), //i
     .io_o_sigma_6_3_payload       (mux_io_o_sigma_6_3_payload     ), //o
     .io_o_sigma_6_4_valid         (mux_io_o_sigma_6_4_valid       ), //o
-    .io_o_sigma_6_4_ready         (io_o_sigma_6_4_ready           ), //i
+    .io_o_sigma_6_4_ready         (o_sigma_6_4_ready              ), //i
     .io_o_sigma_6_4_payload       (mux_io_o_sigma_6_4_payload     ), //o
     .io_o_sigma_6_5_valid         (mux_io_o_sigma_6_5_valid       ), //o
-    .io_o_sigma_6_5_ready         (io_o_sigma_6_5_ready           ), //i
+    .io_o_sigma_6_5_ready         (o_sigma_6_5_ready              ), //i
     .io_o_sigma_6_5_payload       (mux_io_o_sigma_6_5_payload     ), //o
     .io_o_sigma_6_6_valid         (mux_io_o_sigma_6_6_valid       ), //o
-    .io_o_sigma_6_6_ready         (io_o_sigma_6_6_ready           ), //i
+    .io_o_sigma_6_6_ready         (o_sigma_6_6_ready              ), //i
     .io_o_sigma_6_6_payload       (mux_io_o_sigma_6_6_payload     ), //o
     .io_o_sigma_6_7_valid         (mux_io_o_sigma_6_7_valid       ), //o
-    .io_o_sigma_6_7_ready         (io_o_sigma_6_7_ready           ), //i
+    .io_o_sigma_6_7_ready         (o_sigma_6_7_ready              ), //i
     .io_o_sigma_6_7_payload       (mux_io_o_sigma_6_7_payload     ), //o
     .io_o_sigma_7_0_valid         (mux_io_o_sigma_7_0_valid       ), //o
-    .io_o_sigma_7_0_ready         (io_o_sigma_7_0_ready           ), //i
+    .io_o_sigma_7_0_ready         (o_sigma_7_0_ready              ), //i
     .io_o_sigma_7_0_payload       (mux_io_o_sigma_7_0_payload     ), //o
     .io_o_sigma_7_1_valid         (mux_io_o_sigma_7_1_valid       ), //o
-    .io_o_sigma_7_1_ready         (io_o_sigma_7_1_ready           ), //i
+    .io_o_sigma_7_1_ready         (o_sigma_7_1_ready              ), //i
     .io_o_sigma_7_1_payload       (mux_io_o_sigma_7_1_payload     ), //o
     .io_o_sigma_7_2_valid         (mux_io_o_sigma_7_2_valid       ), //o
-    .io_o_sigma_7_2_ready         (io_o_sigma_7_2_ready           ), //i
+    .io_o_sigma_7_2_ready         (o_sigma_7_2_ready              ), //i
     .io_o_sigma_7_2_payload       (mux_io_o_sigma_7_2_payload     ), //o
     .io_o_sigma_7_3_valid         (mux_io_o_sigma_7_3_valid       ), //o
-    .io_o_sigma_7_3_ready         (io_o_sigma_7_3_ready           ), //i
+    .io_o_sigma_7_3_ready         (o_sigma_7_3_ready              ), //i
     .io_o_sigma_7_3_payload       (mux_io_o_sigma_7_3_payload     ), //o
     .io_o_sigma_7_4_valid         (mux_io_o_sigma_7_4_valid       ), //o
-    .io_o_sigma_7_4_ready         (io_o_sigma_7_4_ready           ), //i
+    .io_o_sigma_7_4_ready         (o_sigma_7_4_ready              ), //i
     .io_o_sigma_7_4_payload       (mux_io_o_sigma_7_4_payload     ), //o
     .io_o_sigma_7_5_valid         (mux_io_o_sigma_7_5_valid       ), //o
-    .io_o_sigma_7_5_ready         (io_o_sigma_7_5_ready           ), //i
+    .io_o_sigma_7_5_ready         (o_sigma_7_5_ready              ), //i
     .io_o_sigma_7_5_payload       (mux_io_o_sigma_7_5_payload     ), //o
     .io_o_sigma_7_6_valid         (mux_io_o_sigma_7_6_valid       ), //o
-    .io_o_sigma_7_6_ready         (io_o_sigma_7_6_ready           ), //i
+    .io_o_sigma_7_6_ready         (o_sigma_7_6_ready              ), //i
     .io_o_sigma_7_6_payload       (mux_io_o_sigma_7_6_payload     ), //o
     .io_o_sigma_7_7_valid         (mux_io_o_sigma_7_7_valid       ), //o
-    .io_o_sigma_7_7_ready         (io_o_sigma_7_7_ready           ), //i
+    .io_o_sigma_7_7_ready         (o_sigma_7_7_ready              ), //i
     .io_o_sigma_7_7_payload       (mux_io_o_sigma_7_7_payload     ), //o
     .clk                          (clk                            ), //i
     .reset                        (reset                          )  //i
   );
-  assign io_dt_ramrd_addr = read_req_dt_ramrd_addr;
-  assign io_dt_ramrd_en = read_req_dt_ramrd_en;
-  assign io_wt_ramrd_0_addr = read_req_wt_ramrd_0_addr;
-  assign io_wt_ramrd_0_en = read_req_wt_ramrd_0_en;
-  assign io_wt_ramrd_1_addr = read_req_wt_ramrd_1_addr;
-  assign io_wt_ramrd_1_en = read_req_wt_ramrd_1_en;
-  assign io_wt_ramrd_2_addr = read_req_wt_ramrd_2_addr;
-  assign io_wt_ramrd_2_en = read_req_wt_ramrd_2_en;
-  assign io_wt_ramrd_3_addr = read_req_wt_ramrd_3_addr;
-  assign io_wt_ramrd_3_en = read_req_wt_ramrd_3_en;
-  assign io_wt_ramrd_4_addr = read_req_wt_ramrd_4_addr;
-  assign io_wt_ramrd_4_en = read_req_wt_ramrd_4_en;
-  assign io_wt_ramrd_5_addr = read_req_wt_ramrd_5_addr;
-  assign io_wt_ramrd_5_en = read_req_wt_ramrd_5_en;
-  assign io_wt_ramrd_6_addr = read_req_wt_ramrd_6_addr;
-  assign io_wt_ramrd_6_en = read_req_wt_ramrd_6_en;
-  assign io_wt_ramrd_7_addr = read_req_wt_ramrd_7_addr;
-  assign io_wt_ramrd_7_en = read_req_wt_ramrd_7_en;
-  assign io_o_delta_wt_0_0_valid = mux_io_o_delta_wt_0_0_valid;
-  assign io_o_delta_wt_0_0_payload = mux_io_o_delta_wt_0_0_payload;
-  assign io_o_delta_wt_0_1_valid = mux_io_o_delta_wt_0_1_valid;
-  assign io_o_delta_wt_0_1_payload = mux_io_o_delta_wt_0_1_payload;
-  assign io_o_delta_wt_0_2_valid = mux_io_o_delta_wt_0_2_valid;
-  assign io_o_delta_wt_0_2_payload = mux_io_o_delta_wt_0_2_payload;
-  assign io_o_delta_wt_0_3_valid = mux_io_o_delta_wt_0_3_valid;
-  assign io_o_delta_wt_0_3_payload = mux_io_o_delta_wt_0_3_payload;
-  assign io_o_delta_wt_0_4_valid = mux_io_o_delta_wt_0_4_valid;
-  assign io_o_delta_wt_0_4_payload = mux_io_o_delta_wt_0_4_payload;
-  assign io_o_delta_wt_0_5_valid = mux_io_o_delta_wt_0_5_valid;
-  assign io_o_delta_wt_0_5_payload = mux_io_o_delta_wt_0_5_payload;
-  assign io_o_delta_wt_0_6_valid = mux_io_o_delta_wt_0_6_valid;
-  assign io_o_delta_wt_0_6_payload = mux_io_o_delta_wt_0_6_payload;
-  assign io_o_delta_wt_0_7_valid = mux_io_o_delta_wt_0_7_valid;
-  assign io_o_delta_wt_0_7_payload = mux_io_o_delta_wt_0_7_payload;
-  assign io_o_delta_wt_1_0_valid = mux_io_o_delta_wt_1_0_valid;
-  assign io_o_delta_wt_1_0_payload = mux_io_o_delta_wt_1_0_payload;
-  assign io_o_delta_wt_1_1_valid = mux_io_o_delta_wt_1_1_valid;
-  assign io_o_delta_wt_1_1_payload = mux_io_o_delta_wt_1_1_payload;
-  assign io_o_delta_wt_1_2_valid = mux_io_o_delta_wt_1_2_valid;
-  assign io_o_delta_wt_1_2_payload = mux_io_o_delta_wt_1_2_payload;
-  assign io_o_delta_wt_1_3_valid = mux_io_o_delta_wt_1_3_valid;
-  assign io_o_delta_wt_1_3_payload = mux_io_o_delta_wt_1_3_payload;
-  assign io_o_delta_wt_1_4_valid = mux_io_o_delta_wt_1_4_valid;
-  assign io_o_delta_wt_1_4_payload = mux_io_o_delta_wt_1_4_payload;
-  assign io_o_delta_wt_1_5_valid = mux_io_o_delta_wt_1_5_valid;
-  assign io_o_delta_wt_1_5_payload = mux_io_o_delta_wt_1_5_payload;
-  assign io_o_delta_wt_1_6_valid = mux_io_o_delta_wt_1_6_valid;
-  assign io_o_delta_wt_1_6_payload = mux_io_o_delta_wt_1_6_payload;
-  assign io_o_delta_wt_1_7_valid = mux_io_o_delta_wt_1_7_valid;
-  assign io_o_delta_wt_1_7_payload = mux_io_o_delta_wt_1_7_payload;
-  assign io_o_delta_wt_2_0_valid = mux_io_o_delta_wt_2_0_valid;
-  assign io_o_delta_wt_2_0_payload = mux_io_o_delta_wt_2_0_payload;
-  assign io_o_delta_wt_2_1_valid = mux_io_o_delta_wt_2_1_valid;
-  assign io_o_delta_wt_2_1_payload = mux_io_o_delta_wt_2_1_payload;
-  assign io_o_delta_wt_2_2_valid = mux_io_o_delta_wt_2_2_valid;
-  assign io_o_delta_wt_2_2_payload = mux_io_o_delta_wt_2_2_payload;
-  assign io_o_delta_wt_2_3_valid = mux_io_o_delta_wt_2_3_valid;
-  assign io_o_delta_wt_2_3_payload = mux_io_o_delta_wt_2_3_payload;
-  assign io_o_delta_wt_2_4_valid = mux_io_o_delta_wt_2_4_valid;
-  assign io_o_delta_wt_2_4_payload = mux_io_o_delta_wt_2_4_payload;
-  assign io_o_delta_wt_2_5_valid = mux_io_o_delta_wt_2_5_valid;
-  assign io_o_delta_wt_2_5_payload = mux_io_o_delta_wt_2_5_payload;
-  assign io_o_delta_wt_2_6_valid = mux_io_o_delta_wt_2_6_valid;
-  assign io_o_delta_wt_2_6_payload = mux_io_o_delta_wt_2_6_payload;
-  assign io_o_delta_wt_2_7_valid = mux_io_o_delta_wt_2_7_valid;
-  assign io_o_delta_wt_2_7_payload = mux_io_o_delta_wt_2_7_payload;
-  assign io_o_delta_wt_3_0_valid = mux_io_o_delta_wt_3_0_valid;
-  assign io_o_delta_wt_3_0_payload = mux_io_o_delta_wt_3_0_payload;
-  assign io_o_delta_wt_3_1_valid = mux_io_o_delta_wt_3_1_valid;
-  assign io_o_delta_wt_3_1_payload = mux_io_o_delta_wt_3_1_payload;
-  assign io_o_delta_wt_3_2_valid = mux_io_o_delta_wt_3_2_valid;
-  assign io_o_delta_wt_3_2_payload = mux_io_o_delta_wt_3_2_payload;
-  assign io_o_delta_wt_3_3_valid = mux_io_o_delta_wt_3_3_valid;
-  assign io_o_delta_wt_3_3_payload = mux_io_o_delta_wt_3_3_payload;
-  assign io_o_delta_wt_3_4_valid = mux_io_o_delta_wt_3_4_valid;
-  assign io_o_delta_wt_3_4_payload = mux_io_o_delta_wt_3_4_payload;
-  assign io_o_delta_wt_3_5_valid = mux_io_o_delta_wt_3_5_valid;
-  assign io_o_delta_wt_3_5_payload = mux_io_o_delta_wt_3_5_payload;
-  assign io_o_delta_wt_3_6_valid = mux_io_o_delta_wt_3_6_valid;
-  assign io_o_delta_wt_3_6_payload = mux_io_o_delta_wt_3_6_payload;
-  assign io_o_delta_wt_3_7_valid = mux_io_o_delta_wt_3_7_valid;
-  assign io_o_delta_wt_3_7_payload = mux_io_o_delta_wt_3_7_payload;
-  assign io_o_delta_wt_4_0_valid = mux_io_o_delta_wt_4_0_valid;
-  assign io_o_delta_wt_4_0_payload = mux_io_o_delta_wt_4_0_payload;
-  assign io_o_delta_wt_4_1_valid = mux_io_o_delta_wt_4_1_valid;
-  assign io_o_delta_wt_4_1_payload = mux_io_o_delta_wt_4_1_payload;
-  assign io_o_delta_wt_4_2_valid = mux_io_o_delta_wt_4_2_valid;
-  assign io_o_delta_wt_4_2_payload = mux_io_o_delta_wt_4_2_payload;
-  assign io_o_delta_wt_4_3_valid = mux_io_o_delta_wt_4_3_valid;
-  assign io_o_delta_wt_4_3_payload = mux_io_o_delta_wt_4_3_payload;
-  assign io_o_delta_wt_4_4_valid = mux_io_o_delta_wt_4_4_valid;
-  assign io_o_delta_wt_4_4_payload = mux_io_o_delta_wt_4_4_payload;
-  assign io_o_delta_wt_4_5_valid = mux_io_o_delta_wt_4_5_valid;
-  assign io_o_delta_wt_4_5_payload = mux_io_o_delta_wt_4_5_payload;
-  assign io_o_delta_wt_4_6_valid = mux_io_o_delta_wt_4_6_valid;
-  assign io_o_delta_wt_4_6_payload = mux_io_o_delta_wt_4_6_payload;
-  assign io_o_delta_wt_4_7_valid = mux_io_o_delta_wt_4_7_valid;
-  assign io_o_delta_wt_4_7_payload = mux_io_o_delta_wt_4_7_payload;
-  assign io_o_delta_wt_5_0_valid = mux_io_o_delta_wt_5_0_valid;
-  assign io_o_delta_wt_5_0_payload = mux_io_o_delta_wt_5_0_payload;
-  assign io_o_delta_wt_5_1_valid = mux_io_o_delta_wt_5_1_valid;
-  assign io_o_delta_wt_5_1_payload = mux_io_o_delta_wt_5_1_payload;
-  assign io_o_delta_wt_5_2_valid = mux_io_o_delta_wt_5_2_valid;
-  assign io_o_delta_wt_5_2_payload = mux_io_o_delta_wt_5_2_payload;
-  assign io_o_delta_wt_5_3_valid = mux_io_o_delta_wt_5_3_valid;
-  assign io_o_delta_wt_5_3_payload = mux_io_o_delta_wt_5_3_payload;
-  assign io_o_delta_wt_5_4_valid = mux_io_o_delta_wt_5_4_valid;
-  assign io_o_delta_wt_5_4_payload = mux_io_o_delta_wt_5_4_payload;
-  assign io_o_delta_wt_5_5_valid = mux_io_o_delta_wt_5_5_valid;
-  assign io_o_delta_wt_5_5_payload = mux_io_o_delta_wt_5_5_payload;
-  assign io_o_delta_wt_5_6_valid = mux_io_o_delta_wt_5_6_valid;
-  assign io_o_delta_wt_5_6_payload = mux_io_o_delta_wt_5_6_payload;
-  assign io_o_delta_wt_5_7_valid = mux_io_o_delta_wt_5_7_valid;
-  assign io_o_delta_wt_5_7_payload = mux_io_o_delta_wt_5_7_payload;
-  assign io_o_delta_wt_6_0_valid = mux_io_o_delta_wt_6_0_valid;
-  assign io_o_delta_wt_6_0_payload = mux_io_o_delta_wt_6_0_payload;
-  assign io_o_delta_wt_6_1_valid = mux_io_o_delta_wt_6_1_valid;
-  assign io_o_delta_wt_6_1_payload = mux_io_o_delta_wt_6_1_payload;
-  assign io_o_delta_wt_6_2_valid = mux_io_o_delta_wt_6_2_valid;
-  assign io_o_delta_wt_6_2_payload = mux_io_o_delta_wt_6_2_payload;
-  assign io_o_delta_wt_6_3_valid = mux_io_o_delta_wt_6_3_valid;
-  assign io_o_delta_wt_6_3_payload = mux_io_o_delta_wt_6_3_payload;
-  assign io_o_delta_wt_6_4_valid = mux_io_o_delta_wt_6_4_valid;
-  assign io_o_delta_wt_6_4_payload = mux_io_o_delta_wt_6_4_payload;
-  assign io_o_delta_wt_6_5_valid = mux_io_o_delta_wt_6_5_valid;
-  assign io_o_delta_wt_6_5_payload = mux_io_o_delta_wt_6_5_payload;
-  assign io_o_delta_wt_6_6_valid = mux_io_o_delta_wt_6_6_valid;
-  assign io_o_delta_wt_6_6_payload = mux_io_o_delta_wt_6_6_payload;
-  assign io_o_delta_wt_6_7_valid = mux_io_o_delta_wt_6_7_valid;
-  assign io_o_delta_wt_6_7_payload = mux_io_o_delta_wt_6_7_payload;
-  assign io_o_delta_wt_7_0_valid = mux_io_o_delta_wt_7_0_valid;
-  assign io_o_delta_wt_7_0_payload = mux_io_o_delta_wt_7_0_payload;
-  assign io_o_delta_wt_7_1_valid = mux_io_o_delta_wt_7_1_valid;
-  assign io_o_delta_wt_7_1_payload = mux_io_o_delta_wt_7_1_payload;
-  assign io_o_delta_wt_7_2_valid = mux_io_o_delta_wt_7_2_valid;
-  assign io_o_delta_wt_7_2_payload = mux_io_o_delta_wt_7_2_payload;
-  assign io_o_delta_wt_7_3_valid = mux_io_o_delta_wt_7_3_valid;
-  assign io_o_delta_wt_7_3_payload = mux_io_o_delta_wt_7_3_payload;
-  assign io_o_delta_wt_7_4_valid = mux_io_o_delta_wt_7_4_valid;
-  assign io_o_delta_wt_7_4_payload = mux_io_o_delta_wt_7_4_payload;
-  assign io_o_delta_wt_7_5_valid = mux_io_o_delta_wt_7_5_valid;
-  assign io_o_delta_wt_7_5_payload = mux_io_o_delta_wt_7_5_payload;
-  assign io_o_delta_wt_7_6_valid = mux_io_o_delta_wt_7_6_valid;
-  assign io_o_delta_wt_7_6_payload = mux_io_o_delta_wt_7_6_payload;
-  assign io_o_delta_wt_7_7_valid = mux_io_o_delta_wt_7_7_valid;
-  assign io_o_delta_wt_7_7_payload = mux_io_o_delta_wt_7_7_payload;
-  assign io_o_sigma_0_0_valid = mux_io_o_sigma_0_0_valid;
-  assign io_o_sigma_0_0_payload = mux_io_o_sigma_0_0_payload;
-  assign io_o_sigma_0_1_valid = mux_io_o_sigma_0_1_valid;
-  assign io_o_sigma_0_1_payload = mux_io_o_sigma_0_1_payload;
-  assign io_o_sigma_0_2_valid = mux_io_o_sigma_0_2_valid;
-  assign io_o_sigma_0_2_payload = mux_io_o_sigma_0_2_payload;
-  assign io_o_sigma_0_3_valid = mux_io_o_sigma_0_3_valid;
-  assign io_o_sigma_0_3_payload = mux_io_o_sigma_0_3_payload;
-  assign io_o_sigma_0_4_valid = mux_io_o_sigma_0_4_valid;
-  assign io_o_sigma_0_4_payload = mux_io_o_sigma_0_4_payload;
-  assign io_o_sigma_0_5_valid = mux_io_o_sigma_0_5_valid;
-  assign io_o_sigma_0_5_payload = mux_io_o_sigma_0_5_payload;
-  assign io_o_sigma_0_6_valid = mux_io_o_sigma_0_6_valid;
-  assign io_o_sigma_0_6_payload = mux_io_o_sigma_0_6_payload;
-  assign io_o_sigma_0_7_valid = mux_io_o_sigma_0_7_valid;
-  assign io_o_sigma_0_7_payload = mux_io_o_sigma_0_7_payload;
-  assign io_o_sigma_1_0_valid = mux_io_o_sigma_1_0_valid;
-  assign io_o_sigma_1_0_payload = mux_io_o_sigma_1_0_payload;
-  assign io_o_sigma_1_1_valid = mux_io_o_sigma_1_1_valid;
-  assign io_o_sigma_1_1_payload = mux_io_o_sigma_1_1_payload;
-  assign io_o_sigma_1_2_valid = mux_io_o_sigma_1_2_valid;
-  assign io_o_sigma_1_2_payload = mux_io_o_sigma_1_2_payload;
-  assign io_o_sigma_1_3_valid = mux_io_o_sigma_1_3_valid;
-  assign io_o_sigma_1_3_payload = mux_io_o_sigma_1_3_payload;
-  assign io_o_sigma_1_4_valid = mux_io_o_sigma_1_4_valid;
-  assign io_o_sigma_1_4_payload = mux_io_o_sigma_1_4_payload;
-  assign io_o_sigma_1_5_valid = mux_io_o_sigma_1_5_valid;
-  assign io_o_sigma_1_5_payload = mux_io_o_sigma_1_5_payload;
-  assign io_o_sigma_1_6_valid = mux_io_o_sigma_1_6_valid;
-  assign io_o_sigma_1_6_payload = mux_io_o_sigma_1_6_payload;
-  assign io_o_sigma_1_7_valid = mux_io_o_sigma_1_7_valid;
-  assign io_o_sigma_1_7_payload = mux_io_o_sigma_1_7_payload;
-  assign io_o_sigma_2_0_valid = mux_io_o_sigma_2_0_valid;
-  assign io_o_sigma_2_0_payload = mux_io_o_sigma_2_0_payload;
-  assign io_o_sigma_2_1_valid = mux_io_o_sigma_2_1_valid;
-  assign io_o_sigma_2_1_payload = mux_io_o_sigma_2_1_payload;
-  assign io_o_sigma_2_2_valid = mux_io_o_sigma_2_2_valid;
-  assign io_o_sigma_2_2_payload = mux_io_o_sigma_2_2_payload;
-  assign io_o_sigma_2_3_valid = mux_io_o_sigma_2_3_valid;
-  assign io_o_sigma_2_3_payload = mux_io_o_sigma_2_3_payload;
-  assign io_o_sigma_2_4_valid = mux_io_o_sigma_2_4_valid;
-  assign io_o_sigma_2_4_payload = mux_io_o_sigma_2_4_payload;
-  assign io_o_sigma_2_5_valid = mux_io_o_sigma_2_5_valid;
-  assign io_o_sigma_2_5_payload = mux_io_o_sigma_2_5_payload;
-  assign io_o_sigma_2_6_valid = mux_io_o_sigma_2_6_valid;
-  assign io_o_sigma_2_6_payload = mux_io_o_sigma_2_6_payload;
-  assign io_o_sigma_2_7_valid = mux_io_o_sigma_2_7_valid;
-  assign io_o_sigma_2_7_payload = mux_io_o_sigma_2_7_payload;
-  assign io_o_sigma_3_0_valid = mux_io_o_sigma_3_0_valid;
-  assign io_o_sigma_3_0_payload = mux_io_o_sigma_3_0_payload;
-  assign io_o_sigma_3_1_valid = mux_io_o_sigma_3_1_valid;
-  assign io_o_sigma_3_1_payload = mux_io_o_sigma_3_1_payload;
-  assign io_o_sigma_3_2_valid = mux_io_o_sigma_3_2_valid;
-  assign io_o_sigma_3_2_payload = mux_io_o_sigma_3_2_payload;
-  assign io_o_sigma_3_3_valid = mux_io_o_sigma_3_3_valid;
-  assign io_o_sigma_3_3_payload = mux_io_o_sigma_3_3_payload;
-  assign io_o_sigma_3_4_valid = mux_io_o_sigma_3_4_valid;
-  assign io_o_sigma_3_4_payload = mux_io_o_sigma_3_4_payload;
-  assign io_o_sigma_3_5_valid = mux_io_o_sigma_3_5_valid;
-  assign io_o_sigma_3_5_payload = mux_io_o_sigma_3_5_payload;
-  assign io_o_sigma_3_6_valid = mux_io_o_sigma_3_6_valid;
-  assign io_o_sigma_3_6_payload = mux_io_o_sigma_3_6_payload;
-  assign io_o_sigma_3_7_valid = mux_io_o_sigma_3_7_valid;
-  assign io_o_sigma_3_7_payload = mux_io_o_sigma_3_7_payload;
-  assign io_o_sigma_4_0_valid = mux_io_o_sigma_4_0_valid;
-  assign io_o_sigma_4_0_payload = mux_io_o_sigma_4_0_payload;
-  assign io_o_sigma_4_1_valid = mux_io_o_sigma_4_1_valid;
-  assign io_o_sigma_4_1_payload = mux_io_o_sigma_4_1_payload;
-  assign io_o_sigma_4_2_valid = mux_io_o_sigma_4_2_valid;
-  assign io_o_sigma_4_2_payload = mux_io_o_sigma_4_2_payload;
-  assign io_o_sigma_4_3_valid = mux_io_o_sigma_4_3_valid;
-  assign io_o_sigma_4_3_payload = mux_io_o_sigma_4_3_payload;
-  assign io_o_sigma_4_4_valid = mux_io_o_sigma_4_4_valid;
-  assign io_o_sigma_4_4_payload = mux_io_o_sigma_4_4_payload;
-  assign io_o_sigma_4_5_valid = mux_io_o_sigma_4_5_valid;
-  assign io_o_sigma_4_5_payload = mux_io_o_sigma_4_5_payload;
-  assign io_o_sigma_4_6_valid = mux_io_o_sigma_4_6_valid;
-  assign io_o_sigma_4_6_payload = mux_io_o_sigma_4_6_payload;
-  assign io_o_sigma_4_7_valid = mux_io_o_sigma_4_7_valid;
-  assign io_o_sigma_4_7_payload = mux_io_o_sigma_4_7_payload;
-  assign io_o_sigma_5_0_valid = mux_io_o_sigma_5_0_valid;
-  assign io_o_sigma_5_0_payload = mux_io_o_sigma_5_0_payload;
-  assign io_o_sigma_5_1_valid = mux_io_o_sigma_5_1_valid;
-  assign io_o_sigma_5_1_payload = mux_io_o_sigma_5_1_payload;
-  assign io_o_sigma_5_2_valid = mux_io_o_sigma_5_2_valid;
-  assign io_o_sigma_5_2_payload = mux_io_o_sigma_5_2_payload;
-  assign io_o_sigma_5_3_valid = mux_io_o_sigma_5_3_valid;
-  assign io_o_sigma_5_3_payload = mux_io_o_sigma_5_3_payload;
-  assign io_o_sigma_5_4_valid = mux_io_o_sigma_5_4_valid;
-  assign io_o_sigma_5_4_payload = mux_io_o_sigma_5_4_payload;
-  assign io_o_sigma_5_5_valid = mux_io_o_sigma_5_5_valid;
-  assign io_o_sigma_5_5_payload = mux_io_o_sigma_5_5_payload;
-  assign io_o_sigma_5_6_valid = mux_io_o_sigma_5_6_valid;
-  assign io_o_sigma_5_6_payload = mux_io_o_sigma_5_6_payload;
-  assign io_o_sigma_5_7_valid = mux_io_o_sigma_5_7_valid;
-  assign io_o_sigma_5_7_payload = mux_io_o_sigma_5_7_payload;
-  assign io_o_sigma_6_0_valid = mux_io_o_sigma_6_0_valid;
-  assign io_o_sigma_6_0_payload = mux_io_o_sigma_6_0_payload;
-  assign io_o_sigma_6_1_valid = mux_io_o_sigma_6_1_valid;
-  assign io_o_sigma_6_1_payload = mux_io_o_sigma_6_1_payload;
-  assign io_o_sigma_6_2_valid = mux_io_o_sigma_6_2_valid;
-  assign io_o_sigma_6_2_payload = mux_io_o_sigma_6_2_payload;
-  assign io_o_sigma_6_3_valid = mux_io_o_sigma_6_3_valid;
-  assign io_o_sigma_6_3_payload = mux_io_o_sigma_6_3_payload;
-  assign io_o_sigma_6_4_valid = mux_io_o_sigma_6_4_valid;
-  assign io_o_sigma_6_4_payload = mux_io_o_sigma_6_4_payload;
-  assign io_o_sigma_6_5_valid = mux_io_o_sigma_6_5_valid;
-  assign io_o_sigma_6_5_payload = mux_io_o_sigma_6_5_payload;
-  assign io_o_sigma_6_6_valid = mux_io_o_sigma_6_6_valid;
-  assign io_o_sigma_6_6_payload = mux_io_o_sigma_6_6_payload;
-  assign io_o_sigma_6_7_valid = mux_io_o_sigma_6_7_valid;
-  assign io_o_sigma_6_7_payload = mux_io_o_sigma_6_7_payload;
-  assign io_o_sigma_7_0_valid = mux_io_o_sigma_7_0_valid;
-  assign io_o_sigma_7_0_payload = mux_io_o_sigma_7_0_payload;
-  assign io_o_sigma_7_1_valid = mux_io_o_sigma_7_1_valid;
-  assign io_o_sigma_7_1_payload = mux_io_o_sigma_7_1_payload;
-  assign io_o_sigma_7_2_valid = mux_io_o_sigma_7_2_valid;
-  assign io_o_sigma_7_2_payload = mux_io_o_sigma_7_2_payload;
-  assign io_o_sigma_7_3_valid = mux_io_o_sigma_7_3_valid;
-  assign io_o_sigma_7_3_payload = mux_io_o_sigma_7_3_payload;
-  assign io_o_sigma_7_4_valid = mux_io_o_sigma_7_4_valid;
-  assign io_o_sigma_7_4_payload = mux_io_o_sigma_7_4_payload;
-  assign io_o_sigma_7_5_valid = mux_io_o_sigma_7_5_valid;
-  assign io_o_sigma_7_5_payload = mux_io_o_sigma_7_5_payload;
-  assign io_o_sigma_7_6_valid = mux_io_o_sigma_7_6_valid;
-  assign io_o_sigma_7_6_payload = mux_io_o_sigma_7_6_payload;
-  assign io_o_sigma_7_7_valid = mux_io_o_sigma_7_7_valid;
-  assign io_o_sigma_7_7_payload = mux_io_o_sigma_7_7_payload;
+  assign dt_ramrd_addr = read_req_dt_ramrd_addr;
+  assign dt_ramrd_en = read_req_dt_ramrd_en;
+  assign wt_ramrd_0_addr = read_req_wt_ramrd_0_addr;
+  assign wt_ramrd_0_en = read_req_wt_ramrd_0_en;
+  assign wt_ramrd_1_addr = read_req_wt_ramrd_1_addr;
+  assign wt_ramrd_1_en = read_req_wt_ramrd_1_en;
+  assign wt_ramrd_2_addr = read_req_wt_ramrd_2_addr;
+  assign wt_ramrd_2_en = read_req_wt_ramrd_2_en;
+  assign wt_ramrd_3_addr = read_req_wt_ramrd_3_addr;
+  assign wt_ramrd_3_en = read_req_wt_ramrd_3_en;
+  assign wt_ramrd_4_addr = read_req_wt_ramrd_4_addr;
+  assign wt_ramrd_4_en = read_req_wt_ramrd_4_en;
+  assign wt_ramrd_5_addr = read_req_wt_ramrd_5_addr;
+  assign wt_ramrd_5_en = read_req_wt_ramrd_5_en;
+  assign wt_ramrd_6_addr = read_req_wt_ramrd_6_addr;
+  assign wt_ramrd_6_en = read_req_wt_ramrd_6_en;
+  assign wt_ramrd_7_addr = read_req_wt_ramrd_7_addr;
+  assign wt_ramrd_7_en = read_req_wt_ramrd_7_en;
+  assign o_delta_wt_0_0_valid = mux_io_o_delta_wt_0_0_valid;
+  assign o_delta_wt_0_0_payload = mux_io_o_delta_wt_0_0_payload;
+  assign o_delta_wt_0_1_valid = mux_io_o_delta_wt_0_1_valid;
+  assign o_delta_wt_0_1_payload = mux_io_o_delta_wt_0_1_payload;
+  assign o_delta_wt_0_2_valid = mux_io_o_delta_wt_0_2_valid;
+  assign o_delta_wt_0_2_payload = mux_io_o_delta_wt_0_2_payload;
+  assign o_delta_wt_0_3_valid = mux_io_o_delta_wt_0_3_valid;
+  assign o_delta_wt_0_3_payload = mux_io_o_delta_wt_0_3_payload;
+  assign o_delta_wt_0_4_valid = mux_io_o_delta_wt_0_4_valid;
+  assign o_delta_wt_0_4_payload = mux_io_o_delta_wt_0_4_payload;
+  assign o_delta_wt_0_5_valid = mux_io_o_delta_wt_0_5_valid;
+  assign o_delta_wt_0_5_payload = mux_io_o_delta_wt_0_5_payload;
+  assign o_delta_wt_0_6_valid = mux_io_o_delta_wt_0_6_valid;
+  assign o_delta_wt_0_6_payload = mux_io_o_delta_wt_0_6_payload;
+  assign o_delta_wt_0_7_valid = mux_io_o_delta_wt_0_7_valid;
+  assign o_delta_wt_0_7_payload = mux_io_o_delta_wt_0_7_payload;
+  assign o_delta_wt_1_0_valid = mux_io_o_delta_wt_1_0_valid;
+  assign o_delta_wt_1_0_payload = mux_io_o_delta_wt_1_0_payload;
+  assign o_delta_wt_1_1_valid = mux_io_o_delta_wt_1_1_valid;
+  assign o_delta_wt_1_1_payload = mux_io_o_delta_wt_1_1_payload;
+  assign o_delta_wt_1_2_valid = mux_io_o_delta_wt_1_2_valid;
+  assign o_delta_wt_1_2_payload = mux_io_o_delta_wt_1_2_payload;
+  assign o_delta_wt_1_3_valid = mux_io_o_delta_wt_1_3_valid;
+  assign o_delta_wt_1_3_payload = mux_io_o_delta_wt_1_3_payload;
+  assign o_delta_wt_1_4_valid = mux_io_o_delta_wt_1_4_valid;
+  assign o_delta_wt_1_4_payload = mux_io_o_delta_wt_1_4_payload;
+  assign o_delta_wt_1_5_valid = mux_io_o_delta_wt_1_5_valid;
+  assign o_delta_wt_1_5_payload = mux_io_o_delta_wt_1_5_payload;
+  assign o_delta_wt_1_6_valid = mux_io_o_delta_wt_1_6_valid;
+  assign o_delta_wt_1_6_payload = mux_io_o_delta_wt_1_6_payload;
+  assign o_delta_wt_1_7_valid = mux_io_o_delta_wt_1_7_valid;
+  assign o_delta_wt_1_7_payload = mux_io_o_delta_wt_1_7_payload;
+  assign o_delta_wt_2_0_valid = mux_io_o_delta_wt_2_0_valid;
+  assign o_delta_wt_2_0_payload = mux_io_o_delta_wt_2_0_payload;
+  assign o_delta_wt_2_1_valid = mux_io_o_delta_wt_2_1_valid;
+  assign o_delta_wt_2_1_payload = mux_io_o_delta_wt_2_1_payload;
+  assign o_delta_wt_2_2_valid = mux_io_o_delta_wt_2_2_valid;
+  assign o_delta_wt_2_2_payload = mux_io_o_delta_wt_2_2_payload;
+  assign o_delta_wt_2_3_valid = mux_io_o_delta_wt_2_3_valid;
+  assign o_delta_wt_2_3_payload = mux_io_o_delta_wt_2_3_payload;
+  assign o_delta_wt_2_4_valid = mux_io_o_delta_wt_2_4_valid;
+  assign o_delta_wt_2_4_payload = mux_io_o_delta_wt_2_4_payload;
+  assign o_delta_wt_2_5_valid = mux_io_o_delta_wt_2_5_valid;
+  assign o_delta_wt_2_5_payload = mux_io_o_delta_wt_2_5_payload;
+  assign o_delta_wt_2_6_valid = mux_io_o_delta_wt_2_6_valid;
+  assign o_delta_wt_2_6_payload = mux_io_o_delta_wt_2_6_payload;
+  assign o_delta_wt_2_7_valid = mux_io_o_delta_wt_2_7_valid;
+  assign o_delta_wt_2_7_payload = mux_io_o_delta_wt_2_7_payload;
+  assign o_delta_wt_3_0_valid = mux_io_o_delta_wt_3_0_valid;
+  assign o_delta_wt_3_0_payload = mux_io_o_delta_wt_3_0_payload;
+  assign o_delta_wt_3_1_valid = mux_io_o_delta_wt_3_1_valid;
+  assign o_delta_wt_3_1_payload = mux_io_o_delta_wt_3_1_payload;
+  assign o_delta_wt_3_2_valid = mux_io_o_delta_wt_3_2_valid;
+  assign o_delta_wt_3_2_payload = mux_io_o_delta_wt_3_2_payload;
+  assign o_delta_wt_3_3_valid = mux_io_o_delta_wt_3_3_valid;
+  assign o_delta_wt_3_3_payload = mux_io_o_delta_wt_3_3_payload;
+  assign o_delta_wt_3_4_valid = mux_io_o_delta_wt_3_4_valid;
+  assign o_delta_wt_3_4_payload = mux_io_o_delta_wt_3_4_payload;
+  assign o_delta_wt_3_5_valid = mux_io_o_delta_wt_3_5_valid;
+  assign o_delta_wt_3_5_payload = mux_io_o_delta_wt_3_5_payload;
+  assign o_delta_wt_3_6_valid = mux_io_o_delta_wt_3_6_valid;
+  assign o_delta_wt_3_6_payload = mux_io_o_delta_wt_3_6_payload;
+  assign o_delta_wt_3_7_valid = mux_io_o_delta_wt_3_7_valid;
+  assign o_delta_wt_3_7_payload = mux_io_o_delta_wt_3_7_payload;
+  assign o_delta_wt_4_0_valid = mux_io_o_delta_wt_4_0_valid;
+  assign o_delta_wt_4_0_payload = mux_io_o_delta_wt_4_0_payload;
+  assign o_delta_wt_4_1_valid = mux_io_o_delta_wt_4_1_valid;
+  assign o_delta_wt_4_1_payload = mux_io_o_delta_wt_4_1_payload;
+  assign o_delta_wt_4_2_valid = mux_io_o_delta_wt_4_2_valid;
+  assign o_delta_wt_4_2_payload = mux_io_o_delta_wt_4_2_payload;
+  assign o_delta_wt_4_3_valid = mux_io_o_delta_wt_4_3_valid;
+  assign o_delta_wt_4_3_payload = mux_io_o_delta_wt_4_3_payload;
+  assign o_delta_wt_4_4_valid = mux_io_o_delta_wt_4_4_valid;
+  assign o_delta_wt_4_4_payload = mux_io_o_delta_wt_4_4_payload;
+  assign o_delta_wt_4_5_valid = mux_io_o_delta_wt_4_5_valid;
+  assign o_delta_wt_4_5_payload = mux_io_o_delta_wt_4_5_payload;
+  assign o_delta_wt_4_6_valid = mux_io_o_delta_wt_4_6_valid;
+  assign o_delta_wt_4_6_payload = mux_io_o_delta_wt_4_6_payload;
+  assign o_delta_wt_4_7_valid = mux_io_o_delta_wt_4_7_valid;
+  assign o_delta_wt_4_7_payload = mux_io_o_delta_wt_4_7_payload;
+  assign o_delta_wt_5_0_valid = mux_io_o_delta_wt_5_0_valid;
+  assign o_delta_wt_5_0_payload = mux_io_o_delta_wt_5_0_payload;
+  assign o_delta_wt_5_1_valid = mux_io_o_delta_wt_5_1_valid;
+  assign o_delta_wt_5_1_payload = mux_io_o_delta_wt_5_1_payload;
+  assign o_delta_wt_5_2_valid = mux_io_o_delta_wt_5_2_valid;
+  assign o_delta_wt_5_2_payload = mux_io_o_delta_wt_5_2_payload;
+  assign o_delta_wt_5_3_valid = mux_io_o_delta_wt_5_3_valid;
+  assign o_delta_wt_5_3_payload = mux_io_o_delta_wt_5_3_payload;
+  assign o_delta_wt_5_4_valid = mux_io_o_delta_wt_5_4_valid;
+  assign o_delta_wt_5_4_payload = mux_io_o_delta_wt_5_4_payload;
+  assign o_delta_wt_5_5_valid = mux_io_o_delta_wt_5_5_valid;
+  assign o_delta_wt_5_5_payload = mux_io_o_delta_wt_5_5_payload;
+  assign o_delta_wt_5_6_valid = mux_io_o_delta_wt_5_6_valid;
+  assign o_delta_wt_5_6_payload = mux_io_o_delta_wt_5_6_payload;
+  assign o_delta_wt_5_7_valid = mux_io_o_delta_wt_5_7_valid;
+  assign o_delta_wt_5_7_payload = mux_io_o_delta_wt_5_7_payload;
+  assign o_delta_wt_6_0_valid = mux_io_o_delta_wt_6_0_valid;
+  assign o_delta_wt_6_0_payload = mux_io_o_delta_wt_6_0_payload;
+  assign o_delta_wt_6_1_valid = mux_io_o_delta_wt_6_1_valid;
+  assign o_delta_wt_6_1_payload = mux_io_o_delta_wt_6_1_payload;
+  assign o_delta_wt_6_2_valid = mux_io_o_delta_wt_6_2_valid;
+  assign o_delta_wt_6_2_payload = mux_io_o_delta_wt_6_2_payload;
+  assign o_delta_wt_6_3_valid = mux_io_o_delta_wt_6_3_valid;
+  assign o_delta_wt_6_3_payload = mux_io_o_delta_wt_6_3_payload;
+  assign o_delta_wt_6_4_valid = mux_io_o_delta_wt_6_4_valid;
+  assign o_delta_wt_6_4_payload = mux_io_o_delta_wt_6_4_payload;
+  assign o_delta_wt_6_5_valid = mux_io_o_delta_wt_6_5_valid;
+  assign o_delta_wt_6_5_payload = mux_io_o_delta_wt_6_5_payload;
+  assign o_delta_wt_6_6_valid = mux_io_o_delta_wt_6_6_valid;
+  assign o_delta_wt_6_6_payload = mux_io_o_delta_wt_6_6_payload;
+  assign o_delta_wt_6_7_valid = mux_io_o_delta_wt_6_7_valid;
+  assign o_delta_wt_6_7_payload = mux_io_o_delta_wt_6_7_payload;
+  assign o_delta_wt_7_0_valid = mux_io_o_delta_wt_7_0_valid;
+  assign o_delta_wt_7_0_payload = mux_io_o_delta_wt_7_0_payload;
+  assign o_delta_wt_7_1_valid = mux_io_o_delta_wt_7_1_valid;
+  assign o_delta_wt_7_1_payload = mux_io_o_delta_wt_7_1_payload;
+  assign o_delta_wt_7_2_valid = mux_io_o_delta_wt_7_2_valid;
+  assign o_delta_wt_7_2_payload = mux_io_o_delta_wt_7_2_payload;
+  assign o_delta_wt_7_3_valid = mux_io_o_delta_wt_7_3_valid;
+  assign o_delta_wt_7_3_payload = mux_io_o_delta_wt_7_3_payload;
+  assign o_delta_wt_7_4_valid = mux_io_o_delta_wt_7_4_valid;
+  assign o_delta_wt_7_4_payload = mux_io_o_delta_wt_7_4_payload;
+  assign o_delta_wt_7_5_valid = mux_io_o_delta_wt_7_5_valid;
+  assign o_delta_wt_7_5_payload = mux_io_o_delta_wt_7_5_payload;
+  assign o_delta_wt_7_6_valid = mux_io_o_delta_wt_7_6_valid;
+  assign o_delta_wt_7_6_payload = mux_io_o_delta_wt_7_6_payload;
+  assign o_delta_wt_7_7_valid = mux_io_o_delta_wt_7_7_valid;
+  assign o_delta_wt_7_7_payload = mux_io_o_delta_wt_7_7_payload;
+  assign o_sigma_0_0_valid = mux_io_o_sigma_0_0_valid;
+  assign o_sigma_0_0_payload = mux_io_o_sigma_0_0_payload;
+  assign o_sigma_0_1_valid = mux_io_o_sigma_0_1_valid;
+  assign o_sigma_0_1_payload = mux_io_o_sigma_0_1_payload;
+  assign o_sigma_0_2_valid = mux_io_o_sigma_0_2_valid;
+  assign o_sigma_0_2_payload = mux_io_o_sigma_0_2_payload;
+  assign o_sigma_0_3_valid = mux_io_o_sigma_0_3_valid;
+  assign o_sigma_0_3_payload = mux_io_o_sigma_0_3_payload;
+  assign o_sigma_0_4_valid = mux_io_o_sigma_0_4_valid;
+  assign o_sigma_0_4_payload = mux_io_o_sigma_0_4_payload;
+  assign o_sigma_0_5_valid = mux_io_o_sigma_0_5_valid;
+  assign o_sigma_0_5_payload = mux_io_o_sigma_0_5_payload;
+  assign o_sigma_0_6_valid = mux_io_o_sigma_0_6_valid;
+  assign o_sigma_0_6_payload = mux_io_o_sigma_0_6_payload;
+  assign o_sigma_0_7_valid = mux_io_o_sigma_0_7_valid;
+  assign o_sigma_0_7_payload = mux_io_o_sigma_0_7_payload;
+  assign o_sigma_1_0_valid = mux_io_o_sigma_1_0_valid;
+  assign o_sigma_1_0_payload = mux_io_o_sigma_1_0_payload;
+  assign o_sigma_1_1_valid = mux_io_o_sigma_1_1_valid;
+  assign o_sigma_1_1_payload = mux_io_o_sigma_1_1_payload;
+  assign o_sigma_1_2_valid = mux_io_o_sigma_1_2_valid;
+  assign o_sigma_1_2_payload = mux_io_o_sigma_1_2_payload;
+  assign o_sigma_1_3_valid = mux_io_o_sigma_1_3_valid;
+  assign o_sigma_1_3_payload = mux_io_o_sigma_1_3_payload;
+  assign o_sigma_1_4_valid = mux_io_o_sigma_1_4_valid;
+  assign o_sigma_1_4_payload = mux_io_o_sigma_1_4_payload;
+  assign o_sigma_1_5_valid = mux_io_o_sigma_1_5_valid;
+  assign o_sigma_1_5_payload = mux_io_o_sigma_1_5_payload;
+  assign o_sigma_1_6_valid = mux_io_o_sigma_1_6_valid;
+  assign o_sigma_1_6_payload = mux_io_o_sigma_1_6_payload;
+  assign o_sigma_1_7_valid = mux_io_o_sigma_1_7_valid;
+  assign o_sigma_1_7_payload = mux_io_o_sigma_1_7_payload;
+  assign o_sigma_2_0_valid = mux_io_o_sigma_2_0_valid;
+  assign o_sigma_2_0_payload = mux_io_o_sigma_2_0_payload;
+  assign o_sigma_2_1_valid = mux_io_o_sigma_2_1_valid;
+  assign o_sigma_2_1_payload = mux_io_o_sigma_2_1_payload;
+  assign o_sigma_2_2_valid = mux_io_o_sigma_2_2_valid;
+  assign o_sigma_2_2_payload = mux_io_o_sigma_2_2_payload;
+  assign o_sigma_2_3_valid = mux_io_o_sigma_2_3_valid;
+  assign o_sigma_2_3_payload = mux_io_o_sigma_2_3_payload;
+  assign o_sigma_2_4_valid = mux_io_o_sigma_2_4_valid;
+  assign o_sigma_2_4_payload = mux_io_o_sigma_2_4_payload;
+  assign o_sigma_2_5_valid = mux_io_o_sigma_2_5_valid;
+  assign o_sigma_2_5_payload = mux_io_o_sigma_2_5_payload;
+  assign o_sigma_2_6_valid = mux_io_o_sigma_2_6_valid;
+  assign o_sigma_2_6_payload = mux_io_o_sigma_2_6_payload;
+  assign o_sigma_2_7_valid = mux_io_o_sigma_2_7_valid;
+  assign o_sigma_2_7_payload = mux_io_o_sigma_2_7_payload;
+  assign o_sigma_3_0_valid = mux_io_o_sigma_3_0_valid;
+  assign o_sigma_3_0_payload = mux_io_o_sigma_3_0_payload;
+  assign o_sigma_3_1_valid = mux_io_o_sigma_3_1_valid;
+  assign o_sigma_3_1_payload = mux_io_o_sigma_3_1_payload;
+  assign o_sigma_3_2_valid = mux_io_o_sigma_3_2_valid;
+  assign o_sigma_3_2_payload = mux_io_o_sigma_3_2_payload;
+  assign o_sigma_3_3_valid = mux_io_o_sigma_3_3_valid;
+  assign o_sigma_3_3_payload = mux_io_o_sigma_3_3_payload;
+  assign o_sigma_3_4_valid = mux_io_o_sigma_3_4_valid;
+  assign o_sigma_3_4_payload = mux_io_o_sigma_3_4_payload;
+  assign o_sigma_3_5_valid = mux_io_o_sigma_3_5_valid;
+  assign o_sigma_3_5_payload = mux_io_o_sigma_3_5_payload;
+  assign o_sigma_3_6_valid = mux_io_o_sigma_3_6_valid;
+  assign o_sigma_3_6_payload = mux_io_o_sigma_3_6_payload;
+  assign o_sigma_3_7_valid = mux_io_o_sigma_3_7_valid;
+  assign o_sigma_3_7_payload = mux_io_o_sigma_3_7_payload;
+  assign o_sigma_4_0_valid = mux_io_o_sigma_4_0_valid;
+  assign o_sigma_4_0_payload = mux_io_o_sigma_4_0_payload;
+  assign o_sigma_4_1_valid = mux_io_o_sigma_4_1_valid;
+  assign o_sigma_4_1_payload = mux_io_o_sigma_4_1_payload;
+  assign o_sigma_4_2_valid = mux_io_o_sigma_4_2_valid;
+  assign o_sigma_4_2_payload = mux_io_o_sigma_4_2_payload;
+  assign o_sigma_4_3_valid = mux_io_o_sigma_4_3_valid;
+  assign o_sigma_4_3_payload = mux_io_o_sigma_4_3_payload;
+  assign o_sigma_4_4_valid = mux_io_o_sigma_4_4_valid;
+  assign o_sigma_4_4_payload = mux_io_o_sigma_4_4_payload;
+  assign o_sigma_4_5_valid = mux_io_o_sigma_4_5_valid;
+  assign o_sigma_4_5_payload = mux_io_o_sigma_4_5_payload;
+  assign o_sigma_4_6_valid = mux_io_o_sigma_4_6_valid;
+  assign o_sigma_4_6_payload = mux_io_o_sigma_4_6_payload;
+  assign o_sigma_4_7_valid = mux_io_o_sigma_4_7_valid;
+  assign o_sigma_4_7_payload = mux_io_o_sigma_4_7_payload;
+  assign o_sigma_5_0_valid = mux_io_o_sigma_5_0_valid;
+  assign o_sigma_5_0_payload = mux_io_o_sigma_5_0_payload;
+  assign o_sigma_5_1_valid = mux_io_o_sigma_5_1_valid;
+  assign o_sigma_5_1_payload = mux_io_o_sigma_5_1_payload;
+  assign o_sigma_5_2_valid = mux_io_o_sigma_5_2_valid;
+  assign o_sigma_5_2_payload = mux_io_o_sigma_5_2_payload;
+  assign o_sigma_5_3_valid = mux_io_o_sigma_5_3_valid;
+  assign o_sigma_5_3_payload = mux_io_o_sigma_5_3_payload;
+  assign o_sigma_5_4_valid = mux_io_o_sigma_5_4_valid;
+  assign o_sigma_5_4_payload = mux_io_o_sigma_5_4_payload;
+  assign o_sigma_5_5_valid = mux_io_o_sigma_5_5_valid;
+  assign o_sigma_5_5_payload = mux_io_o_sigma_5_5_payload;
+  assign o_sigma_5_6_valid = mux_io_o_sigma_5_6_valid;
+  assign o_sigma_5_6_payload = mux_io_o_sigma_5_6_payload;
+  assign o_sigma_5_7_valid = mux_io_o_sigma_5_7_valid;
+  assign o_sigma_5_7_payload = mux_io_o_sigma_5_7_payload;
+  assign o_sigma_6_0_valid = mux_io_o_sigma_6_0_valid;
+  assign o_sigma_6_0_payload = mux_io_o_sigma_6_0_payload;
+  assign o_sigma_6_1_valid = mux_io_o_sigma_6_1_valid;
+  assign o_sigma_6_1_payload = mux_io_o_sigma_6_1_payload;
+  assign o_sigma_6_2_valid = mux_io_o_sigma_6_2_valid;
+  assign o_sigma_6_2_payload = mux_io_o_sigma_6_2_payload;
+  assign o_sigma_6_3_valid = mux_io_o_sigma_6_3_valid;
+  assign o_sigma_6_3_payload = mux_io_o_sigma_6_3_payload;
+  assign o_sigma_6_4_valid = mux_io_o_sigma_6_4_valid;
+  assign o_sigma_6_4_payload = mux_io_o_sigma_6_4_payload;
+  assign o_sigma_6_5_valid = mux_io_o_sigma_6_5_valid;
+  assign o_sigma_6_5_payload = mux_io_o_sigma_6_5_payload;
+  assign o_sigma_6_6_valid = mux_io_o_sigma_6_6_valid;
+  assign o_sigma_6_6_payload = mux_io_o_sigma_6_6_payload;
+  assign o_sigma_6_7_valid = mux_io_o_sigma_6_7_valid;
+  assign o_sigma_6_7_payload = mux_io_o_sigma_6_7_payload;
+  assign o_sigma_7_0_valid = mux_io_o_sigma_7_0_valid;
+  assign o_sigma_7_0_payload = mux_io_o_sigma_7_0_payload;
+  assign o_sigma_7_1_valid = mux_io_o_sigma_7_1_valid;
+  assign o_sigma_7_1_payload = mux_io_o_sigma_7_1_payload;
+  assign o_sigma_7_2_valid = mux_io_o_sigma_7_2_valid;
+  assign o_sigma_7_2_payload = mux_io_o_sigma_7_2_payload;
+  assign o_sigma_7_3_valid = mux_io_o_sigma_7_3_valid;
+  assign o_sigma_7_3_payload = mux_io_o_sigma_7_3_payload;
+  assign o_sigma_7_4_valid = mux_io_o_sigma_7_4_valid;
+  assign o_sigma_7_4_payload = mux_io_o_sigma_7_4_payload;
+  assign o_sigma_7_5_valid = mux_io_o_sigma_7_5_valid;
+  assign o_sigma_7_5_payload = mux_io_o_sigma_7_5_payload;
+  assign o_sigma_7_6_valid = mux_io_o_sigma_7_6_valid;
+  assign o_sigma_7_6_payload = mux_io_o_sigma_7_6_payload;
+  assign o_sigma_7_7_valid = mux_io_o_sigma_7_7_valid;
+  assign o_sigma_7_7_payload = mux_io_o_sigma_7_7_payload;
 
 endmodule
 

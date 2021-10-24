@@ -1,0 +1,11 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib "D:/VM_share/NVDLA_BP/spinal_prj/SpinalTemplateSbt-master/VerilogHDL/enumdefine.v" --include "../../../../../../SpinalTemplateSbt-master/VerilogHDL" \
+"../../../../../../SpinalTemplateSbt-master/VerilogHDL/conv_top.v" \
+"../../../../../../SpinalTemplateSbt-master/VerilogHDL/mac_acc_array.v" \
+"../../../../nvdla_bp.srcs/sim_1/new/conv_tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
