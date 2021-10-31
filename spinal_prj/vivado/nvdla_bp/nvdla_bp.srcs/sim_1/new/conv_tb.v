@@ -24,7 +24,7 @@ module conv_tb();
     
     
     
-  // 0.2=3E4CCCCD  0.4=3ECCCCCD  0.6=3F19999A  1.6=3FCCCCCD
+  // 0.2=3E4CCCCD  0.4=3ECCCCCD  0.08=3da3d70b  0.6=3F19999A  1.6=3FCCCCCD
   
   reg clk, reset;
 
