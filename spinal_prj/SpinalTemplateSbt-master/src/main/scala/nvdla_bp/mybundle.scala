@@ -45,3 +45,15 @@ case class ram_wr(addrwidth:Int,datawidth:Int) extends Bundle{
   val data = out  UInt(datawidth bits)
   val en   = out Bool()
 }
+
+case class ram_slv_rd(addrwidth:Int,datawidth:Int) extends Bundle{
+  val addr = in UInt(addrwidth bits)
+  val data = out  UInt(datawidth bits)
+  val en   = in Bool()
+}
+
+case class ram_slv_wr(addrwidth:Int,datawidth:Int) extends Bundle{
+  val addr = in UInt(addrwidth bits)
+  val data = in  UInt(datawidth bits)
+  val en   = in Bool()
+}
