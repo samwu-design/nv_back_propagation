@@ -2,6 +2,15 @@ package nvdla_bp
 
 import spinal.core._
 
+case class dma_cfg_para() extends Bundle{
+  val dt_width = UInt(16 bits)
+  val dt_height = UInt(16 bits)
+  val wt_width = UInt(16 bits)
+  val wt_height = UInt(16 bits)
+}
+
+
+
 case class conv_cfg_param() extends Bundle{
   val fea_width = UInt(16 bits)
   val fea_height = UInt(16 bits)
