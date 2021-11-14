@@ -2,6 +2,7 @@ package nvdla_bp
 
 import nvdla_bp.conv._
 import nvdla_bp.mem._
+import nvdla_bp.dma._
 import nvdla_bp.atom_adder._
 import spinal.lib._
 import spinal.core._
@@ -38,7 +39,7 @@ object MyTopLevelVerilog {
   )
   def main(args: Array[String]) {
     SpinalConfig(targetDirectory = "VerilogHDL")//, oneFilePerComponent = true)
-      .generateVerilog(new conv_buff(32,4096,32)).printPruned()
+      .generateVerilog(new dma_read(256,64,8)).printPruned()
     //SpinalVerilog(new MyTopLevel)
   }
 }
