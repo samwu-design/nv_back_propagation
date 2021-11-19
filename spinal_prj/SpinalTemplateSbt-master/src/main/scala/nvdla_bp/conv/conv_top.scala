@@ -1,9 +1,8 @@
-package nvdla_bp
+package nvdla_bp.conv
 
-import nvdla_bp.conv._
+import nvdla_bp._
 import spinal.core._
 import spinal.lib._
-
 
 case class conv_top(eleWidth: Int, addrwidth: Int) extends Component {
   val io = new Bundle {
@@ -12,12 +11,12 @@ case class conv_top(eleWidth: Int, addrwidth: Int) extends Component {
 
     val dt_ramrd = ram_rd(addrwidth, eleWidth * 8)
     //val wt_ramrd = Array.fill((8))(ram_rd(addrwidth, eleWidth * 8))
-    val wt_ramrd = Vec(ram_rd(addrwidth, eleWidth * 8),8)
+    val wt_ramrd = Vec(ram_rd(addrwidth, eleWidth * 8), 8)
 
     //val o_delta_wt = Array.fill(8)(Vec(master Stream (SInt(eleWidth bits)), 8))
-    val o_delta_wt = Vec(Vec(master Stream (SInt(eleWidth bits)), 8),8)
+    val o_delta_wt = Vec(Vec(master Stream (SInt(eleWidth bits)), 8), 8)
     //val o_sigma = Array.fill(8)(Vec(master Stream (SInt(eleWidth bits)), 8))
-    val o_sigma = Vec(Vec(master Stream (SInt(eleWidth bits)), 8),8)
+    val o_sigma = Vec(Vec(master Stream (SInt(eleWidth bits)), 8), 8)
 
 
   }
@@ -47,7 +46,6 @@ case class conv_top(eleWidth: Int, addrwidth: Int) extends Component {
   mux.io.indata <> conv_core.io.s_out
   io.o_delta_wt <> mux.io.o_delta_wt
   io.o_sigma <> mux.io.o_sigma
-
 
 
 }

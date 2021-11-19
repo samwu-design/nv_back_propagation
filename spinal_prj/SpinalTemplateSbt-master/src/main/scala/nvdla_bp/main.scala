@@ -7,7 +7,7 @@ import nvdla_bp.atom_adder._
 import spinal.lib._
 import spinal.core._
 import spinal.lib.bus.amba4.axi.{Axi4,Axi4Config,Axi4ReadOnly}
-
+import spinal.lib.bus.amba4.axilite._
 
 //Generate the MyTopLevel's Verilog
 object MyTopLevelVerilog {
@@ -37,9 +37,13 @@ object MyTopLevelVerilog {
     useProt      = false,
     useStrb      = false
   )
+  def getAxiLiteCfg(addrWidth:Int,dataWidth:Int) = AxiLite4Config(
+    addressWidth = addrWidth,
+    dataWidth = dataWidth
+  )
   def main(args: Array[String]) {
     SpinalConfig(targetDirectory = "VerilogHDL")//, oneFilePerComponent = true)
-      .generateVerilog(new dma_read(256,64,8)).printPruned()
+      .generateVerilog(new dmaReadCtrl(256,64,8)).printPruned()
     //SpinalVerilog(new MyTopLevel)
   }
 }

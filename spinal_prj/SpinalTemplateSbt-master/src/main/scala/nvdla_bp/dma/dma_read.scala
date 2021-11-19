@@ -22,7 +22,7 @@ case class dma_read(datawidth:Int,addrwidth:Int,idwidth:Int) extends Component{
     val enable = in Bool()
     val isIdle = out Bool()
   }
-
+  noIoPrefix()
   val fifo = StreamFifo(UInt(datawidth bits),16)
 
   val param = Reg(dma_rd_para(addrwidth))

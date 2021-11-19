@@ -16,6 +16,8 @@ case class dma_cfg() extends Bundle{
   val dtHeight = in UInt(16 bits)
   val wtWidth = in UInt(16 bits)
   val wtHeight = in UInt(16 bits)
+  val oWidth = in UInt(16 bits)
+  val oHeight = in UInt(16 bits)
 }
 
 
@@ -29,21 +31,27 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
     val enable = in Bool()
     val isIdle = out Bool()
   }
-
+  noIoPrefix()
 
   val par = Reg(dma_cfg())
   val burstlen = Reg(UInt(8 bits))init(0)
   val BaseAddr = Reg(UInt(addrwidth bits))init(0)
 
+  val dt_wcnt = Reg(UInt(16 bits))init(0)
+  val dt_vcnt = Reg(UInt(16 bits))init(0)
+  val wt_wcnt = Reg(UInt(16 bits))init(0)
+  val wt_vcnt = Reg(UInt(16 bits))init(0)
 
   val dma_rd = new dma_read(datawidth,addrwidth,idwidth)
+
+  io.isIdle := False
 
   dma_rd.io.enable := False
   dma_rd.io.rd_para.burstlen := burstlen
   dma_rd.io.rd_para.BaseAddr := BaseAddr
 
-
-
+  io.axim <> dma_rd.io.axim
+  io.output <> dma_rd.io.output
 
   val dma_ctrl_fsm = new StateMachine {
     val IDLE = new State with EntryPoint
@@ -55,28 +63,77 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
     val END = new State
 
     IDLE.whenIsActive {
+      dt_wcnt := 0
+      dt_vcnt := 0
+      wt_wcnt := 0
+      wt_vcnt := 0
       io.isIdle := True
       when(io.enable === True) {
         goto(GET_PARAM)
       }
     }
 
+    // update parameter only in needed time
     GET_PARAM.whenIsActive{
       par := io.cfg
       goto(READ_DT)
     }
 
     READ_DT.whenIsActive{
-      burstlen := par.dtWidth
+      burstlen := par.dtWidth.resized
       BaseAddr := par.dtBaseAddr
       when(dma_rd.io.isIdle === True){
         dma_rd.io.enable := True
-        goto()
+        when(dt_wcnt === par.dtWidth){
+          dt_vcnt := dt_vcnt + 1
+          dt_wcnt := 0
+        }.otherwise{
+          dt_wcnt := dt_wcnt + 1
+        }
+        goto(CHECK_DT)
       }
     }
 
+    CHECK_DT.whenIsActive{
+      when(dma_rd.io.isIdle === True){
+        when(dt_vcnt === par.dtHeight && dt_wcnt === par.dtWidth) {
+          goto(READ_WT)
+        }.otherwise{
+          goto(READ_DT)
+        }
+      }
+    }
 
+    READ_WT.whenIsActive{
+      burstlen := par.wtWidth.resized
+      BaseAddr := par.wtBaseAddr
+      when(dma_rd.io.isIdle === True){
+        dma_rd.io.enable := True
 
+        when(wt_wcnt === par.wtWidth){
+          wt_vcnt := wt_vcnt + 1
+          wt_wcnt := 0
+        }.otherwise{
+          wt_wcnt := wt_wcnt + 1
+        }
+
+        goto(CHECK_WT)
+      }
+    }
+
+    CHECK_WT.whenIsActive{
+      when(dma_rd.io.isIdle === True){
+        when(wt_vcnt === par.wtHeight && dt_wcnt === par.wtWidth) {
+          goto(END)
+        }.otherwise{
+          goto(READ_WT)
+        }
+      }
+    }
+
+    END.whenIsActive{
+      goto(IDLE)
+    }
 
 
   }

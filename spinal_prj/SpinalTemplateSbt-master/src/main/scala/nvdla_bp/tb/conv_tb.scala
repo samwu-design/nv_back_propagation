@@ -1,6 +1,7 @@
 package nvdla_bp.tb
 
 import nvdla_bp._
+import nvdla_bp.conv.conv_top
 import spinal.core._
 import spinal.lib._
 
