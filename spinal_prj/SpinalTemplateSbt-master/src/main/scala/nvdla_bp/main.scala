@@ -43,7 +43,7 @@ object MyTopLevelVerilog {
   )
   def main(args: Array[String]) {
     SpinalConfig(targetDirectory = "VerilogHDL")//, oneFilePerComponent = true)
-      .generateVerilog(new dmaReadCtrl(256,64,8)).printPruned()
+      .generateVerilog(new cvt_stream2uint(8)).printPruned()
     //SpinalVerilog(new MyTopLevel)
   }
 }

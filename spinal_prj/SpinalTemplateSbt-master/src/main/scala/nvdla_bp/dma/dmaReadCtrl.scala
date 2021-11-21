@@ -53,7 +53,7 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
   io.axim <> dma_rd.io.axim
   io.output <> dma_rd.io.output
 
-  val dma_ctrl_fsm = new StateMachine {
+  val dma_rdctrl_fsm = new StateMachine {
     val IDLE = new State with EntryPoint
     val GET_PARAM = new State
     val READ_DT = new State

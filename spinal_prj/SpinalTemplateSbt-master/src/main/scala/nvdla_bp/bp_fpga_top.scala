@@ -21,7 +21,7 @@ case class bp_fpga_top(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
     val axis_sgm = slave(Axi4WriteOnly(axiconfig)) // write sigma
     val axi4lite = slave(AxiLite4(axilitecfg)) // configure access
   }
-
+/*
   // dma
   val rdma4conv = new  dmaReadCtrl()
   val wdma4dwt = new dmaWriteCtrl_dwt()
@@ -36,7 +36,7 @@ case class bp_fpga_top(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
 
   // configure
   val cfg = new global_configure()
-
+*/
 
 
 }

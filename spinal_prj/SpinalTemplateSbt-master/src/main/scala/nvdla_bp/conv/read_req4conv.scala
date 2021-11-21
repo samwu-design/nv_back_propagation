@@ -3,7 +3,8 @@ package nvdla_bp.conv
 import nvdla_bp.{conv_cfg_param, ram_rd}
 import spinal.core.{Bool, Bundle, Component, Reg, UInt, Vec, in, when}
 import spinal.lib.fsm.{EntryPoint, State, StateMachine}
-import spinal.lib.master
+import spinal.lib._
+import spinal.core._
 
 case class read_req4conv(eleWidth: Int, addrwidth: Int) extends Component {
   val io = new Bundle {
