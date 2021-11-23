@@ -8,6 +8,9 @@ import spinal.lib._
 import spinal.core._
 import spinal.lib.bus.amba4.axi.{Axi4,Axi4Config,Axi4ReadOnly}
 import spinal.lib.bus.amba4.axilite._
+import spinal.lib.bus.amba3.apb._
+
+
 
 //Generate the MyTopLevel's Verilog
 object MyTopLevelVerilog {
@@ -21,29 +24,34 @@ object MyTopLevelVerilog {
     useCache = false,
     useProt = false,
     useQos = false  )
-  def getAxiConfigLite(dataWidth: Int, addrWidth: Int) = Axi4Config(
-    addressWidth = addrWidth,
-    dataWidth    = dataWidth,
-    useId        = false,
-    useRegion    = false,
-    useBurst     = false,
-    useLock      = false,
-    useCache     = false,
-    useSize      = false,
-    useQos       = false,
-    useLen       = false,
-    useLast      = false,
-    useResp      = true,
-    useProt      = false,
-    useStrb      = false
-  )
-  def getAxiLiteCfg(addrWidth:Int,dataWidth:Int) = AxiLite4Config(
-    addressWidth = addrWidth,
-    dataWidth = dataWidth
+ // def getAxiConfigLite(dataWidth: Int, addrWidth: Int) = Axi4Config(
+ //   addressWidth = addrWidth,
+ //   dataWidth    = dataWidth,
+ //   useId        = false,
+ //   useRegion    = false,
+ //   useBurst     = false,
+ //   useLock      = false,
+ //   useCache     = false,
+ //   useSize      = false,
+ //   useQos       = false,
+ //   useLen       = false,
+ //   useLast      = false,
+ //   useResp      = true,
+ //   useProt      = false,
+ //   useStrb      = false
+ // )
+ // def getAxiLiteCfg(addrWidth:Int,dataWidth:Int) = AxiLite4Config(
+ //   addressWidth = addrWidth,
+ //   dataWidth = dataWidth
+ // )
+  def getAPB3cfg(apbAddr:Int,apbdata:Int)=Apb3Config(
+   addressWidth = apbAddr,
+   dataWidth = apbdata
   )
   def main(args: Array[String]) {
     SpinalConfig(targetDirectory = "VerilogHDL")//, oneFilePerComponent = true)
-      .generateVerilog(new cvt_stream2uint(8)).printPruned()
+      //.generateVerilog(new dmaWriteCtrl(256,32,6,32)).printPruned()
+      .generateVerilog(new data_narrows(32)).printPruned()
     //SpinalVerilog(new MyTopLevel)
   }
 }

@@ -14,12 +14,13 @@ import nvdla_bp.mem._
 
 case class bp_fpga_top(datawidth:Int,addrwidth:Int,idwidth:Int) extends Component {
   val axiconfig = MyTopLevelVerilog.getAxiConfig(datawidth, addrwidth, idwidth)
-  val axilitecfg = MyTopLevelVerilog.getAxiLiteCfg(32, 32)
+  //val axilitecfg = MyTopLevelVerilog.getAxiLiteCfg(32, 32)
   val io = new Bundle {
     val axim = master(Axi4ReadOnly(axiconfig))  // read data
     val axis_dwt = slave(Axi4WriteOnly(axiconfig)) // write delta weight
     val axis_sgm = slave(Axi4WriteOnly(axiconfig)) // write sigma
-    val axi4lite = slave(AxiLite4(axilitecfg)) // configure access
+    //val axi4lite = slave(AxiLite4(axilitecfg)) // configure access
+    val apb3s = slave(Apb)
   }
 /*
   // dma
