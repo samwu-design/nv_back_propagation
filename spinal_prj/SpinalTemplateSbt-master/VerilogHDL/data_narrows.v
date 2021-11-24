@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.5.0    git head : 83a031922866b078c411ec5529e00f1b6e79f8e7
 // Component : data_narrows
-// Git hash  : bda001c524e8942ad9c0d82ec98b87dd8e0ad7a3
+// Git hash  : cdd65268cacc451fd529ecbab953f555be63dd6a
 
 
 `define narrows_fsm_enumDefinition_binary_sequential_type [2:0]

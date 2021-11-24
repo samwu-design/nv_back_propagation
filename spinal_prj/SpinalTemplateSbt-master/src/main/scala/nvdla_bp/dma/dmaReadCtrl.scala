@@ -8,18 +8,6 @@ import nvdla_bp._
 import spinal.lib.fsm.{EntryPoint, State, StateMachine}
 
 
-case class dma_cfg() extends Bundle{
-  // default CUBE channel & Kernel Nume is 8
-  val dtBaseAddr = in UInt(64 bits)
-  val wtBaseAddr = in UInt(64 bits)
-  val dtWidth = in UInt(16 bits)
-  val dtHeight = in UInt(16 bits)
-  val wtWidth = in UInt(16 bits)
-  val wtHeight = in UInt(16 bits)
-  val oWidth = in UInt(16 bits)
-  val oHeight = in UInt(16 bits)
-}
-
 
 
 case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Component{
