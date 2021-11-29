@@ -51,7 +51,9 @@ object MyTopLevelVerilog {
   def main(args: Array[String]) {
     SpinalConfig(targetDirectory = "VerilogHDL")//, oneFilePerComponent = true)
       //.generateVerilog(new dmaWriteCtrl(256,32,6,32)).printPruned()
-      .generateVerilog(new bp_fpga_top(256,32,6,32,512)).printPruned()
+    .generateVerilog(new dma2buff(256,32,32)).printPruned()
+    //.generateVerilog(new bp_fpga_top(256,32,6,32,512)).printPruned()
+
     //SpinalVerilog(new MyTopLevel)
   }
 }

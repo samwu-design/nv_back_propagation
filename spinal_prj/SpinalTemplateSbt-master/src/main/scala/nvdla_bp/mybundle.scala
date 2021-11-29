@@ -9,19 +9,19 @@ import spinal.core._
 //  val wt_height = UInt(16 bits)
 //}
 
-case class globle_param() extends  Bundle{
-  val rd_dtBaseAddr = in UInt(32 bits)
-  val rd_wtBaseAddr = in UInt(32 bits)
-  val wr_delta_wt_BaseAddr = in UInt(32 bits)
-  val wr_sigma_BaseAddr = in UInt(32 bits)
-  val dtWidth = in UInt(16 bits)
-  val dtHeight = in UInt(16 bits)
-  val wtWidth = in UInt(16 bits)
-  val wtHeight = in UInt(16 bits)
-  val oWidth = in UInt(16 bits)
-  val oHeight = in UInt(16 bits)
-}
 
+case class glb_param() extends  Bundle{
+  val rd_dtBaseAddr =  UInt(32 bits)
+  val rd_wtBaseAddr =  UInt(32 bits)
+  val wr_delta_wt_BaseAddr =  UInt(32 bits)
+  val wr_sigma_BaseAddr =  UInt(32 bits)
+  val dtWidth =  UInt(16 bits)
+  val dtHeight =  UInt(16 bits)
+  val wtWidth =  UInt(16 bits)
+  val wtHeight =  UInt(16 bits)
+  val oWidth =  UInt(16 bits)
+  val oHeight =  UInt(16 bits)
+}
 
 
 
@@ -33,6 +33,8 @@ case class dma_cfg() extends Bundle{
   val dtHeight = in UInt(16 bits)
   val wtWidth = in UInt(16 bits)
   val wtHeight = in UInt(16 bits)
+  val oWidth = in UInt(16 bits)
+  val oHeight = in UInt(16 bits)
 }
 
 

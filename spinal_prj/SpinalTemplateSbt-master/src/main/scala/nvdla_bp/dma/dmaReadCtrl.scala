@@ -18,6 +18,7 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
     val output = master Stream(UInt(datawidth bits))
     val enable = in Bool()
     val isIdle = out Bool()
+    val is_dtwt_mux = out Bool()
   }
   noIoPrefix()
 
@@ -32,6 +33,8 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
 
   val dma_rd = new dma_read(datawidth,addrwidth,idwidth)
 
+  val is_dtwt_mux = Reg(Bool())init(False)
+  io.is_dtwt_mux := is_dtwt_mux
   io.isIdle := False
 
   dma_rd.io.enable := False
@@ -64,6 +67,7 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
     // update parameter only in needed time
     GET_PARAM.whenIsActive{
       par := io.cfg
+      is_dtwt_mux := True
       goto(READ_DT)
     }
 
@@ -85,6 +89,9 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
     CHECK_DT.whenIsActive{
       when(dma_rd.io.isIdle === True){
         when(dt_vcnt === par.dtHeight && dt_wcnt === par.dtWidth) {
+          burstlen := par.wtWidth.resized
+          BaseAddr := par.wtBaseAddr
+          is_dtwt_mux := False
           goto(READ_WT)
         }.otherwise{
           goto(READ_DT)
@@ -93,8 +100,6 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
     }
 
     READ_WT.whenIsActive{
-      burstlen := par.wtWidth.resized
-      BaseAddr := par.wtBaseAddr
       when(dma_rd.io.isIdle === True){
         dma_rd.io.enable := True
 
