@@ -16,10 +16,12 @@ case class config_space(apbAddr:Int,apbdata:Int) extends Component{
   val apb3cfg = MyTopLevelVerilog.getAPB3cfg(apbAddr:Int,apbdata:Int)
   val io = new Bundle{
     val apb = Apb3(apb3cfg)
-    //
+    // param
     val global_param = master Stream(glb_param())
 
+    // ctrol
     val glb_enable = out Bool()
+
   }
 
   io.global_param.payload <> cfg
@@ -40,7 +42,7 @@ case class config_space(apbAddr:Int,apbdata:Int) extends Component{
       switch(io.apb.PADDR){
         // enable
         is(B"32'h00000000"){
-          start := io.apb.PWDATA(0)
+          start := io.apb.PWDATA(0)  // only one cycle
         }
 
 

@@ -1,6 +1,6 @@
 package nvdla_bp.conv
 
-import nvdla_bp.{conv_cfg_param, ram_rd}
+import nvdla_bp._
 import spinal.core.{Bool, Bundle, Component, Reg, UInt, Vec, in, when}
 import spinal.lib.fsm.{EntryPoint, State, StateMachine}
 import spinal.lib._
@@ -9,7 +9,7 @@ import spinal.core._
 case class buff2conv(eleWidth: Int, addrwidth: Int) extends Component {
   val io = new Bundle {
     // config parameter
-    val cfg = slave Stream(conv_cfg_param())
+    val cfg = slave Stream(glb_param())
 
     // input ram port
     val dt_ramrd = ram_rd(addrwidth, eleWidth * 8)
@@ -25,11 +25,22 @@ case class buff2conv(eleWidth: Int, addrwidth: Int) extends Component {
   }
   noIoPrefix()
 
+
+  val idx = Reg(UInt(addrwidth bits)) init (0)
+  val idy = Reg(UInt(addrwidth bits)) init (0)
+
+  val window_posx = Reg(UInt(addrwidth bits)) init (0)
+  val window_posy = Reg(UInt(addrwidth bits)) init (0)
+
+  val last_window_x = Reg(UInt(addrwidth bits)) init (0)
+  val last_window_y = Reg(UInt(addrwidth bits)) init (0)
+
+
   val dt_rd_addr = Reg(UInt(addrwidth bits)) init (0)
   val wt_rd_addr = Reg(UInt(addrwidth bits)) init (0)
 
   val dt_rdata = Reg(UInt(eleWidth * 8 bits)) init (0)
-  val wt_rdata = Array.fill(8)(Reg(UInt(eleWidth * 8 bits)) init (0))
+  val wt_rdata = Vec(Reg(UInt(eleWidth * 8 bits)) init (0),8)
 
   // define a wire for easy coding
   val wire_wt_rden = Bool()
@@ -37,32 +48,38 @@ case class buff2conv(eleWidth: Int, addrwidth: Int) extends Component {
   val wire_wt_oready = Bool()
 
   // temp address idx register
-  val stripe_x = Reg(UInt(addrwidth bits)) init (0)
-  val stripe_y = Reg(UInt(addrwidth bits)) init (0)
-  val atom_x = Reg(UInt(addrwidth bits)) init (0)
-  val atom_y = Reg(UInt(addrwidth bits)) init (0)
-  val param = Reg(conv_cfg_param())
+  val param = Reg(glb_param())
 
-  val posx = UInt(16 bits)
-  val posy = UInt(16 bits)
+  val read_en = Bool()
+  val outvalid = Bool()
 
+  io.cfg.ready := True
+
+  read_en := False  // other states always False
+  outvalid := False
+
+  last_window_y := (param.dtHeight - param.wtHeight).resized
+  last_window_x := (param.dtWidth - param.wtWidth).resized
+
+//-------read dt
   param <> io.cfg
-  posy := (stripe_y + atom_y).resized
-  posx := (stripe_x + atom_x).resized
-
-  io.dt_ramrd.en := False
+  io.dt_ramrd.en := read_en
   io.dt_ramrd.addr := dt_rd_addr
+  dt_rd_addr := (window_posy*param.dtWidth + window_posx + idy*param.dtWidth + idx).resized
 
-  wire_wt_rden := False
+  //------read wt
+  wire_wt_rden := read_en
   for (i <- 0 until 8) {
     io.wt_ramrd(i).en := wire_wt_rden
     io.wt_ramrd(i).addr := wt_rd_addr // weight address is the same
   }
+  wt_rd_addr :=(idy*param.dtWidth + idx).resized
 
-  io.o_ft.valid := False
+//------- out
+  io.o_ft.valid := outvalid
   io.o_ft.payload := dt_rdata
 
-  wire_wt_ovalid := False
+  wire_wt_ovalid := outvalid
   for (i <- 0 until 8) {
     io.o_wt(i).valid := wire_wt_ovalid
     io.o_wt(i).payload := wt_rdata(i)
@@ -74,17 +91,11 @@ case class buff2conv(eleWidth: Int, addrwidth: Int) extends Component {
   val read_req_fsm = new StateMachine {
     val IDLE = new State with EntryPoint
     val INIT = new State
-    val UPDATA_CONV_WINDOW = new State
-    val INIT_CONV_IDX = new State
-    val CACU_ADDR = new State
     val READ = new State
-    val GET_DATA = new State
     val OUTPUT = new State
     val UPDATA_ADDR = new State
-    val CHECK = new State
-    val JUDGE = new State
-    val GEN_ADDR = new State
-    val END = new State
+    val UPDATA_CONV_WINDOW = new State
+    val CACU_ADDR = new State
 
     IDLE.whenIsActive {
       when(io.read_enable) {
@@ -93,97 +104,67 @@ case class buff2conv(eleWidth: Int, addrwidth: Int) extends Component {
     }
 
     INIT.whenIsActive {
-      stripe_x := 0
-      stripe_y := 0
-      atom_x := 0
-      atom_y := 0
+      idx := 0
+      idy := 0
+      window_posx := 0
+      window_posy := 0
       goto(READ)
     }
 
-    UPDATA_CONV_WINDOW.whenIsActive {
-      when(posy === param.dt_stridey) {
-        when(posx === param.dt_stridex) {
-          goto(IDLE)
-        }.otherwise {
-          stripe_x := stripe_x + 1
-          goto(INIT_CONV_IDX)
-        }
-      }.otherwise {
-        when(posx === param.dt_stridex) {
-          stripe_x := 0
-          stripe_y := stripe_y + 1
-          goto(INIT_CONV_IDX)
-        }.otherwise {
-          stripe_x := stripe_x + 1
-          goto(INIT_CONV_IDX)
-        }
-      }
-
-    }
-
-    INIT_CONV_IDX.whenIsActive {
-      atom_x := 0
-      atom_y := 0
-      goto(UPDATA_ADDR)
-    }
-
-    UPDATA_ADDR.whenIsActive {
-      when(atom_y === param.wt_stridey) {
-        when(atom_x === param.wt_stridex) {
-          goto(UPDATA_CONV_WINDOW)
-        }.otherwise {
-          when(atom_x === param.wt_stridex) {
-            atom_x := 0
-            atom_y := atom_y + 1
-            goto(READ)
-          }.otherwise {
-            atom_x := atom_x + 1
-            goto(READ)
-          }
-        }
-      }
-
-    }
-
-    CACU_ADDR.whenIsActive {
-      wt_rd_addr := (atom_y * param.wt_stridex + atom_x).resized
-      when((posy >= param.top_pad) && (posy < (param.top_pad + param.fea_height)) && (posx >= param.left_pad) && (posx < (param.left_pad + param.fea_width))) {
-        dt_rd_addr := ((posy - param.top_pad) * (param.fea_width) + (posx - param.left_pad)).resized
-      }
-      goto(READ)
-    }
-    // only once
-    READ.whenIsActive {
-      when((posy >= param.top_pad) && (posy < (param.top_pad + param.fea_height)) && (posx >= param.left_pad) && (posx < (param.left_pad + param.fea_width))) {
-        io.dt_ramrd.en := True
-      }
-      for (i <- 0 until 8) {
-        io.wt_ramrd(i).en := True
-      }
-      goto(GET_DATA)
-    }
-
-    GET_DATA.whenIsActive {
-      // only nopadding position need read
-      when((posy >= param.top_pad) && (posy < (param.top_pad + param.fea_height)) && (posx >= param.left_pad) && (posx < (param.left_pad + param.fea_width))) {
-        dt_rdata := io.dt_ramrd.data
-      }.otherwise {
-        dt_rdata := 0
-      }
-      // always need read wt data
-      for (i <- 0 until 8) {
+    READ.whenIsActive{
+      read_en := True
+      dt_rdata := io.dt_ramrd.data
+      for(i<- 0 until 8){
         wt_rdata(i) := io.wt_ramrd(i).data
       }
       goto(OUTPUT)
     }
 
-    OUTPUT.whenIsActive {
-      when(io.o_ft.ready === True && wire_wt_oready === True) {
-        io.o_ft.valid := True
-        wire_wt_ovalid := True
+    OUTPUT.whenIsActive{
+      when(io.o_ft.ready && wire_wt_oready){
+        outvalid := True
         goto(UPDATA_ADDR)
       }
     }
+
+    UPDATA_ADDR.whenIsActive{
+      when(idy === param.wtHeight - 1 && idx === param.wtWidth - 1){
+        idx := 0
+        idy := 0
+        goto(UPDATA_CONV_WINDOW) //
+      }.otherwise{
+        when(idx === param.wtWidth - 1){
+          idy := idy + 1
+          idx := 0
+          goto(CACU_ADDR)
+        }.otherwise{
+          idx := idx + 1
+          goto(CACU_ADDR)
+        }
+      }
+    }
+
+    UPDATA_CONV_WINDOW.whenIsActive{
+      when(window_posy === last_window_y && window_posx === last_window_x){
+          goto(IDLE) //
+        }.otherwise{
+          when(window_posx === last_window_x){
+            window_posx := 0
+            window_posy := window_posy + 1
+            goto(CACU_ADDR)
+          }.otherwise{
+            window_posx := window_posx + 1
+            goto(CACU_ADDR)
+          }
+      }
+    }
+
+   CACU_ADDR.whenIsActive{
+     goto(READ)
+   }
+
+
+
   }
 
 }

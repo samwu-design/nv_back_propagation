@@ -1,23 +1,17 @@
 // Generator : SpinalHDL v1.5.0    git head : 83a031922866b078c411ec5529e00f1b6e79f8e7
 // Component : conv_top
-// Git hash  : 4b713bfe97cfc123fdb083a63b49b96328c070fd
+// Git hash  : d1748fa828734f540bceba79d62faef7494e65f6
 
 
-`define read_req_fsm_enumDefinition_binary_sequential_type [3:0]
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_BOOT 4'b0000
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE 4'b0001
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT 4'b0010
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW 4'b0011
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX 4'b0100
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR 4'b0101
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ 4'b0110
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA 4'b0111
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT 4'b1000
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR 4'b1001
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CHECK 4'b1010
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_JUDGE 4'b1011
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GEN_ADDR 4'b1100
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END 4'b1101
+`define read_req_fsm_enumDefinition_binary_sequential_type [2:0]
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_BOOT 3'b000
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE 3'b001
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT 3'b010
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ 3'b011
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT 3'b100
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR 3'b101
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW 3'b110
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR 3'b111
 
 `define acc_fsm_enumDefinition_binary_sequential_type [2:0]
 `define acc_fsm_enumDefinition_binary_sequential_acc_fsm_BOOT 3'b000
@@ -603,28 +597,21 @@
 
 
 module conv_top (
-  input      [15:0]   cfg_fea_width,
-  input      [15:0]   cfg_fea_height,
-  input      [15:0]   cfg_fea_channel,
-  input      [15:0]   cfg_wt_width,
-  input      [15:0]   cfg_wt_height,
-  input      [15:0]   cfg_wt_channel,
-  input      [15:0]   cfg_kerNum,
-  input      [15:0]   cfg_o_width,
-  input      [15:0]   cfg_o_height,
-  input      [15:0]   cfg_o_channel,
-  input      [15:0]   cfg_top_pad,
-  input      [15:0]   cfg_bot_pad,
-  input      [15:0]   cfg_left_pad,
-  input      [15:0]   cfg_right_pad,
-  input      [15:0]   cfg_dt_stridex,
-  input      [15:0]   cfg_dt_stridey,
-  input      [15:0]   cfg_wt_stridex,
-  input      [15:0]   cfg_wt_stridey,
-  input      [15:0]   cfg_par_acc_cnt,
-  input               ctrl_read_enable,
-  input               ctrl_acc_enable,
-  input               ctrl_is_delta_wt,
+  input               cfg_valid,
+  output              cfg_ready,
+  input      [31:0]   cfg_payload_rd_dtBaseAddr,
+  input      [31:0]   cfg_payload_rd_wtBaseAddr,
+  input      [31:0]   cfg_payload_wr_delta_wt_BaseAddr,
+  input      [31:0]   cfg_payload_wr_sigma_BaseAddr,
+  input      [15:0]   cfg_payload_dtWidth,
+  input      [15:0]   cfg_payload_dtHeight,
+  input      [15:0]   cfg_payload_wtWidth,
+  input      [15:0]   cfg_payload_wtHeight,
+  input      [15:0]   cfg_payload_oWidth,
+  input      [15:0]   cfg_payload_oHeight,
+  input               read_enable,
+  input               acc_enable,
+  input               is_delta_wt,
   output     [31:0]   dt_ramrd_addr,
   input      [255:0]  dt_ramrd_data,
   output              dt_ramrd_en,
@@ -1039,6 +1026,8 @@ module conv_top (
   input               clk,
   input               reset
 );
+  wire       [15:0]   conv_core_par_acc_cnt;
+  wire                read_req_cfg_ready;
   wire       [31:0]   read_req_dt_ramrd_addr;
   wire                read_req_dt_ramrd_en;
   wire       [31:0]   read_req_wt_ramrd_0_addr;
@@ -1748,84 +1737,81 @@ module conv_top (
   wire       [31:0]   mux_io_o_sigma_7_6_payload;
   wire                mux_io_o_sigma_7_7_valid;
   wire       [31:0]   mux_io_o_sigma_7_7_payload;
+  wire       [31:0]   _zz_par_acc_cnt;
+  wire       [31:0]   _zz_par_acc_cnt_1;
 
-  read_req4conv read_req (
-    .cfg_fea_width      (cfg_fea_width             ), //i
-    .cfg_fea_height     (cfg_fea_height            ), //i
-    .cfg_fea_channel    (cfg_fea_channel           ), //i
-    .cfg_wt_width       (cfg_wt_width              ), //i
-    .cfg_wt_height      (cfg_wt_height             ), //i
-    .cfg_wt_channel     (cfg_wt_channel            ), //i
-    .cfg_kerNum         (cfg_kerNum                ), //i
-    .cfg_o_width        (cfg_o_width               ), //i
-    .cfg_o_height       (cfg_o_height              ), //i
-    .cfg_o_channel      (cfg_o_channel             ), //i
-    .cfg_top_pad        (cfg_top_pad               ), //i
-    .cfg_bot_pad        (cfg_bot_pad               ), //i
-    .cfg_left_pad       (cfg_left_pad              ), //i
-    .cfg_right_pad      (cfg_right_pad             ), //i
-    .cfg_dt_stridex     (cfg_dt_stridex            ), //i
-    .cfg_dt_stridey     (cfg_dt_stridey            ), //i
-    .cfg_wt_stridex     (cfg_wt_stridex            ), //i
-    .cfg_wt_stridey     (cfg_wt_stridey            ), //i
-    .cfg_par_acc_cnt    (cfg_par_acc_cnt           ), //i
-    .dt_ramrd_addr      (read_req_dt_ramrd_addr    ), //o
-    .dt_ramrd_data      (dt_ramrd_data             ), //i
-    .dt_ramrd_en        (read_req_dt_ramrd_en      ), //o
-    .wt_ramrd_0_addr    (read_req_wt_ramrd_0_addr  ), //o
-    .wt_ramrd_0_data    (wt_ramrd_0_data           ), //i
-    .wt_ramrd_0_en      (read_req_wt_ramrd_0_en    ), //o
-    .wt_ramrd_1_addr    (read_req_wt_ramrd_1_addr  ), //o
-    .wt_ramrd_1_data    (wt_ramrd_1_data           ), //i
-    .wt_ramrd_1_en      (read_req_wt_ramrd_1_en    ), //o
-    .wt_ramrd_2_addr    (read_req_wt_ramrd_2_addr  ), //o
-    .wt_ramrd_2_data    (wt_ramrd_2_data           ), //i
-    .wt_ramrd_2_en      (read_req_wt_ramrd_2_en    ), //o
-    .wt_ramrd_3_addr    (read_req_wt_ramrd_3_addr  ), //o
-    .wt_ramrd_3_data    (wt_ramrd_3_data           ), //i
-    .wt_ramrd_3_en      (read_req_wt_ramrd_3_en    ), //o
-    .wt_ramrd_4_addr    (read_req_wt_ramrd_4_addr  ), //o
-    .wt_ramrd_4_data    (wt_ramrd_4_data           ), //i
-    .wt_ramrd_4_en      (read_req_wt_ramrd_4_en    ), //o
-    .wt_ramrd_5_addr    (read_req_wt_ramrd_5_addr  ), //o
-    .wt_ramrd_5_data    (wt_ramrd_5_data           ), //i
-    .wt_ramrd_5_en      (read_req_wt_ramrd_5_en    ), //o
-    .wt_ramrd_6_addr    (read_req_wt_ramrd_6_addr  ), //o
-    .wt_ramrd_6_data    (wt_ramrd_6_data           ), //i
-    .wt_ramrd_6_en      (read_req_wt_ramrd_6_en    ), //o
-    .wt_ramrd_7_addr    (read_req_wt_ramrd_7_addr  ), //o
-    .wt_ramrd_7_data    (wt_ramrd_7_data           ), //i
-    .wt_ramrd_7_en      (read_req_wt_ramrd_7_en    ), //o
-    .o_ft_valid         (read_req_o_ft_valid       ), //o
-    .o_ft_ready         (data_cvt_io_i_ft_ready    ), //i
-    .o_ft_payload       (read_req_o_ft_payload     ), //o
-    .o_wt_0_valid       (read_req_o_wt_0_valid     ), //o
-    .o_wt_0_ready       (data_cvt_io_i_wt_0_ready  ), //i
-    .o_wt_0_payload     (read_req_o_wt_0_payload   ), //o
-    .o_wt_1_valid       (read_req_o_wt_1_valid     ), //o
-    .o_wt_1_ready       (data_cvt_io_i_wt_1_ready  ), //i
-    .o_wt_1_payload     (read_req_o_wt_1_payload   ), //o
-    .o_wt_2_valid       (read_req_o_wt_2_valid     ), //o
-    .o_wt_2_ready       (data_cvt_io_i_wt_2_ready  ), //i
-    .o_wt_2_payload     (read_req_o_wt_2_payload   ), //o
-    .o_wt_3_valid       (read_req_o_wt_3_valid     ), //o
-    .o_wt_3_ready       (data_cvt_io_i_wt_3_ready  ), //i
-    .o_wt_3_payload     (read_req_o_wt_3_payload   ), //o
-    .o_wt_4_valid       (read_req_o_wt_4_valid     ), //o
-    .o_wt_4_ready       (data_cvt_io_i_wt_4_ready  ), //i
-    .o_wt_4_payload     (read_req_o_wt_4_payload   ), //o
-    .o_wt_5_valid       (read_req_o_wt_5_valid     ), //o
-    .o_wt_5_ready       (data_cvt_io_i_wt_5_ready  ), //i
-    .o_wt_5_payload     (read_req_o_wt_5_payload   ), //o
-    .o_wt_6_valid       (read_req_o_wt_6_valid     ), //o
-    .o_wt_6_ready       (data_cvt_io_i_wt_6_ready  ), //i
-    .o_wt_6_payload     (read_req_o_wt_6_payload   ), //o
-    .o_wt_7_valid       (read_req_o_wt_7_valid     ), //o
-    .o_wt_7_ready       (data_cvt_io_i_wt_7_ready  ), //i
-    .o_wt_7_payload     (read_req_o_wt_7_payload   ), //o
-    .read_enable        (ctrl_read_enable          ), //i
-    .clk                (clk                       ), //i
-    .reset              (reset                     )  //i
+  assign _zz_par_acc_cnt = (_zz_par_acc_cnt_1 - 32'h00000001);
+  assign _zz_par_acc_cnt_1 = (cfg_payload_wtWidth * cfg_payload_wtHeight);
+  buff2conv read_req (
+    .cfg_valid                           (cfg_valid                         ), //i
+    .cfg_ready                           (read_req_cfg_ready                ), //o
+    .cfg_payload_rd_dtBaseAddr           (cfg_payload_rd_dtBaseAddr         ), //i
+    .cfg_payload_rd_wtBaseAddr           (cfg_payload_rd_wtBaseAddr         ), //i
+    .cfg_payload_wr_delta_wt_BaseAddr    (cfg_payload_wr_delta_wt_BaseAddr  ), //i
+    .cfg_payload_wr_sigma_BaseAddr       (cfg_payload_wr_sigma_BaseAddr     ), //i
+    .cfg_payload_dtWidth                 (cfg_payload_dtWidth               ), //i
+    .cfg_payload_dtHeight                (cfg_payload_dtHeight              ), //i
+    .cfg_payload_wtWidth                 (cfg_payload_wtWidth               ), //i
+    .cfg_payload_wtHeight                (cfg_payload_wtHeight              ), //i
+    .cfg_payload_oWidth                  (cfg_payload_oWidth                ), //i
+    .cfg_payload_oHeight                 (cfg_payload_oHeight               ), //i
+    .dt_ramrd_addr                       (read_req_dt_ramrd_addr            ), //o
+    .dt_ramrd_data                       (dt_ramrd_data                     ), //i
+    .dt_ramrd_en                         (read_req_dt_ramrd_en              ), //o
+    .wt_ramrd_0_addr                     (read_req_wt_ramrd_0_addr          ), //o
+    .wt_ramrd_0_data                     (wt_ramrd_0_data                   ), //i
+    .wt_ramrd_0_en                       (read_req_wt_ramrd_0_en            ), //o
+    .wt_ramrd_1_addr                     (read_req_wt_ramrd_1_addr          ), //o
+    .wt_ramrd_1_data                     (wt_ramrd_1_data                   ), //i
+    .wt_ramrd_1_en                       (read_req_wt_ramrd_1_en            ), //o
+    .wt_ramrd_2_addr                     (read_req_wt_ramrd_2_addr          ), //o
+    .wt_ramrd_2_data                     (wt_ramrd_2_data                   ), //i
+    .wt_ramrd_2_en                       (read_req_wt_ramrd_2_en            ), //o
+    .wt_ramrd_3_addr                     (read_req_wt_ramrd_3_addr          ), //o
+    .wt_ramrd_3_data                     (wt_ramrd_3_data                   ), //i
+    .wt_ramrd_3_en                       (read_req_wt_ramrd_3_en            ), //o
+    .wt_ramrd_4_addr                     (read_req_wt_ramrd_4_addr          ), //o
+    .wt_ramrd_4_data                     (wt_ramrd_4_data                   ), //i
+    .wt_ramrd_4_en                       (read_req_wt_ramrd_4_en            ), //o
+    .wt_ramrd_5_addr                     (read_req_wt_ramrd_5_addr          ), //o
+    .wt_ramrd_5_data                     (wt_ramrd_5_data                   ), //i
+    .wt_ramrd_5_en                       (read_req_wt_ramrd_5_en            ), //o
+    .wt_ramrd_6_addr                     (read_req_wt_ramrd_6_addr          ), //o
+    .wt_ramrd_6_data                     (wt_ramrd_6_data                   ), //i
+    .wt_ramrd_6_en                       (read_req_wt_ramrd_6_en            ), //o
+    .wt_ramrd_7_addr                     (read_req_wt_ramrd_7_addr          ), //o
+    .wt_ramrd_7_data                     (wt_ramrd_7_data                   ), //i
+    .wt_ramrd_7_en                       (read_req_wt_ramrd_7_en            ), //o
+    .o_ft_valid                          (read_req_o_ft_valid               ), //o
+    .o_ft_ready                          (data_cvt_io_i_ft_ready            ), //i
+    .o_ft_payload                        (read_req_o_ft_payload             ), //o
+    .o_wt_0_valid                        (read_req_o_wt_0_valid             ), //o
+    .o_wt_0_ready                        (data_cvt_io_i_wt_0_ready          ), //i
+    .o_wt_0_payload                      (read_req_o_wt_0_payload           ), //o
+    .o_wt_1_valid                        (read_req_o_wt_1_valid             ), //o
+    .o_wt_1_ready                        (data_cvt_io_i_wt_1_ready          ), //i
+    .o_wt_1_payload                      (read_req_o_wt_1_payload           ), //o
+    .o_wt_2_valid                        (read_req_o_wt_2_valid             ), //o
+    .o_wt_2_ready                        (data_cvt_io_i_wt_2_ready          ), //i
+    .o_wt_2_payload                      (read_req_o_wt_2_payload           ), //o
+    .o_wt_3_valid                        (read_req_o_wt_3_valid             ), //o
+    .o_wt_3_ready                        (data_cvt_io_i_wt_3_ready          ), //i
+    .o_wt_3_payload                      (read_req_o_wt_3_payload           ), //o
+    .o_wt_4_valid                        (read_req_o_wt_4_valid             ), //o
+    .o_wt_4_ready                        (data_cvt_io_i_wt_4_ready          ), //i
+    .o_wt_4_payload                      (read_req_o_wt_4_payload           ), //o
+    .o_wt_5_valid                        (read_req_o_wt_5_valid             ), //o
+    .o_wt_5_ready                        (data_cvt_io_i_wt_5_ready          ), //i
+    .o_wt_5_payload                      (read_req_o_wt_5_payload           ), //o
+    .o_wt_6_valid                        (read_req_o_wt_6_valid             ), //o
+    .o_wt_6_ready                        (data_cvt_io_i_wt_6_ready          ), //i
+    .o_wt_6_payload                      (read_req_o_wt_6_payload           ), //o
+    .o_wt_7_valid                        (read_req_o_wt_7_valid             ), //o
+    .o_wt_7_ready                        (data_cvt_io_i_wt_7_ready          ), //i
+    .o_wt_7_payload                      (read_req_o_wt_7_payload           ), //o
+    .read_enable                         (read_enable                       ), //i
+    .clk                                 (clk                               ), //i
+    .reset                               (reset                             )  //i
   );
   dataType_cvt_in data_cvt (
     .io_i_ft_valid          (read_req_o_ft_valid           ), //i
@@ -2481,13 +2467,13 @@ module conv_top (
     .s_out_7_7_valid      (conv_core_s_out_7_7_valid     ), //o
     .s_out_7_7_ready      (mux_io_indata_7_7_ready       ), //i
     .s_out_7_7_payload    (conv_core_s_out_7_7_payload   ), //o
-    .par_acc_cnt          (cfg_par_acc_cnt               ), //i
-    .acc_enable           (ctrl_acc_enable               ), //i
+    .par_acc_cnt          (conv_core_par_acc_cnt         ), //i
+    .acc_enable           (acc_enable                    ), //i
     .clk                  (clk                           ), //i
     .reset                (reset                         )  //i
   );
   conv_mux mux (
-    .io_is_delta_wt               (ctrl_is_delta_wt               ), //i
+    .io_is_delta_wt               (is_delta_wt                    ), //i
     .io_indata_0_0_valid          (conv_core_s_out_0_0_valid      ), //i
     .io_indata_0_0_ready          (mux_io_indata_0_0_ready        ), //o
     .io_indata_0_0_payload        (conv_core_s_out_0_0_payload    ), //i
@@ -3067,6 +3053,7 @@ module conv_top (
     .clk                          (clk                            ), //i
     .reset                        (reset                          )  //i
   );
+  assign cfg_ready = read_req_cfg_ready;
   assign dt_ramrd_addr = read_req_dt_ramrd_addr;
   assign dt_ramrd_en = read_req_dt_ramrd_en;
   assign wt_ramrd_0_addr = read_req_wt_ramrd_0_addr;
@@ -3085,6 +3072,7 @@ module conv_top (
   assign wt_ramrd_6_en = read_req_wt_ramrd_6_en;
   assign wt_ramrd_7_addr = read_req_wt_ramrd_7_addr;
   assign wt_ramrd_7_en = read_req_wt_ramrd_7_en;
+  assign conv_core_par_acc_cnt = _zz_par_acc_cnt[15:0];
   assign o_delta_wt_0_0_valid = mux_io_o_delta_wt_0_0_valid;
   assign o_delta_wt_0_0_payload = mux_io_o_delta_wt_0_0_payload;
   assign o_delta_wt_0_1_valid = mux_io_o_delta_wt_0_1_valid;
@@ -4024,10 +4012,10 @@ module conv_mux (
   wire                mux_fsm_wantKill;
   reg        `mux_fsm_enumDefinition_binary_sequential_type mux_fsm_stateReg;
   reg        `mux_fsm_enumDefinition_binary_sequential_type mux_fsm_stateNext;
-  wire                when_conv_mux_l86;
-  wire                when_conv_mux_l95;
-  wire                when_conv_mux_l106;
-  wire                when_conv_mux_l113;
+  wire                when_conv_mux_l83;
+  wire                when_conv_mux_l92;
+  wire                when_conv_mux_l103;
+  wire                when_conv_mux_l110;
   `ifndef SYNTHESIS
   reg [111:0] mux_fsm_stateReg_string;
   reg [111:0] mux_fsm_stateNext_string;
@@ -4468,8 +4456,8 @@ module conv_mux (
     mux_fsm_stateNext = mux_fsm_stateReg;
     case(mux_fsm_stateReg)
       `mux_fsm_enumDefinition_binary_sequential_mux_fsm_RCV : begin
-        if(when_conv_mux_l86) begin
-          if(when_conv_mux_l95) begin
+        if(when_conv_mux_l83) begin
+          if(when_conv_mux_l92) begin
             mux_fsm_stateNext = `mux_fsm_enumDefinition_binary_sequential_mux_fsm_ODELTA;
           end else begin
             mux_fsm_stateNext = `mux_fsm_enumDefinition_binary_sequential_mux_fsm_OSIGMA;
@@ -4477,12 +4465,12 @@ module conv_mux (
         end
       end
       `mux_fsm_enumDefinition_binary_sequential_mux_fsm_ODELTA : begin
-        if(when_conv_mux_l106) begin
+        if(when_conv_mux_l103) begin
           mux_fsm_stateNext = `mux_fsm_enumDefinition_binary_sequential_mux_fsm_RCV;
         end
       end
       `mux_fsm_enumDefinition_binary_sequential_mux_fsm_OSIGMA : begin
-        if(when_conv_mux_l113) begin
+        if(when_conv_mux_l110) begin
           mux_fsm_stateNext = `mux_fsm_enumDefinition_binary_sequential_mux_fsm_RCV;
         end
       end
@@ -4497,10 +4485,10 @@ module conv_mux (
     end
   end
 
-  assign when_conv_mux_l86 = (indata_valid && indata_ready);
-  assign when_conv_mux_l95 = (io_is_delta_wt == 1'b1);
-  assign when_conv_mux_l106 = (o_delta_wt_valid && o_delta_wt_ready);
-  assign when_conv_mux_l113 = (o_sigma_valid && o_sigma_ready);
+  assign when_conv_mux_l83 = (indata_valid && indata_ready);
+  assign when_conv_mux_l92 = (io_is_delta_wt == 1'b1);
+  assign when_conv_mux_l103 = (o_delta_wt_valid && o_delta_wt_ready);
+  assign when_conv_mux_l110 = (o_sigma_valid && o_sigma_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
       temp_0_0 <= 32'h0;
@@ -4572,7 +4560,7 @@ module conv_mux (
       mux_fsm_stateReg <= mux_fsm_stateNext;
       case(mux_fsm_stateReg)
         `mux_fsm_enumDefinition_binary_sequential_mux_fsm_RCV : begin
-          if(when_conv_mux_l86) begin
+          if(when_conv_mux_l83) begin
             temp_0_0 <= io_indata_0_0_payload;
             temp_0_1 <= io_indata_0_1_payload;
             temp_0_2 <= io_indata_0_2_payload;
@@ -6984,54 +6972,47 @@ module dataType_cvt_in (
 
 endmodule
 
-module read_req4conv (
-  input      [15:0]   cfg_fea_width,
-  input      [15:0]   cfg_fea_height,
-  input      [15:0]   cfg_fea_channel,
-  input      [15:0]   cfg_wt_width,
-  input      [15:0]   cfg_wt_height,
-  input      [15:0]   cfg_wt_channel,
-  input      [15:0]   cfg_kerNum,
-  input      [15:0]   cfg_o_width,
-  input      [15:0]   cfg_o_height,
-  input      [15:0]   cfg_o_channel,
-  input      [15:0]   cfg_top_pad,
-  input      [15:0]   cfg_bot_pad,
-  input      [15:0]   cfg_left_pad,
-  input      [15:0]   cfg_right_pad,
-  input      [15:0]   cfg_dt_stridex,
-  input      [15:0]   cfg_dt_stridey,
-  input      [15:0]   cfg_wt_stridex,
-  input      [15:0]   cfg_wt_stridey,
-  input      [15:0]   cfg_par_acc_cnt,
+module buff2conv (
+  input               cfg_valid,
+  output              cfg_ready,
+  input      [31:0]   cfg_payload_rd_dtBaseAddr,
+  input      [31:0]   cfg_payload_rd_wtBaseAddr,
+  input      [31:0]   cfg_payload_wr_delta_wt_BaseAddr,
+  input      [31:0]   cfg_payload_wr_sigma_BaseAddr,
+  input      [15:0]   cfg_payload_dtWidth,
+  input      [15:0]   cfg_payload_dtHeight,
+  input      [15:0]   cfg_payload_wtWidth,
+  input      [15:0]   cfg_payload_wtHeight,
+  input      [15:0]   cfg_payload_oWidth,
+  input      [15:0]   cfg_payload_oHeight,
   output     [31:0]   dt_ramrd_addr,
   input      [255:0]  dt_ramrd_data,
-  output reg          dt_ramrd_en,
+  output              dt_ramrd_en,
   output     [31:0]   wt_ramrd_0_addr,
   input      [255:0]  wt_ramrd_0_data,
-  output reg          wt_ramrd_0_en,
+  output              wt_ramrd_0_en,
   output     [31:0]   wt_ramrd_1_addr,
   input      [255:0]  wt_ramrd_1_data,
-  output reg          wt_ramrd_1_en,
+  output              wt_ramrd_1_en,
   output     [31:0]   wt_ramrd_2_addr,
   input      [255:0]  wt_ramrd_2_data,
-  output reg          wt_ramrd_2_en,
+  output              wt_ramrd_2_en,
   output     [31:0]   wt_ramrd_3_addr,
   input      [255:0]  wt_ramrd_3_data,
-  output reg          wt_ramrd_3_en,
+  output              wt_ramrd_3_en,
   output     [31:0]   wt_ramrd_4_addr,
   input      [255:0]  wt_ramrd_4_data,
-  output reg          wt_ramrd_4_en,
+  output              wt_ramrd_4_en,
   output     [31:0]   wt_ramrd_5_addr,
   input      [255:0]  wt_ramrd_5_data,
-  output reg          wt_ramrd_5_en,
+  output              wt_ramrd_5_en,
   output     [31:0]   wt_ramrd_6_addr,
   input      [255:0]  wt_ramrd_6_data,
-  output reg          wt_ramrd_6_en,
+  output              wt_ramrd_6_en,
   output     [31:0]   wt_ramrd_7_addr,
   input      [255:0]  wt_ramrd_7_data,
-  output reg          wt_ramrd_7_en,
-  output reg          o_ft_valid,
+  output              wt_ramrd_7_en,
+  output              o_ft_valid,
   input               o_ft_ready,
   output     [255:0]  o_ft_payload,
   output              o_wt_0_valid,
@@ -7062,24 +7043,30 @@ module read_req4conv (
   input               clk,
   input               reset
 );
-  wire       [31:0]   _zz_posy;
-  wire       [31:0]   _zz_posx;
+  wire       [15:0]   _zz_last_window_y;
+  wire       [15:0]   _zz_last_window_x;
+  wire       [47:0]   _zz_dt_rd_addr;
+  wire       [47:0]   _zz_dt_rd_addr_1;
+  wire       [47:0]   _zz_dt_rd_addr_2;
+  wire       [47:0]   _zz_dt_rd_addr_3;
+  wire       [47:0]   _zz_dt_rd_addr_4;
+  wire       [47:0]   _zz_dt_rd_addr_5;
+  wire       [47:0]   _zz_dt_rd_addr_6;
   wire       [47:0]   _zz_wt_rd_addr;
   wire       [47:0]   _zz_wt_rd_addr_1;
   wire       [47:0]   _zz_wt_rd_addr_2;
-  wire       [15:0]   _zz_when_read_req4conv_l150;
-  wire       [15:0]   _zz_when_read_req4conv_l150_1;
-  wire       [31:0]   _zz_dt_rd_addr;
-  wire       [15:0]   _zz_dt_rd_addr_1;
-  wire       [31:0]   _zz_dt_rd_addr_2;
-  wire       [15:0]   _zz_dt_rd_addr_3;
-  wire       [15:0]   _zz_when_read_req4conv_l157;
-  wire       [15:0]   _zz_when_read_req4conv_l157_1;
-  wire       [15:0]   _zz_when_read_req4conv_l168;
-  wire       [15:0]   _zz_when_read_req4conv_l168_1;
-  wire       [31:0]   _zz_when_read_req4conv_l131;
-  wire       [31:0]   _zz_when_read_req4conv_l132;
-  wire       [31:0]   _zz_when_read_req4conv_l135;
+  wire       [31:0]   _zz_when_buff2conv_l131;
+  wire       [15:0]   _zz_when_buff2conv_l131_1;
+  wire       [31:0]   _zz_when_buff2conv_l131_2;
+  wire       [15:0]   _zz_when_buff2conv_l131_3;
+  wire       [31:0]   _zz_when_buff2conv_l136;
+  wire       [15:0]   _zz_when_buff2conv_l136_1;
+  reg        [31:0]   idx;
+  reg        [31:0]   idy;
+  reg        [31:0]   window_posx;
+  reg        [31:0]   window_posy;
+  reg        [31:0]   last_window_x;
+  reg        [31:0]   last_window_y;
   reg        [31:0]   dt_rd_addr;
   reg        [31:0]   wt_rd_addr;
   reg        [255:0]  dt_rdata;
@@ -7092,89 +7079,65 @@ module read_req4conv (
   reg        [255:0]  wt_rdata_6;
   reg        [255:0]  wt_rdata_7;
   wire                wire_wt_rden;
-  reg                 wire_wt_ovalid;
+  wire                wire_wt_ovalid;
   wire                wire_wt_oready;
-  reg        [31:0]   stripe_x;
-  reg        [31:0]   stripe_y;
-  reg        [31:0]   atom_x;
-  reg        [31:0]   atom_y;
-  reg        [15:0]   param_fea_width;
-  reg        [15:0]   param_fea_height;
-  reg        [15:0]   param_fea_channel;
-  reg        [15:0]   param_wt_width;
-  reg        [15:0]   param_wt_height;
-  reg        [15:0]   param_wt_channel;
-  reg        [15:0]   param_kerNum;
-  reg        [15:0]   param_o_width;
-  reg        [15:0]   param_o_height;
-  reg        [15:0]   param_o_channel;
-  reg        [15:0]   param_top_pad;
-  reg        [15:0]   param_bot_pad;
-  reg        [15:0]   param_left_pad;
-  reg        [15:0]   param_right_pad;
-  reg        [15:0]   param_dt_stridex;
-  reg        [15:0]   param_dt_stridey;
-  reg        [15:0]   param_wt_stridex;
-  reg        [15:0]   param_wt_stridey;
-  reg        [15:0]   param_par_acc_cnt;
-  wire       [15:0]   posx;
-  wire       [15:0]   posy;
+  reg        [31:0]   param_rd_dtBaseAddr;
+  reg        [31:0]   param_rd_wtBaseAddr;
+  reg        [31:0]   param_wr_delta_wt_BaseAddr;
+  reg        [31:0]   param_wr_sigma_BaseAddr;
+  reg        [15:0]   param_dtWidth;
+  reg        [15:0]   param_dtHeight;
+  reg        [15:0]   param_wtWidth;
+  reg        [15:0]   param_wtHeight;
+  reg        [15:0]   param_oWidth;
+  reg        [15:0]   param_oHeight;
+  reg                 read_en;
+  reg                 outvalid;
   wire                read_req_fsm_wantExit;
   reg                 read_req_fsm_wantStart;
   wire                read_req_fsm_wantKill;
   reg        `read_req_fsm_enumDefinition_binary_sequential_type read_req_fsm_stateReg;
   reg        `read_req_fsm_enumDefinition_binary_sequential_type read_req_fsm_stateNext;
-  wire                when_read_req4conv_l104;
-  wire                when_read_req4conv_l105;
-  wire                when_read_req4conv_l112;
-  wire                when_read_req4conv_l150;
-  wire                when_read_req4conv_l157;
-  wire                when_read_req4conv_l168;
-  wire                when_read_req4conv_l181;
-  wire                when_read_req4conv_l131;
-  wire                when_read_req4conv_l132;
-  wire                when_read_req4conv_l135;
+  wire                when_buff2conv_l124;
+  wire                when_buff2conv_l131;
+  wire                when_buff2conv_l136;
+  wire                when_buff2conv_l148;
+  wire                when_buff2conv_l151;
   `ifndef SYNTHESIS
   reg [247:0] read_req_fsm_stateReg_string;
   reg [247:0] read_req_fsm_stateNext_string;
   `endif
 
 
-  assign _zz_posy = (stripe_y + atom_y);
-  assign _zz_posx = (stripe_x + atom_x);
+  assign _zz_last_window_y = (param_dtHeight - param_wtHeight);
+  assign _zz_last_window_x = (param_dtWidth - param_wtWidth);
+  assign _zz_dt_rd_addr = (_zz_dt_rd_addr_1 + _zz_dt_rd_addr_6);
+  assign _zz_dt_rd_addr_1 = (_zz_dt_rd_addr_2 + _zz_dt_rd_addr_5);
+  assign _zz_dt_rd_addr_2 = (_zz_dt_rd_addr_3 + _zz_dt_rd_addr_4);
+  assign _zz_dt_rd_addr_3 = (window_posy * param_dtWidth);
+  assign _zz_dt_rd_addr_4 = {16'd0, window_posx};
+  assign _zz_dt_rd_addr_5 = (idy * param_dtWidth);
+  assign _zz_dt_rd_addr_6 = {16'd0, idx};
   assign _zz_wt_rd_addr = (_zz_wt_rd_addr_1 + _zz_wt_rd_addr_2);
-  assign _zz_wt_rd_addr_1 = (atom_y * param_wt_stridex);
-  assign _zz_wt_rd_addr_2 = {16'd0, atom_x};
-  assign _zz_when_read_req4conv_l150 = (param_top_pad + param_fea_height);
-  assign _zz_when_read_req4conv_l150_1 = (param_left_pad + param_fea_width);
-  assign _zz_dt_rd_addr = (_zz_dt_rd_addr_1 * param_fea_width);
-  assign _zz_dt_rd_addr_1 = (posy - param_top_pad);
-  assign _zz_dt_rd_addr_3 = (posx - param_left_pad);
-  assign _zz_dt_rd_addr_2 = {16'd0, _zz_dt_rd_addr_3};
-  assign _zz_when_read_req4conv_l157 = (param_top_pad + param_fea_height);
-  assign _zz_when_read_req4conv_l157_1 = (param_left_pad + param_fea_width);
-  assign _zz_when_read_req4conv_l168 = (param_top_pad + param_fea_height);
-  assign _zz_when_read_req4conv_l168_1 = (param_left_pad + param_fea_width);
-  assign _zz_when_read_req4conv_l131 = {16'd0, param_wt_stridey};
-  assign _zz_when_read_req4conv_l132 = {16'd0, param_wt_stridex};
-  assign _zz_when_read_req4conv_l135 = {16'd0, param_wt_stridex};
+  assign _zz_wt_rd_addr_1 = (idy * param_dtWidth);
+  assign _zz_wt_rd_addr_2 = {16'd0, idx};
+  assign _zz_when_buff2conv_l131_1 = (param_wtHeight - 16'h0001);
+  assign _zz_when_buff2conv_l131 = {16'd0, _zz_when_buff2conv_l131_1};
+  assign _zz_when_buff2conv_l131_3 = (param_wtWidth - 16'h0001);
+  assign _zz_when_buff2conv_l131_2 = {16'd0, _zz_when_buff2conv_l131_3};
+  assign _zz_when_buff2conv_l136_1 = (param_wtWidth - 16'h0001);
+  assign _zz_when_buff2conv_l136 = {16'd0, _zz_when_buff2conv_l136_1};
   `ifndef SYNTHESIS
   always @(*) begin
     case(read_req_fsm_stateReg)
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_BOOT : read_req_fsm_stateReg_string = "read_req_fsm_BOOT              ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : read_req_fsm_stateReg_string = "read_req_fsm_IDLE              ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : read_req_fsm_stateReg_string = "read_req_fsm_INIT              ";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : read_req_fsm_stateReg_string = "read_req_fsm_UPDATA_CONV_WINDOW";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX : read_req_fsm_stateReg_string = "read_req_fsm_INIT_CONV_IDX     ";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : read_req_fsm_stateReg_string = "read_req_fsm_CACU_ADDR         ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : read_req_fsm_stateReg_string = "read_req_fsm_READ              ";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA : read_req_fsm_stateReg_string = "read_req_fsm_GET_DATA          ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : read_req_fsm_stateReg_string = "read_req_fsm_OUTPUT            ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : read_req_fsm_stateReg_string = "read_req_fsm_UPDATA_ADDR       ";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CHECK : read_req_fsm_stateReg_string = "read_req_fsm_CHECK             ";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_JUDGE : read_req_fsm_stateReg_string = "read_req_fsm_JUDGE             ";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GEN_ADDR : read_req_fsm_stateReg_string = "read_req_fsm_GEN_ADDR          ";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : read_req_fsm_stateReg_string = "read_req_fsm_END               ";
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : read_req_fsm_stateReg_string = "read_req_fsm_UPDATA_CONV_WINDOW";
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : read_req_fsm_stateReg_string = "read_req_fsm_CACU_ADDR         ";
       default : read_req_fsm_stateReg_string = "???????????????????????????????";
     endcase
   end
@@ -7183,426 +7146,87 @@ module read_req4conv (
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_BOOT : read_req_fsm_stateNext_string = "read_req_fsm_BOOT              ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : read_req_fsm_stateNext_string = "read_req_fsm_IDLE              ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : read_req_fsm_stateNext_string = "read_req_fsm_INIT              ";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : read_req_fsm_stateNext_string = "read_req_fsm_UPDATA_CONV_WINDOW";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX : read_req_fsm_stateNext_string = "read_req_fsm_INIT_CONV_IDX     ";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : read_req_fsm_stateNext_string = "read_req_fsm_CACU_ADDR         ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : read_req_fsm_stateNext_string = "read_req_fsm_READ              ";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA : read_req_fsm_stateNext_string = "read_req_fsm_GET_DATA          ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : read_req_fsm_stateNext_string = "read_req_fsm_OUTPUT            ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : read_req_fsm_stateNext_string = "read_req_fsm_UPDATA_ADDR       ";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CHECK : read_req_fsm_stateNext_string = "read_req_fsm_CHECK             ";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_JUDGE : read_req_fsm_stateNext_string = "read_req_fsm_JUDGE             ";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GEN_ADDR : read_req_fsm_stateNext_string = "read_req_fsm_GEN_ADDR          ";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : read_req_fsm_stateNext_string = "read_req_fsm_END               ";
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : read_req_fsm_stateNext_string = "read_req_fsm_UPDATA_CONV_WINDOW";
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : read_req_fsm_stateNext_string = "read_req_fsm_CACU_ADDR         ";
       default : read_req_fsm_stateNext_string = "???????????????????????????????";
     endcase
   end
   `endif
 
-  assign posy = _zz_posy[15:0];
-  assign posx = _zz_posx[15:0];
+  assign cfg_ready = 1'b1;
   always @(*) begin
-    dt_ramrd_en = 1'b0;
+    read_en = 1'b0;
     case(read_req_fsm_stateReg)
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : begin
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
       end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
-      end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
-        if(when_read_req4conv_l157) begin
-          dt_ramrd_en = 1'b1;
-        end
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA : begin
+        read_en = 1'b1;
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
       end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CHECK : begin
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
       end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_JUDGE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GEN_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
       end
       default : begin
       end
     endcase
   end
 
+  always @(*) begin
+    outvalid = 1'b0;
+    case(read_req_fsm_stateReg)
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : begin
+      end
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
+      end
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
+      end
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
+        if(when_buff2conv_l124) begin
+          outvalid = 1'b1;
+        end
+      end
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
+      end
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
+      end
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  assign dt_ramrd_en = read_en;
   assign dt_ramrd_addr = dt_rd_addr;
-  assign wire_wt_rden = 1'b0;
-  always @(*) begin
-    wt_ramrd_0_en = wire_wt_rden;
-    case(read_req_fsm_stateReg)
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
-        wt_ramrd_0_en = 1'b1;
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CHECK : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_JUDGE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GEN_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
-      end
-      default : begin
-      end
-    endcase
-  end
-
+  assign wire_wt_rden = read_en;
+  assign wt_ramrd_0_en = wire_wt_rden;
   assign wt_ramrd_0_addr = wt_rd_addr;
-  always @(*) begin
-    wt_ramrd_1_en = wire_wt_rden;
-    case(read_req_fsm_stateReg)
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
-        wt_ramrd_1_en = 1'b1;
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CHECK : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_JUDGE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GEN_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
-      end
-      default : begin
-      end
-    endcase
-  end
-
+  assign wt_ramrd_1_en = wire_wt_rden;
   assign wt_ramrd_1_addr = wt_rd_addr;
-  always @(*) begin
-    wt_ramrd_2_en = wire_wt_rden;
-    case(read_req_fsm_stateReg)
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
-        wt_ramrd_2_en = 1'b1;
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CHECK : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_JUDGE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GEN_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
-      end
-      default : begin
-      end
-    endcase
-  end
-
+  assign wt_ramrd_2_en = wire_wt_rden;
   assign wt_ramrd_2_addr = wt_rd_addr;
-  always @(*) begin
-    wt_ramrd_3_en = wire_wt_rden;
-    case(read_req_fsm_stateReg)
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
-        wt_ramrd_3_en = 1'b1;
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CHECK : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_JUDGE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GEN_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
-      end
-      default : begin
-      end
-    endcase
-  end
-
+  assign wt_ramrd_3_en = wire_wt_rden;
   assign wt_ramrd_3_addr = wt_rd_addr;
-  always @(*) begin
-    wt_ramrd_4_en = wire_wt_rden;
-    case(read_req_fsm_stateReg)
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
-        wt_ramrd_4_en = 1'b1;
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CHECK : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_JUDGE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GEN_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
-      end
-      default : begin
-      end
-    endcase
-  end
-
+  assign wt_ramrd_4_en = wire_wt_rden;
   assign wt_ramrd_4_addr = wt_rd_addr;
-  always @(*) begin
-    wt_ramrd_5_en = wire_wt_rden;
-    case(read_req_fsm_stateReg)
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
-        wt_ramrd_5_en = 1'b1;
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CHECK : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_JUDGE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GEN_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
-      end
-      default : begin
-      end
-    endcase
-  end
-
+  assign wt_ramrd_5_en = wire_wt_rden;
   assign wt_ramrd_5_addr = wt_rd_addr;
-  always @(*) begin
-    wt_ramrd_6_en = wire_wt_rden;
-    case(read_req_fsm_stateReg)
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
-        wt_ramrd_6_en = 1'b1;
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CHECK : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_JUDGE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GEN_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
-      end
-      default : begin
-      end
-    endcase
-  end
-
+  assign wt_ramrd_6_en = wire_wt_rden;
   assign wt_ramrd_6_addr = wt_rd_addr;
-  always @(*) begin
-    wt_ramrd_7_en = wire_wt_rden;
-    case(read_req_fsm_stateReg)
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
-        wt_ramrd_7_en = 1'b1;
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CHECK : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_JUDGE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GEN_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
-      end
-      default : begin
-      end
-    endcase
-  end
-
+  assign wt_ramrd_7_en = wire_wt_rden;
   assign wt_ramrd_7_addr = wt_rd_addr;
-  always @(*) begin
-    o_ft_valid = 1'b0;
-    case(read_req_fsm_stateReg)
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
-        if(when_read_req4conv_l181) begin
-          o_ft_valid = 1'b1;
-        end
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CHECK : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_JUDGE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GEN_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
-      end
-      default : begin
-      end
-    endcase
-  end
-
+  assign o_ft_valid = outvalid;
   assign o_ft_payload = dt_rdata;
-  always @(*) begin
-    wire_wt_ovalid = 1'b0;
-    case(read_req_fsm_stateReg)
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
-        if(when_read_req4conv_l181) begin
-          wire_wt_ovalid = 1'b1;
-        end
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CHECK : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_JUDGE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GEN_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
-      end
-      default : begin
-      end
-    endcase
-  end
-
+  assign wire_wt_ovalid = outvalid;
   assign o_wt_0_valid = wire_wt_ovalid;
   assign o_wt_0_payload = wt_rdata_0;
   assign o_wt_1_valid = wire_wt_ovalid;
@@ -7628,27 +7252,15 @@ module read_req4conv (
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
       end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
-      end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA : begin
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
       end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CHECK : begin
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
       end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_JUDGE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GEN_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
       end
       default : begin
         read_req_fsm_wantStart = 1'b1;
@@ -7668,58 +7280,38 @@ module read_req4conv (
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
         read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ;
       end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-        if(when_read_req4conv_l104) begin
-          if(when_read_req4conv_l105) begin
-            read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE;
-          end else begin
-            read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX;
-          end
-        end else begin
-          if(when_read_req4conv_l112) begin
-            read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX;
-          end else begin
-            read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX;
-          end
-        end
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX : begin
-        read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR;
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
-        read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ;
-      end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
-        read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA;
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA : begin
         read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT;
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
-        if(when_read_req4conv_l181) begin
+        if(when_buff2conv_l124) begin
           read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR;
         end
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
-        if(when_read_req4conv_l131) begin
-          if(when_read_req4conv_l132) begin
-            read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW;
+        if(when_buff2conv_l131) begin
+          read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW;
+        end else begin
+          if(when_buff2conv_l136) begin
+            read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR;
           end else begin
-            if(when_read_req4conv_l135) begin
-              read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ;
-            end else begin
-              read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ;
-            end
+            read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR;
           end
         end
       end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CHECK : begin
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
+        if(when_buff2conv_l148) begin
+          read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE;
+        end else begin
+          if(when_buff2conv_l151) begin
+            read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR;
+          end else begin
+            read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR;
+          end
+        end
       end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_JUDGE : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GEN_ADDR : begin
-      end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
+        read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ;
       end
       default : begin
       end
@@ -7732,18 +7324,19 @@ module read_req4conv (
     end
   end
 
-  assign when_read_req4conv_l104 = (posy == param_dt_stridey);
-  assign when_read_req4conv_l105 = (posx == param_dt_stridex);
-  assign when_read_req4conv_l112 = (posx == param_dt_stridex);
-  assign when_read_req4conv_l150 = ((((param_top_pad <= posy) && (posy < _zz_when_read_req4conv_l150)) && (param_left_pad <= posx)) && (posx < _zz_when_read_req4conv_l150_1));
-  assign when_read_req4conv_l157 = ((((param_top_pad <= posy) && (posy < _zz_when_read_req4conv_l157)) && (param_left_pad <= posx)) && (posx < _zz_when_read_req4conv_l157_1));
-  assign when_read_req4conv_l168 = ((((param_top_pad <= posy) && (posy < _zz_when_read_req4conv_l168)) && (param_left_pad <= posx)) && (posx < _zz_when_read_req4conv_l168_1));
-  assign when_read_req4conv_l181 = ((o_ft_ready == 1'b1) && (wire_wt_oready == 1'b1));
-  assign when_read_req4conv_l131 = (atom_y == _zz_when_read_req4conv_l131);
-  assign when_read_req4conv_l132 = (atom_x == _zz_when_read_req4conv_l132);
-  assign when_read_req4conv_l135 = (atom_x == _zz_when_read_req4conv_l135);
+  assign when_buff2conv_l124 = (o_ft_ready && wire_wt_oready);
+  assign when_buff2conv_l131 = ((idy == _zz_when_buff2conv_l131) && (idx == _zz_when_buff2conv_l131_2));
+  assign when_buff2conv_l136 = (idx == _zz_when_buff2conv_l136);
+  assign when_buff2conv_l148 = ((window_posy == last_window_y) && (window_posx == last_window_x));
+  assign when_buff2conv_l151 = (window_posx == last_window_x);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
+      idx <= 32'h0;
+      idy <= 32'h0;
+      window_posx <= 32'h0;
+      window_posy <= 32'h0;
+      last_window_x <= 32'h0;
+      last_window_y <= 32'h0;
       dt_rd_addr <= 32'h0;
       wt_rd_addr <= 32'h0;
       dt_rdata <= 256'h0;
@@ -7755,54 +7348,24 @@ module read_req4conv (
       wt_rdata_5 <= 256'h0;
       wt_rdata_6 <= 256'h0;
       wt_rdata_7 <= 256'h0;
-      stripe_x <= 32'h0;
-      stripe_y <= 32'h0;
-      atom_x <= 32'h0;
-      atom_y <= 32'h0;
       read_req_fsm_stateReg <= `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_BOOT;
     end else begin
+      last_window_y <= {16'd0, _zz_last_window_y};
+      last_window_x <= {16'd0, _zz_last_window_x};
+      dt_rd_addr <= _zz_dt_rd_addr[31:0];
+      wt_rd_addr <= _zz_wt_rd_addr[31:0];
       read_req_fsm_stateReg <= read_req_fsm_stateNext;
       case(read_req_fsm_stateReg)
         `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : begin
         end
         `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
-          stripe_x <= 32'h0;
-          stripe_y <= 32'h0;
-          atom_x <= 32'h0;
-          atom_y <= 32'h0;
-        end
-        `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-          if(when_read_req4conv_l104) begin
-            if(!when_read_req4conv_l105) begin
-              stripe_x <= (stripe_x + 32'h00000001);
-            end
-          end else begin
-            if(when_read_req4conv_l112) begin
-              stripe_x <= 32'h0;
-              stripe_y <= (stripe_y + 32'h00000001);
-            end else begin
-              stripe_x <= (stripe_x + 32'h00000001);
-            end
-          end
-        end
-        `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT_CONV_IDX : begin
-          atom_x <= 32'h0;
-          atom_y <= 32'h0;
-        end
-        `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
-          wt_rd_addr <= _zz_wt_rd_addr[31:0];
-          if(when_read_req4conv_l150) begin
-            dt_rd_addr <= (_zz_dt_rd_addr + _zz_dt_rd_addr_2);
-          end
+          idx <= 32'h0;
+          idy <= 32'h0;
+          window_posx <= 32'h0;
+          window_posy <= 32'h0;
         end
         `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
-        end
-        `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GET_DATA : begin
-          if(when_read_req4conv_l168) begin
-            dt_rdata <= dt_ramrd_data;
-          end else begin
-            dt_rdata <= 256'h0;
-          end
+          dt_rdata <= dt_ramrd_data;
           wt_rdata_0 <= wt_ramrd_0_data;
           wt_rdata_1 <= wt_ramrd_1_data;
           wt_rdata_2 <= wt_ramrd_2_data;
@@ -7815,24 +7378,29 @@ module read_req4conv (
         `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
         end
         `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
-          if(when_read_req4conv_l131) begin
-            if(!when_read_req4conv_l132) begin
-              if(when_read_req4conv_l135) begin
-                atom_x <= 32'h0;
-                atom_y <= (atom_y + 32'h00000001);
-              end else begin
-                atom_x <= (atom_x + 32'h00000001);
-              end
+          if(when_buff2conv_l131) begin
+            idx <= 32'h0;
+            idy <= 32'h0;
+          end else begin
+            if(when_buff2conv_l136) begin
+              idy <= (idy + 32'h00000001);
+              idx <= 32'h0;
+            end else begin
+              idx <= (idx + 32'h00000001);
             end
           end
         end
-        `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CHECK : begin
+        `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
+          if(!when_buff2conv_l148) begin
+            if(when_buff2conv_l151) begin
+              window_posx <= 32'h0;
+              window_posy <= (window_posy + 32'h00000001);
+            end else begin
+              window_posx <= (window_posx + 32'h00000001);
+            end
+          end
         end
-        `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_JUDGE : begin
-        end
-        `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_GEN_ADDR : begin
-        end
-        `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
+        `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
         end
         default : begin
         end
@@ -7841,25 +7409,16 @@ module read_req4conv (
   end
 
   always @(posedge clk) begin
-    param_fea_width <= cfg_fea_width;
-    param_fea_height <= cfg_fea_height;
-    param_fea_channel <= cfg_fea_channel;
-    param_wt_width <= cfg_wt_width;
-    param_wt_height <= cfg_wt_height;
-    param_wt_channel <= cfg_wt_channel;
-    param_kerNum <= cfg_kerNum;
-    param_o_width <= cfg_o_width;
-    param_o_height <= cfg_o_height;
-    param_o_channel <= cfg_o_channel;
-    param_top_pad <= cfg_top_pad;
-    param_bot_pad <= cfg_bot_pad;
-    param_left_pad <= cfg_left_pad;
-    param_right_pad <= cfg_right_pad;
-    param_dt_stridex <= cfg_dt_stridex;
-    param_dt_stridey <= cfg_dt_stridey;
-    param_wt_stridex <= cfg_wt_stridex;
-    param_wt_stridey <= cfg_wt_stridey;
-    param_par_acc_cnt <= cfg_par_acc_cnt;
+    param_rd_dtBaseAddr <= cfg_payload_rd_dtBaseAddr;
+    param_rd_wtBaseAddr <= cfg_payload_rd_wtBaseAddr;
+    param_wr_delta_wt_BaseAddr <= cfg_payload_wr_delta_wt_BaseAddr;
+    param_wr_sigma_BaseAddr <= cfg_payload_wr_sigma_BaseAddr;
+    param_dtWidth <= cfg_payload_dtWidth;
+    param_dtHeight <= cfg_payload_dtHeight;
+    param_wtWidth <= cfg_payload_wtWidth;
+    param_wtHeight <= cfg_payload_wtHeight;
+    param_oWidth <= cfg_payload_oWidth;
+    param_oHeight <= cfg_payload_oHeight;
   end
 
 

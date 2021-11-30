@@ -14,8 +14,6 @@ case class conv_tb() extends Component {
 
   val dut =  new conv_top(32,32)
 
-  dut.io.cfg.par_acc_cnt := 1
-  dut.io.cfg.top_pad := 0
 
 
 
