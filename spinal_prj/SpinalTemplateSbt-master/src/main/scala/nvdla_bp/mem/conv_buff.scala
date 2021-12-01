@@ -6,11 +6,11 @@ import spinal.lib._
 
 case class conv_buff(addrwidth:Int,deepth:Int,eleWidth:Int)extends Component {
   val io = new Bundle {
-    val dt_rd = ram_slv_rd(addrwidth, eleWidth * 8)
-    val wt_rd = Vec(ram_slv_rd(addrwidth, eleWidth * 8),8)
-
     val dt_wr = ram_slv_wr(addrwidth, eleWidth * 8)
     val wt_wr = Vec(ram_slv_wr(addrwidth, eleWidth * 8),8)
+
+    val dt_rd = ram_slv_rd(addrwidth, eleWidth * 8)
+    val wt_rd = Vec(ram_slv_rd(addrwidth, eleWidth * 8),8)
   }
 
 

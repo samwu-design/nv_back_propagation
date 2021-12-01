@@ -6,6 +6,7 @@ import spinal.lib.bus.amba4.axi.{Axi4ReadOnly, Axi4WriteOnly}
 import spinal.lib.bus.amba4.axilite.AxiLite4
 
 import nvdla_bp.dma._
+import nvdla_bp.config._
 import nvdla_bp.conv._
 import nvdla_bp.atom_adder._
 import nvdla_bp.mem._
@@ -18,28 +19,18 @@ case class bp_fpga_top(datawidth:Int,addrwidth:Int,idwidth:Int,eleWidth:Int,deep
   //val axilitecfg = MyTopLevelVerilog.getAxiLiteCfg(32, 32)
   val io = new Bundle {
     val axim_r = master(Axi4ReadOnly(axiconfig))  // read data
-    val axim_w = slave(Axi4WriteOnly(axiconfig)) // write delta weight && sigma
+    val axim_w = master(Axi4WriteOnly(axiconfig)) // write delta weight && sigma
     //val axi4lite = slave(AxiLite4(axilitecfg)) // configure access
     val apb = slave(Apb3(apb3cfg))
     val interruper = Bool()
   }
 
-  // dma
   val rdma = new  dmaReadCtrl(datawidth,addrwidth,idwidth)
   val wdma = new dmaWriteCtrl(datawidth, addrwidth, idwidth, eleWidth)
-
-  //
-  val d2b = new dma2buff(datawidth, addrwidth, eleWidth)
-
-  // cbuf
-  val cbuf = new conv_buff(addrwidth,deepth,eleWidth)
-  //conv
+  val cbuf = new cbuff_top(datawidth,addrwidth,eleWidth,deepth)
   val conv = new conv_top(eleWidth, addrwidth)
-  // adder
   val adder = new array_adder(eleWidth)
-
-  // configure
-  val global_cfg = new config_space(32,32)
+  val global_cfg = new config_top(32,32)
 
   //------------------------------------top io
   io.axim_r <> rdma.io.axim
@@ -59,15 +50,10 @@ case class bp_fpga_top(datawidth:Int,addrwidth:Int,idwidth:Int,eleWidth:Int,deep
   rdma.io.enable := global_cfg.io.glb_enable
 
   //***cbuf
-  d2b.io.input <> rdma.io.output
-  cbuf.io.dt_wr.en := d2b.io.dt_wr.en
-  cbuf.io.dt_wr.addr := d2b.io.dt_wr.addr
-  cbuf.io.dt_wr.data := d2b.io.dt_wr.data
-  for(i<- 0 until 8) {
-    cbuf.io.wt_wr(i).en := d2b.io.wt_wr(i).en
-    cbuf.io.wt_wr(i).addr := d2b.io.wt_wr(i).addr
-    cbuf.io.wt_wr(i).data := d2b.io.wt_wr(i).data
-  }
+  cbuf.io.input <> rdma.io.output
+  cbuf.io.clear := ctrol
+  cbuf.io.is_dtwt_mux := ctrol
+
 
   //conv
   conv.io.dt_ramrd.addr := cbuf.io.dt_rd.addr
@@ -81,5 +67,17 @@ case class bp_fpga_top(datawidth:Int,addrwidth:Int,idwidth:Int,eleWidth:Int,deep
   }
 
   conv.io.cfg <> global_cfg.io.global_param
+  conv.io.read_enable := ctrol
+  conv.io.acc_enable := ctrol
+  conv.io.is_delta_wt := ctrol
+
+  adder.io.in <> conv.io.o_sigma
+
+
+  wdma.io.i_delta_wt <> conv.io.o_delta_wt
+  wdma.io.i_sigma <> adder.io.out
+  wdma.io.cfg <> configure
+  wdma.io.enable := ctrol
+  wdma.io.is_delta_wt := ctrol
 
 }

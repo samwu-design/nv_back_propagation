@@ -5,7 +5,7 @@ import spinal.lib._
 
 case class array_adder(eleWidth:Int) extends Component{
   val io = new Bundle{
-    val in = Array.fill(8)(Vec(slave Stream(SInt(eleWidth bits)),8))
+    val in = Vec((Vec(slave Stream(SInt(eleWidth bits)),8)),8)
     val out = Vec(master Stream(SInt(eleWidth bits)),8)
   }
 

@@ -16,7 +16,6 @@ case class dmaWriteCtrl(datawidth:Int, addrwidth:Int, idwidth:Int, eleWidth:Int)
      val i_sigma = Vec(slave Stream (SInt(eleWidth bits)), 8)
      val enable = in Bool()
      val is_delta_wt = in Bool()
-     val isIdle = out Bool()
    }
 
 

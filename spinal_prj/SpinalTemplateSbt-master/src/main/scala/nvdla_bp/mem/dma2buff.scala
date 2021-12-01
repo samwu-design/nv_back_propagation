@@ -7,7 +7,6 @@ import nvdla_bp._
 case class dma2buff(datawidth:Int,addrwidth:Int,eleWidth:Int) extends Component{
 val io = new Bundle{
   val input = slave Stream(UInt(datawidth bits))
-  val cfg = dma_cfg()
   val clear = in Bool()
   val is_dtwt_mux = in Bool()
   val dt_wr = ram_wr(addrwidth, eleWidth * 8)
