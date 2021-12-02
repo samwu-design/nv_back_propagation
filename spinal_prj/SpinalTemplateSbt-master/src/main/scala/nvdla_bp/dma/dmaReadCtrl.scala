@@ -14,7 +14,7 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
   val axiconfig = MyTopLevelVerilog.getAxiConfig(datawidth, addrwidth, idwidth)
   val io = new Bundle {
     val axim = master(Axi4ReadOnly(axiconfig))
-    val cfg = dma_cfg()
+    val cfg = slave Stream(glb_param())
     val output = master Stream(UInt(datawidth bits))
     val enable = in Bool()
     val isIdle = out Bool()
@@ -22,7 +22,7 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
   }
   noIoPrefix()
 
-  val par = Reg(dma_cfg())
+  val par = Reg(glb_param())
   val burstlen = Reg(UInt(8 bits))init(0)
   val BaseAddr = Reg(UInt(addrwidth bits))init(0)
 
@@ -36,6 +36,8 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
   val is_dtwt_mux = Reg(Bool())init(False)
   io.is_dtwt_mux := is_dtwt_mux
   io.isIdle := False
+
+  io.cfg.ready := False
 
   dma_rd.io.enable := False
   dma_rd.io.rd_para.burstlen := burstlen
@@ -59,6 +61,10 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
       wt_wcnt := 0
       wt_vcnt := 0
       io.isIdle := True
+      io.cfg.ready := True
+      when(io.cfg.fire){
+        par := io.cfg
+      }
       when(io.enable === True) {
         goto(GET_PARAM)
       }
@@ -66,14 +72,13 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
 
     // update parameter only in needed time
     GET_PARAM.whenIsActive{
-      par := io.cfg
       is_dtwt_mux := True
       goto(READ_DT)
     }
 
     READ_DT.whenIsActive{
       burstlen := par.dtWidth.resized
-      BaseAddr := par.dtBaseAddr
+      BaseAddr := par.rd_dtBaseAddr
       when(dma_rd.io.isIdle === True){
         dma_rd.io.enable := True
         when(dt_wcnt === par.dtWidth){
@@ -90,7 +95,7 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
       when(dma_rd.io.isIdle === True){
         when(dt_vcnt === par.dtHeight && dt_wcnt === par.dtWidth) {
           burstlen := par.wtWidth.resized
-          BaseAddr := par.wtBaseAddr
+          BaseAddr := par.rd_wtBaseAddr
           is_dtwt_mux := False
           goto(READ_WT)
         }.otherwise{

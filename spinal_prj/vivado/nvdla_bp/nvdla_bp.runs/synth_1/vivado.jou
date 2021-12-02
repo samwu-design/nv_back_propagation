@@ -2,11 +2,11 @@
 # Vivado v2018.3 (64-bit)
 # SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
 # IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
-# Start of session at: Sun Oct 17 17:50:16 2021
-# Process ID: 7528
+# Start of session at: Thu Dec  2 21:11:33 2021
+# Process ID: 30684
 # Current directory: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.runs/synth_1
-# Command line: vivado.exe -log conv_top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source conv_top.tcl
-# Log file: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.runs/synth_1/conv_top.vds
+# Command line: vivado.exe -log bp_fpga_top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source bp_fpga_top.tcl
+# Log file: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.runs/synth_1/bp_fpga_top.vds
 # Journal file: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.runs/synth_1\vivado.jou
 #-----------------------------------------------------------
-source conv_top.tcl -notrace
+source bp_fpga_top.tcl -notrace

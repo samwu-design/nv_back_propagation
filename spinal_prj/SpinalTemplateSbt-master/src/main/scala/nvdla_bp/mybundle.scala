@@ -27,8 +27,8 @@ case class glb_param() extends  Bundle{
 
 case class dma_cfg() extends Bundle{
   // default CUBE channel & Kernel Nume is 8
-  val dtBaseAddr = in UInt(64 bits)
-  val wtBaseAddr = in UInt(64 bits)
+  val dtBaseAddr = in UInt(32 bits)
+  val wtBaseAddr = in UInt(32 bits)
   val dtWidth = in UInt(16 bits)
   val dtHeight = in UInt(16 bits)
   val wtWidth = in UInt(16 bits)

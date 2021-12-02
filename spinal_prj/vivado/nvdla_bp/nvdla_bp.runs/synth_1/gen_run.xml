@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xcvu440-flga2892-1-c" LaunchTime="1634464214">
-  <File Type="PA-TCL" Name="conv_top.tcl"/>
-  <File Type="REPORTS-TCL" Name="conv_top_reports.tcl"/>
-  <File Type="RDS-RDS" Name="conv_top.vds"/>
-  <File Type="RDS-UTIL" Name="conv_top_utilization_synth.rpt"/>
-  <File Type="RDS-UTIL-PB" Name="conv_top_utilization_synth.pb"/>
-  <File Type="RDS-DCP" Name="conv_top.dcp"/>
+<GenRun Id="synth_1" LaunchPart="xcvu440-flga2892-1-c" LaunchTime="1638450691">
+  <File Type="PA-TCL" Name="bp_fpga_top.tcl"/>
+  <File Type="RDS-PROPCONSTRS" Name="bp_fpga_top_drc_synth.rpt"/>
+  <File Type="REPORTS-TCL" Name="bp_fpga_top_reports.tcl"/>
+  <File Type="RDS-RDS" Name="bp_fpga_top.vds"/>
+  <File Type="RDS-UTIL" Name="bp_fpga_top_utilization_synth.rpt"/>
+  <File Type="RDS-UTIL-PB" Name="bp_fpga_top_utilization_synth.pb"/>
+  <File Type="RDS-DCP" Name="bp_fpga_top.dcp"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="bp_fpga_top_timing_summary_synth.rpt"/>
+  <File Type="VDS-TIMING-PB" Name="bp_fpga_top_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PPRDIR/../../SpinalTemplateSbt-master/VerilogHDL/enumdefine.v">
@@ -30,47 +33,8 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PPRDIR/../../SpinalTemplateSbt-master/VerilogHDL/mac_acc_array.v">
+    <File Path="$PPRDIR/../../SpinalTemplateSbt-master/VerilogHDL/bp_fpga_top.v">
       <FileInfo>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PPRDIR/../../SpinalTemplateSbt-master/VerilogHDL/conv_top.v">
-      <FileInfo>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PPRDIR/../../SpinalTemplateSbt-master/VerilogHDL/fp_adder.v">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PPRDIR/../../SpinalTemplateSbt-master/VerilogHDL/fp_acc.v">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PPRDIR/../../SpinalTemplateSbt-master/VerilogHDL/mac_atom_8.v">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PPRDIR/../../SpinalTemplateSbt-master/VerilogHDL/mac_array_8.v">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -78,7 +42,7 @@
     </File>
     <Config>
       <Option Name="DesignMode" Val="RTL"/>
-      <Option Name="TopModule" Val="conv_top"/>
+      <Option Name="TopModule" Val="bp_fpga_top"/>
     </Config>
   </FileSet>
   <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">

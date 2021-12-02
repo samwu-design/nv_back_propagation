@@ -11,7 +11,7 @@ case class dmaWriteCtrl(datawidth:Int, addrwidth:Int, idwidth:Int, eleWidth:Int)
   val axiconfig = MyTopLevelVerilog.getAxiConfig(datawidth, addrwidth, idwidth)
    val io = new Bundle {
      val axim = master(Axi4WriteOnly(axiconfig))
-     val cfg = dma_cfg()
+     val cfg = slave Stream(glb_param())
      val i_delta_wt = Vec(Vec(slave Stream (SInt(eleWidth bits)), 8), 8)
      val i_sigma = Vec(slave Stream (SInt(eleWidth bits)), 8)
      val enable = in Bool()
@@ -32,6 +32,7 @@ case class dmaWriteCtrl(datawidth:Int, addrwidth:Int, idwidth:Int, eleWidth:Int)
 
   val wt_cnt = Reg(UInt(4 bits))init(0)
 
+  val cfg = Reg(glb_param())
 
   // data cvt for axi
   for(i<- 0 until 8){
@@ -82,6 +83,7 @@ case class dmaWriteCtrl(datawidth:Int, addrwidth:Int, idwidth:Int, eleWidth:Int)
 
   io.axim.b.ready := False
 
+  io.cfg.ready := False
 
   val dma_wrctrl_fsm = new StateMachine {
     val IDLE = new State with EntryPoint
@@ -95,6 +97,10 @@ case class dmaWriteCtrl(datawidth:Int, addrwidth:Int, idwidth:Int, eleWidth:Int)
 
 
     IDLE.whenIsActive{
+      io.cfg.ready := True
+      when(io.cfg.fire){
+        cfg := io.cfg.payload
+      }
       when(io.enable === True){
         goto(CHECK_GET_PARAM)
       }
@@ -102,11 +108,11 @@ case class dmaWriteCtrl(datawidth:Int, addrwidth:Int, idwidth:Int, eleWidth:Int)
 
     CHECK_GET_PARAM.whenIsActive{
       when(io.is_delta_wt === True){
-        addr := io.cfg.dtBaseAddr
+        addr := cfg.rd_dtBaseAddr
         burst_len := 8
         goto(GET_DATA_WT)
       }.otherwise{
-        addr := io.cfg.wtBaseAddr
+        addr := cfg.rd_wtBaseAddr
         burst_len := 1
         goto(GET_DATA_SGM)
       }
@@ -122,26 +128,26 @@ case class dmaWriteCtrl(datawidth:Int, addrwidth:Int, idwidth:Int, eleWidth:Int)
           is(1){
             data_wt(1) := cvt_wt(1).io.out.payload
           }
-          is(1){
-            data_wt(1) := cvt_wt(1).io.out.payload
+          is(2){
+            data_wt(2) := cvt_wt(2).io.out.payload
           }
-          is(1){
-            data_wt(2) := cvt_wt(1).io.out.payload
+          is(3){
+            data_wt(3) := cvt_wt(3).io.out.payload
           }
-          is(1){
-            data_wt(3) := cvt_wt(1).io.out.payload
+          is(4){
+            data_wt(4) := cvt_wt(4).io.out.payload
           }
-          is(1){
-            data_wt(4) := cvt_wt(1).io.out.payload
+          is(5){
+            data_wt(5) := cvt_wt(5).io.out.payload
           }
-          is(1){
-            data_wt(5) := cvt_wt(1).io.out.payload
+          is(6){
+            data_wt(6) := cvt_wt(6).io.out.payload
           }
-          is(1){
-            data_wt(6) := cvt_wt(1).io.out.payload
+          is(7){
+            data_wt(7) := cvt_wt(7).io.out.payload
           }
           default{
-            data_wt(7) := cvt_wt(1).io.out.payload
+            //data_wt(0) := cvt_wt(0).io.out.payload
           }
         }
         //data_wt := cvt_wt(burst_cnt.resized).io.out.payload

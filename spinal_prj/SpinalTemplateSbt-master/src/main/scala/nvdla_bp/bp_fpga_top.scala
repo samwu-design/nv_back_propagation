@@ -22,7 +22,7 @@ case class bp_fpga_top(datawidth:Int,addrwidth:Int,idwidth:Int,eleWidth:Int,deep
     val axim_w = master(Axi4WriteOnly(axiconfig)) // write delta weight && sigma
     //val axi4lite = slave(AxiLite4(axilitecfg)) // configure access
     val apb = slave(Apb3(apb3cfg))
-    val interruper = Bool()
+    val interruper = out Bool()
   }
 
   val rdma = new  dmaReadCtrl(datawidth,addrwidth,idwidth)
@@ -30,54 +30,57 @@ case class bp_fpga_top(datawidth:Int,addrwidth:Int,idwidth:Int,eleWidth:Int,deep
   val cbuf = new cbuff_top(datawidth,addrwidth,eleWidth,deepth)
   val conv = new conv_top(eleWidth, addrwidth)
   val adder = new array_adder(eleWidth)
-  val global_cfg = new config_top(32,32)
+  val cfg = new config_top(32,32)
 
   //------------------------------------top io
   io.axim_r <> rdma.io.axim
   io.axim_w <> wdma.io.axim
-  io.apb <> global_cfg.io.apb
+  io.apb <> cfg.io.apb
+  io.interruper := False
+
+  // ctrol-----
+
+  rdma.io.enable := cfg.io.glb_enable
+  cbuf.io.clear := cfg.io.glb_enable
+  cbuf.io.is_dtwt_mux := cfg.io.is_delta_wt
+
+  conv.io.read_enable := True
+  conv.io.acc_enable := True
+  conv.io.is_delta_wt := cfg.io.is_delta_wt
+
+  wdma.io.enable := True
+  wdma.io.is_delta_wt := cfg.io.is_delta_wt
+
 
 
   //-----------------------------------inter connect
   //***dma cfg
-  rdma.io.cfg.dtBaseAddr := global_cfg.io.global_param.rd_dtBaseAddr
-  rdma.io.cfg.wtBaseAddr := global_cfg.io.global_param.rd_wtBaseAddr
-  rdma.io.cfg.dtWidth  := global_cfg.io.global_param.dtWidth
-  rdma.io.cfg.wtWidth  := global_cfg.io.global_param.wtWidth
-  rdma.io.cfg.dtHeight := global_cfg.io.global_param.dtHeight
-  rdma.io.cfg.wtHeight := global_cfg.io.global_param.wtHeight
+  rdma.io.cfg <> cfg.io.rdma_glb_param
+
   //dma input
-  rdma.io.enable := global_cfg.io.glb_enable
 
   //***cbuf
   cbuf.io.input <> rdma.io.output
-  cbuf.io.clear := ctrol
-  cbuf.io.is_dtwt_mux := ctrol
 
 
   //conv
-  conv.io.dt_ramrd.addr := cbuf.io.dt_rd.addr
-  conv.io.dt_ramrd.en := cbuf.io.dt_rd.en
+  cbuf.io.dt_rd.addr :=  conv.io.dt_ramrd.addr
+  cbuf.io.dt_rd.en   := conv.io.dt_ramrd.en
   conv.io.dt_ramrd.data := cbuf.io.dt_rd.data
 
   for(i<- 0 until 8){
-    conv.io.wt_ramrd(i).addr := cbuf.io.wt_rd(i).addr
-    conv.io.wt_ramrd(i).en := cbuf.io.wt_rd(i).en
+    cbuf.io.wt_rd(i).addr := conv.io.wt_ramrd(i).addr
+    cbuf.io.wt_rd(i).en  := conv.io.wt_ramrd(i).en
     conv.io.wt_ramrd(i).data := cbuf.io.wt_rd(i).data
   }
 
-  conv.io.cfg <> global_cfg.io.global_param
-  conv.io.read_enable := ctrol
-  conv.io.acc_enable := ctrol
-  conv.io.is_delta_wt := ctrol
+  conv.io.cfg <> cfg.io.conv_glb_param
 
   adder.io.in <> conv.io.o_sigma
 
 
   wdma.io.i_delta_wt <> conv.io.o_delta_wt
   wdma.io.i_sigma <> adder.io.out
-  wdma.io.cfg <> configure
-  wdma.io.enable := ctrol
-  wdma.io.is_delta_wt := ctrol
+  wdma.io.cfg <> cfg.io.wdma_glb_param
 
 }
