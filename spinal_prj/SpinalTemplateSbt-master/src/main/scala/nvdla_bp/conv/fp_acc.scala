@@ -78,7 +78,7 @@ case class fp_acc(eleWidth: Int) extends Component {
     }
 
     CHECK.whenIsActive {
-      when(accnt === par_acc_cnt) {
+      when(accnt === par_acc_cnt + 1) {
         goto(OUT)
       }.otherwise {
         goto(INPUT)

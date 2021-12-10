@@ -91,7 +91,8 @@ case class buff2conv(eleWidth: Int, addrwidth: Int) extends Component {
   val read_req_fsm = new StateMachine {
     val IDLE = new State with EntryPoint
     val INIT = new State
-    val READ = new State
+    val READ_EN = new State
+    val READ_DATA = new State
     val OUTPUT = new State
     val UPDATA_ADDR = new State
     val UPDATA_CONV_WINDOW = new State
@@ -108,11 +109,15 @@ case class buff2conv(eleWidth: Int, addrwidth: Int) extends Component {
       idy := 0
       window_posx := 0
       window_posy := 0
-      goto(READ)
+      goto(READ_EN)
     }
 
-    READ.whenIsActive{
+    READ_EN.whenIsActive{
       read_en := True
+      goto(READ_DATA)
+    }
+
+    READ_DATA.whenIsActive{
       dt_rdata := io.dt_ramrd.data
       for(i<- 0 until 8){
         wt_rdata(i) := io.wt_ramrd(i).data
@@ -160,7 +165,7 @@ case class buff2conv(eleWidth: Int, addrwidth: Int) extends Component {
     }
 
    CACU_ADDR.whenIsActive{
-     goto(READ)
+     goto(READ_EN)
    }
 
 

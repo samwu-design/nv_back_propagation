@@ -1,17 +1,18 @@
 // Generator : SpinalHDL v1.5.0    git head : 83a031922866b078c411ec5529e00f1b6e79f8e7
 // Component : bp_fpga_top
-// Git hash  : 6691e024447ff2ac31ac0e980e81aa3ed32d5770
+// Git hash  : e77e67b127657a9ca1008a70c6e85e67d032281b
 
 
-`define dma_rdctrl_fsm_enumDefinition_binary_sequential_type [2:0]
-`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_BOOT 3'b000
-`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_IDLE 3'b001
-`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_PARAM 3'b010
-`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT 3'b011
-`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT 3'b100
-`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT 3'b101
-`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT 3'b110
-`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END 3'b111
+`define dma_rdctrl_fsm_enumDefinition_binary_sequential_type [3:0]
+`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_BOOT 4'b0000
+`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_IDLE 4'b0001
+`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_DT_PARAM 4'b0010
+`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT 4'b0011
+`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT 4'b0100
+`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM 4'b0101
+`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT 4'b0110
+`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT 4'b0111
+`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END 4'b1000
 
 `define dma_rd_fsm_enumDefinition_binary_sequential_type [1:0]
 `define dma_rd_fsm_enumDefinition_binary_sequential_dma_rd_fsm_BOOT 2'b00
@@ -30,15 +31,16 @@
 `define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA 4'b0111
 `define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END 4'b1000
 
-`define read_req_fsm_enumDefinition_binary_sequential_type [2:0]
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_BOOT 3'b000
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE 3'b001
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT 3'b010
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ 3'b011
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT 3'b100
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR 3'b101
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW 3'b110
-`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR 3'b111
+`define read_req_fsm_enumDefinition_binary_sequential_type [3:0]
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_BOOT 4'b0000
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE 4'b0001
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT 4'b0010
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_EN 4'b0011
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_DATA 4'b0100
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT 4'b0101
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR 4'b0110
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW 4'b0111
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR 4'b1000
 
 `define acc_fsm_enumDefinition_binary_sequential_type [2:0]
 `define acc_fsm_enumDefinition_binary_sequential_acc_fsm_BOOT 3'b000
@@ -673,10 +675,12 @@ module bp_fpga_top (
   wire       [1:0]    rdma_axim_ar_payload_burst;
   wire                rdma_axim_r_ready;
   wire                rdma_cfg_ready;
-  wire                rdma_output_valid;
-  wire       [255:0]  rdma_output_payload;
+  wire                rdma_dt_output_valid;
+  wire       [255:0]  rdma_dt_output_payload;
+  wire                rdma_wt_output_valid;
+  wire       [255:0]  rdma_wt_output_payload;
   wire                rdma_isIdle;
-  wire                rdma_is_dtwt_mux;
+  wire                rdma_dma_rd_finished;
   wire                wdma_io_axim_aw_valid;
   wire       [31:0]   wdma_io_axim_aw_payload_addr;
   wire       [5:0]    wdma_io_axim_aw_payload_id;
@@ -761,7 +765,8 @@ module bp_fpga_top (
   wire                wdma_io_i_sigma_5_ready;
   wire                wdma_io_i_sigma_6_ready;
   wire                wdma_io_i_sigma_7_ready;
-  wire                cbuf_io_input_ready;
+  wire                cbuf_io_dt_input_ready;
+  wire                cbuf_io_wt_input_ready;
   wire       [255:0]  cbuf_io_dt_rd_data;
   wire       [255:0]  cbuf_io_wt_rd_0_data;
   wire       [255:0]  cbuf_io_wt_rd_1_data;
@@ -1191,12 +1196,15 @@ module bp_fpga_top (
     .cfg_payload_wtHeight                (cfg_io_rdma_glb_param_payload_wtHeight              ), //i
     .cfg_payload_oWidth                  (cfg_io_rdma_glb_param_payload_oWidth                ), //i
     .cfg_payload_oHeight                 (cfg_io_rdma_glb_param_payload_oHeight               ), //i
-    .output_valid                        (rdma_output_valid                                   ), //o
-    .output_ready                        (cbuf_io_input_ready                                 ), //i
-    .output_payload                      (rdma_output_payload                                 ), //o
+    .dt_output_valid                     (rdma_dt_output_valid                                ), //o
+    .dt_output_ready                     (cbuf_io_dt_input_ready                              ), //i
+    .dt_output_payload                   (rdma_dt_output_payload                              ), //o
+    .wt_output_valid                     (rdma_wt_output_valid                                ), //o
+    .wt_output_ready                     (cbuf_io_wt_input_ready                              ), //i
+    .wt_output_payload                   (rdma_wt_output_payload                              ), //o
     .enable                              (cfg_io_glb_enable                                   ), //i
     .isIdle                              (rdma_isIdle                                         ), //o
-    .is_dtwt_mux                         (rdma_is_dtwt_mux                                    ), //o
+    .dma_rd_finished                     (rdma_dma_rd_finished                                ), //o
     .clk                                 (clk                                                 ), //i
     .reset                               (reset                                               )  //i
   );
@@ -1451,40 +1459,42 @@ module bp_fpga_top (
     .reset                                  (reset                                               )  //i
   );
   cbuff_top cbuf (
-    .io_input_valid      (rdma_output_valid     ), //i
-    .io_input_ready      (cbuf_io_input_ready   ), //o
-    .io_input_payload    (rdma_output_payload   ), //i
-    .io_clear            (cfg_io_glb_enable     ), //i
-    .io_is_dtwt_mux      (cfg_io_is_delta_wt    ), //i
-    .io_dt_rd_addr       (conv_dt_ramrd_addr    ), //i
-    .io_dt_rd_data       (cbuf_io_dt_rd_data    ), //o
-    .io_dt_rd_en         (conv_dt_ramrd_en      ), //i
-    .io_wt_rd_0_addr     (conv_wt_ramrd_0_addr  ), //i
-    .io_wt_rd_0_data     (cbuf_io_wt_rd_0_data  ), //o
-    .io_wt_rd_0_en       (conv_wt_ramrd_0_en    ), //i
-    .io_wt_rd_1_addr     (conv_wt_ramrd_1_addr  ), //i
-    .io_wt_rd_1_data     (cbuf_io_wt_rd_1_data  ), //o
-    .io_wt_rd_1_en       (conv_wt_ramrd_1_en    ), //i
-    .io_wt_rd_2_addr     (conv_wt_ramrd_2_addr  ), //i
-    .io_wt_rd_2_data     (cbuf_io_wt_rd_2_data  ), //o
-    .io_wt_rd_2_en       (conv_wt_ramrd_2_en    ), //i
-    .io_wt_rd_3_addr     (conv_wt_ramrd_3_addr  ), //i
-    .io_wt_rd_3_data     (cbuf_io_wt_rd_3_data  ), //o
-    .io_wt_rd_3_en       (conv_wt_ramrd_3_en    ), //i
-    .io_wt_rd_4_addr     (conv_wt_ramrd_4_addr  ), //i
-    .io_wt_rd_4_data     (cbuf_io_wt_rd_4_data  ), //o
-    .io_wt_rd_4_en       (conv_wt_ramrd_4_en    ), //i
-    .io_wt_rd_5_addr     (conv_wt_ramrd_5_addr  ), //i
-    .io_wt_rd_5_data     (cbuf_io_wt_rd_5_data  ), //o
-    .io_wt_rd_5_en       (conv_wt_ramrd_5_en    ), //i
-    .io_wt_rd_6_addr     (conv_wt_ramrd_6_addr  ), //i
-    .io_wt_rd_6_data     (cbuf_io_wt_rd_6_data  ), //o
-    .io_wt_rd_6_en       (conv_wt_ramrd_6_en    ), //i
-    .io_wt_rd_7_addr     (conv_wt_ramrd_7_addr  ), //i
-    .io_wt_rd_7_data     (cbuf_io_wt_rd_7_data  ), //o
-    .io_wt_rd_7_en       (conv_wt_ramrd_7_en    ), //i
-    .clk                 (clk                   ), //i
-    .reset               (reset                 )  //i
+    .io_dt_input_valid      (rdma_dt_output_valid    ), //i
+    .io_dt_input_ready      (cbuf_io_dt_input_ready  ), //o
+    .io_dt_input_payload    (rdma_dt_output_payload  ), //i
+    .io_wt_input_valid      (rdma_wt_output_valid    ), //i
+    .io_wt_input_ready      (cbuf_io_wt_input_ready  ), //o
+    .io_wt_input_payload    (rdma_wt_output_payload  ), //i
+    .io_clear               (cfg_io_glb_enable       ), //i
+    .io_dt_rd_addr          (conv_dt_ramrd_addr      ), //i
+    .io_dt_rd_data          (cbuf_io_dt_rd_data      ), //o
+    .io_dt_rd_en            (conv_dt_ramrd_en        ), //i
+    .io_wt_rd_0_addr        (conv_wt_ramrd_0_addr    ), //i
+    .io_wt_rd_0_data        (cbuf_io_wt_rd_0_data    ), //o
+    .io_wt_rd_0_en          (conv_wt_ramrd_0_en      ), //i
+    .io_wt_rd_1_addr        (conv_wt_ramrd_1_addr    ), //i
+    .io_wt_rd_1_data        (cbuf_io_wt_rd_1_data    ), //o
+    .io_wt_rd_1_en          (conv_wt_ramrd_1_en      ), //i
+    .io_wt_rd_2_addr        (conv_wt_ramrd_2_addr    ), //i
+    .io_wt_rd_2_data        (cbuf_io_wt_rd_2_data    ), //o
+    .io_wt_rd_2_en          (conv_wt_ramrd_2_en      ), //i
+    .io_wt_rd_3_addr        (conv_wt_ramrd_3_addr    ), //i
+    .io_wt_rd_3_data        (cbuf_io_wt_rd_3_data    ), //o
+    .io_wt_rd_3_en          (conv_wt_ramrd_3_en      ), //i
+    .io_wt_rd_4_addr        (conv_wt_ramrd_4_addr    ), //i
+    .io_wt_rd_4_data        (cbuf_io_wt_rd_4_data    ), //o
+    .io_wt_rd_4_en          (conv_wt_ramrd_4_en      ), //i
+    .io_wt_rd_5_addr        (conv_wt_ramrd_5_addr    ), //i
+    .io_wt_rd_5_data        (cbuf_io_wt_rd_5_data    ), //o
+    .io_wt_rd_5_en          (conv_wt_ramrd_5_en      ), //i
+    .io_wt_rd_6_addr        (conv_wt_ramrd_6_addr    ), //i
+    .io_wt_rd_6_data        (cbuf_io_wt_rd_6_data    ), //o
+    .io_wt_rd_6_en          (conv_wt_ramrd_6_en      ), //i
+    .io_wt_rd_7_addr        (conv_wt_ramrd_7_addr    ), //i
+    .io_wt_rd_7_data        (cbuf_io_wt_rd_7_data    ), //o
+    .io_wt_rd_7_en          (conv_wt_ramrd_7_en      ), //i
+    .clk                    (clk                     ), //i
+    .reset                  (reset                   )  //i
   );
   conv_top conv (
     .cfg_valid                           (cfg_io_conv_glb_param_valid                         ), //i
@@ -1499,8 +1509,8 @@ module bp_fpga_top (
     .cfg_payload_wtHeight                (cfg_io_conv_glb_param_payload_wtHeight              ), //i
     .cfg_payload_oWidth                  (cfg_io_conv_glb_param_payload_oWidth                ), //i
     .cfg_payload_oHeight                 (cfg_io_conv_glb_param_payload_oHeight               ), //i
-    .read_enable                         (1'b1                                                ), //i
-    .acc_enable                          (1'b1                                                ), //i
+    .read_enable                         (rdma_dma_rd_finished                                ), //i
+    .acc_enable                          (rdma_dma_rd_finished                                ), //i
     .is_delta_wt                         (cfg_io_is_delta_wt                                  ), //i
     .dt_ramrd_addr                       (conv_dt_ramrd_addr                                  ), //o
     .dt_ramrd_data                       (cbuf_io_dt_rd_data                                  ), //i
@@ -2260,6 +2270,7 @@ module config_top (
   input               clk,
   input               reset
 );
+  wire       [15:0]   _zz_apb_addr;
   wire       [31:0]   _zz_cfg_dtWidth;
   wire       [31:0]   _zz_cfg_dtHeight;
   wire       [31:0]   _zz_cfg_wtWidth;
@@ -2284,11 +2295,13 @@ module config_top (
   reg        [15:0]   cfg_oHeight;
   reg                 start;
   reg                 is_delta_wt;
-  wire                when_config_top_l47;
-  wire                when_config_top_l49;
-  wire       [31:0]   switch_config_top_l51;
-  wire       [31:0]   switch_config_top_l96;
+  wire       [31:0]   apb_addr;
+  wire                when_config_top_l51;
+  wire                when_config_top_l53;
+  wire       [31:0]   switch_config_top_l56;
+  wire       [31:0]   switch_config_top_l101;
 
+  assign _zz_apb_addr = io_apb_PADDR[15 : 0];
   assign _zz_cfg_dtWidth = io_apb_PWDATA;
   assign _zz_cfg_dtHeight = io_apb_PWDATA;
   assign _zz_cfg_wtWidth = io_apb_PWDATA;
@@ -2301,6 +2314,7 @@ module config_top (
   assign _zz_io_apb_PRDATA_3 = cfg_wtHeight;
   assign _zz_io_apb_PRDATA_4 = cfg_oWidth;
   assign _zz_io_apb_PRDATA_5 = cfg_oHeight;
+  assign apb_addr = {16'd0, _zz_apb_addr};
   assign io_rdma_glb_param_payload_rd_dtBaseAddr = cfg_rd_dtBaseAddr;
   assign io_rdma_glb_param_payload_rd_wtBaseAddr = cfg_rd_wtBaseAddr;
   assign io_rdma_glb_param_payload_wr_delta_wt_BaseAddr = cfg_wr_delta_wt_BaseAddr;
@@ -2338,9 +2352,9 @@ module config_top (
   assign io_apb_PREADY = 1'b1;
   always @(*) begin
     io_apb_PRDATA = 32'h0;
-    if(when_config_top_l47) begin
-      if(!when_config_top_l49) begin
-        case(switch_config_top_l96)
+    if(when_config_top_l51) begin
+      if(!when_config_top_l53) begin
+        case(switch_config_top_l101)
           32'h00000010 : begin
             io_apb_PRDATA = {16'd0, _zz_io_apb_PRDATA};
           end
@@ -2381,17 +2395,17 @@ module config_top (
 
   assign io_apb_PSLVERROR = 1'b0;
   assign io_is_delta_wt = is_delta_wt;
-  assign when_config_top_l47 = ((io_apb_PENABLE == 1'b1) && (io_apb_PSEL == 1'b1));
-  assign when_config_top_l49 = (io_apb_PWRITE == 1'b1);
-  assign switch_config_top_l51 = io_apb_PADDR;
-  assign switch_config_top_l96 = io_apb_PADDR;
+  assign when_config_top_l51 = ((io_apb_PENABLE == 1'b1) && (io_apb_PSEL == 1'b1));
+  assign when_config_top_l53 = (io_apb_PWRITE == 1'b1);
+  assign switch_config_top_l56 = apb_addr;
+  assign switch_config_top_l101 = io_apb_PADDR;
   always @(posedge clk or posedge reset) begin
     if(reset) begin
       is_delta_wt <= 1'b0;
     end else begin
-      if(when_config_top_l47) begin
-        if(when_config_top_l49) begin
-          case(switch_config_top_l51)
+      if(when_config_top_l51) begin
+        if(when_config_top_l53) begin
+          case(switch_config_top_l56)
             32'h00000004 : begin
               is_delta_wt <= io_apb_PWDATA[0];
             end
@@ -2405,9 +2419,9 @@ module config_top (
 
   always @(posedge clk) begin
     start <= 1'b0;
-    if(when_config_top_l47) begin
-      if(when_config_top_l49) begin
-        case(switch_config_top_l51)
+    if(when_config_top_l51) begin
+      if(when_config_top_l53) begin
+        case(switch_config_top_l56)
           32'h0 : begin
             start <= io_apb_PWDATA[0];
           end
@@ -5811,11 +5825,13 @@ module conv_top (
 endmodule
 
 module cbuff_top (
-  input               io_input_valid,
-  output              io_input_ready,
-  input      [255:0]  io_input_payload,
+  input               io_dt_input_valid,
+  output              io_dt_input_ready,
+  input      [255:0]  io_dt_input_payload,
+  input               io_wt_input_valid,
+  output              io_wt_input_ready,
+  input      [255:0]  io_wt_input_payload,
   input               io_clear,
-  input               io_is_dtwt_mux,
   input      [31:0]   io_dt_rd_addr,
   output     [255:0]  io_dt_rd_data,
   input               io_dt_rd_en,
@@ -5846,7 +5862,8 @@ module cbuff_top (
   input               clk,
   input               reset
 );
-  wire                d2b_io_input_ready;
+  wire                d2b_io_dt_input_ready;
+  wire                d2b_io_wt_input_ready;
   wire       [31:0]   d2b_io_dt_wr_addr;
   wire       [255:0]  d2b_io_dt_wr_data;
   wire                d2b_io_dt_wr_en;
@@ -5885,40 +5902,42 @@ module cbuff_top (
   wire       [255:0]  buff_io_wt_rd_7_data;
 
   dma2buff d2b (
-    .io_input_valid      (io_input_valid       ), //i
-    .io_input_ready      (d2b_io_input_ready   ), //o
-    .io_input_payload    (io_input_payload     ), //i
-    .io_clear            (io_clear             ), //i
-    .io_is_dtwt_mux      (io_is_dtwt_mux       ), //i
-    .io_dt_wr_addr       (d2b_io_dt_wr_addr    ), //o
-    .io_dt_wr_data       (d2b_io_dt_wr_data    ), //o
-    .io_dt_wr_en         (d2b_io_dt_wr_en      ), //o
-    .io_wt_wr_0_addr     (d2b_io_wt_wr_0_addr  ), //o
-    .io_wt_wr_0_data     (d2b_io_wt_wr_0_data  ), //o
-    .io_wt_wr_0_en       (d2b_io_wt_wr_0_en    ), //o
-    .io_wt_wr_1_addr     (d2b_io_wt_wr_1_addr  ), //o
-    .io_wt_wr_1_data     (d2b_io_wt_wr_1_data  ), //o
-    .io_wt_wr_1_en       (d2b_io_wt_wr_1_en    ), //o
-    .io_wt_wr_2_addr     (d2b_io_wt_wr_2_addr  ), //o
-    .io_wt_wr_2_data     (d2b_io_wt_wr_2_data  ), //o
-    .io_wt_wr_2_en       (d2b_io_wt_wr_2_en    ), //o
-    .io_wt_wr_3_addr     (d2b_io_wt_wr_3_addr  ), //o
-    .io_wt_wr_3_data     (d2b_io_wt_wr_3_data  ), //o
-    .io_wt_wr_3_en       (d2b_io_wt_wr_3_en    ), //o
-    .io_wt_wr_4_addr     (d2b_io_wt_wr_4_addr  ), //o
-    .io_wt_wr_4_data     (d2b_io_wt_wr_4_data  ), //o
-    .io_wt_wr_4_en       (d2b_io_wt_wr_4_en    ), //o
-    .io_wt_wr_5_addr     (d2b_io_wt_wr_5_addr  ), //o
-    .io_wt_wr_5_data     (d2b_io_wt_wr_5_data  ), //o
-    .io_wt_wr_5_en       (d2b_io_wt_wr_5_en    ), //o
-    .io_wt_wr_6_addr     (d2b_io_wt_wr_6_addr  ), //o
-    .io_wt_wr_6_data     (d2b_io_wt_wr_6_data  ), //o
-    .io_wt_wr_6_en       (d2b_io_wt_wr_6_en    ), //o
-    .io_wt_wr_7_addr     (d2b_io_wt_wr_7_addr  ), //o
-    .io_wt_wr_7_data     (d2b_io_wt_wr_7_data  ), //o
-    .io_wt_wr_7_en       (d2b_io_wt_wr_7_en    ), //o
-    .clk                 (clk                  ), //i
-    .reset               (reset                )  //i
+    .io_dt_input_valid      (io_dt_input_valid      ), //i
+    .io_dt_input_ready      (d2b_io_dt_input_ready  ), //o
+    .io_dt_input_payload    (io_dt_input_payload    ), //i
+    .io_wt_input_valid      (io_wt_input_valid      ), //i
+    .io_wt_input_ready      (d2b_io_wt_input_ready  ), //o
+    .io_wt_input_payload    (io_wt_input_payload    ), //i
+    .io_clear               (io_clear               ), //i
+    .io_dt_wr_addr          (d2b_io_dt_wr_addr      ), //o
+    .io_dt_wr_data          (d2b_io_dt_wr_data      ), //o
+    .io_dt_wr_en            (d2b_io_dt_wr_en        ), //o
+    .io_wt_wr_0_addr        (d2b_io_wt_wr_0_addr    ), //o
+    .io_wt_wr_0_data        (d2b_io_wt_wr_0_data    ), //o
+    .io_wt_wr_0_en          (d2b_io_wt_wr_0_en      ), //o
+    .io_wt_wr_1_addr        (d2b_io_wt_wr_1_addr    ), //o
+    .io_wt_wr_1_data        (d2b_io_wt_wr_1_data    ), //o
+    .io_wt_wr_1_en          (d2b_io_wt_wr_1_en      ), //o
+    .io_wt_wr_2_addr        (d2b_io_wt_wr_2_addr    ), //o
+    .io_wt_wr_2_data        (d2b_io_wt_wr_2_data    ), //o
+    .io_wt_wr_2_en          (d2b_io_wt_wr_2_en      ), //o
+    .io_wt_wr_3_addr        (d2b_io_wt_wr_3_addr    ), //o
+    .io_wt_wr_3_data        (d2b_io_wt_wr_3_data    ), //o
+    .io_wt_wr_3_en          (d2b_io_wt_wr_3_en      ), //o
+    .io_wt_wr_4_addr        (d2b_io_wt_wr_4_addr    ), //o
+    .io_wt_wr_4_data        (d2b_io_wt_wr_4_data    ), //o
+    .io_wt_wr_4_en          (d2b_io_wt_wr_4_en      ), //o
+    .io_wt_wr_5_addr        (d2b_io_wt_wr_5_addr    ), //o
+    .io_wt_wr_5_data        (d2b_io_wt_wr_5_data    ), //o
+    .io_wt_wr_5_en          (d2b_io_wt_wr_5_en      ), //o
+    .io_wt_wr_6_addr        (d2b_io_wt_wr_6_addr    ), //o
+    .io_wt_wr_6_data        (d2b_io_wt_wr_6_data    ), //o
+    .io_wt_wr_6_en          (d2b_io_wt_wr_6_en      ), //o
+    .io_wt_wr_7_addr        (d2b_io_wt_wr_7_addr    ), //o
+    .io_wt_wr_7_data        (d2b_io_wt_wr_7_data    ), //o
+    .io_wt_wr_7_en          (d2b_io_wt_wr_7_en      ), //o
+    .clk                    (clk                    ), //i
+    .reset                  (reset                  )  //i
   );
   conv_buff buff (
     .io_dt_wr_addr      (d2b_io_dt_wr_addr     ), //i
@@ -5978,7 +5997,8 @@ module cbuff_top (
     .clk                (clk                   ), //i
     .reset              (reset                 )  //i
   );
-  assign io_input_ready = d2b_io_input_ready;
+  assign io_dt_input_ready = d2b_io_dt_input_ready;
+  assign io_wt_input_ready = d2b_io_wt_input_ready;
   assign io_dt_rd_data = buff_io_dt_rd_data;
   assign io_wt_rd_0_data = buff_io_wt_rd_0_data;
   assign io_wt_rd_1_data = buff_io_wt_rd_1_data;
@@ -7146,12 +7166,15 @@ module dmaReadCtrl (
   input      [15:0]   cfg_payload_wtHeight,
   input      [15:0]   cfg_payload_oWidth,
   input      [15:0]   cfg_payload_oHeight,
-  output              output_valid,
-  input               output_ready,
-  output     [255:0]  output_payload,
+  output              dt_output_valid,
+  input               dt_output_ready,
+  output     [255:0]  dt_output_payload,
+  output              wt_output_valid,
+  input               wt_output_ready,
+  output     [255:0]  wt_output_payload,
   input               enable,
   output reg          isIdle,
-  output              is_dtwt_mux,
+  output reg          dma_rd_finished,
   input               clk,
   input               reset
 );
@@ -7163,9 +7186,14 @@ module dmaReadCtrl (
   wire       [2:0]    dma_rd_axim_ar_payload_size;
   wire       [1:0]    dma_rd_axim_ar_payload_burst;
   wire                dma_rd_axim_r_ready;
-  wire                dma_rd_output_valid;
-  wire       [255:0]  dma_rd_output_payload;
+  wire                dma_rd_dt_output_valid;
+  wire       [255:0]  dma_rd_dt_output_payload;
+  wire                dma_rd_wt_output_valid;
+  wire       [255:0]  dma_rd_wt_output_payload;
   wire                dma_rd_isIdle;
+  wire       [15:0]   _zz_burstlen;
+  wire       [15:0]   _zz_when_dmaReadCtrl_l105;
+  wire       [15:0]   _zz_when_dmaReadCtrl_l142;
   reg        [31:0]   par_rd_dtBaseAddr;
   reg        [31:0]   par_rd_wtBaseAddr;
   reg        [31:0]   par_wr_delta_wt_BaseAddr;
@@ -7182,28 +7210,31 @@ module dmaReadCtrl (
   reg        [15:0]   dt_vcnt;
   reg        [15:0]   wt_wcnt;
   reg        [15:0]   wt_vcnt;
-  reg                 is_dtwt_mux_1;
+  reg                 is_dtwt_mux;
   wire                dma_rdctrl_fsm_wantExit;
   reg                 dma_rdctrl_fsm_wantStart;
   wire                dma_rdctrl_fsm_wantKill;
   reg        `dma_rdctrl_fsm_enumDefinition_binary_sequential_type dma_rdctrl_fsm_stateReg;
   reg        `dma_rdctrl_fsm_enumDefinition_binary_sequential_type dma_rdctrl_fsm_stateNext;
-  wire                when_dmaReadCtrl_l65;
-  wire                when_dmaReadCtrl_l68;
-  wire                when_dmaReadCtrl_l82;
-  wire                when_dmaReadCtrl_l84;
-  wire                when_dmaReadCtrl_l95;
-  wire                when_dmaReadCtrl_l96;
-  wire                when_dmaReadCtrl_l108;
-  wire                when_dmaReadCtrl_l111;
-  wire                when_dmaReadCtrl_l123;
-  wire                when_dmaReadCtrl_l124;
+  wire                when_dmaReadCtrl_l72;
+  wire                when_dmaReadCtrl_l75;
+  wire                when_dmaReadCtrl_l90;
+  wire                when_dmaReadCtrl_l92;
+  wire                when_dmaReadCtrl_l104;
+  wire                when_dmaReadCtrl_l105;
+  wire                when_dmaReadCtrl_l125;
+  wire                when_dmaReadCtrl_l128;
+  wire                when_dmaReadCtrl_l141;
+  wire                when_dmaReadCtrl_l142;
   `ifndef SYNTHESIS
-  reg [191:0] dma_rdctrl_fsm_stateReg_string;
-  reg [191:0] dma_rdctrl_fsm_stateNext_string;
+  reg [215:0] dma_rdctrl_fsm_stateReg_string;
+  reg [215:0] dma_rdctrl_fsm_stateNext_string;
   `endif
 
 
+  assign _zz_burstlen = (par_dtWidth - 16'h0001);
+  assign _zz_when_dmaReadCtrl_l105 = (par_dtHeight - 16'h0001);
+  assign _zz_when_dmaReadCtrl_l142 = (par_wtHeight - 16'h0001);
   dma_read dma_rd (
     .axim_ar_valid            (dma_rd_axim_ar_valid          ), //o
     .axim_ar_ready            (axim_ar_ready                 ), //i
@@ -7220,9 +7251,13 @@ module dmaReadCtrl (
     .axim_r_payload_last      (axim_r_payload_last           ), //i
     .rd_para_BaseAddr         (BaseAddr                      ), //i
     .rd_para_burstlen         (burstlen                      ), //i
-    .output_valid             (dma_rd_output_valid           ), //o
-    .output_ready             (output_ready                  ), //i
-    .output_payload           (dma_rd_output_payload         ), //o
+    .is_dtwt_in               (is_dtwt_mux                   ), //i
+    .dt_output_valid          (dma_rd_dt_output_valid        ), //o
+    .dt_output_ready          (dt_output_ready               ), //i
+    .dt_output_payload        (dma_rd_dt_output_payload      ), //o
+    .wt_output_valid          (dma_rd_wt_output_valid        ), //o
+    .wt_output_ready          (wt_output_ready               ), //i
+    .wt_output_payload        (dma_rd_wt_output_payload      ), //o
     .enable                   (dma_rd_enable                 ), //i
     .isIdle                   (dma_rd_isIdle                 ), //o
     .clk                      (clk                           ), //i
@@ -7231,44 +7266,72 @@ module dmaReadCtrl (
   `ifndef SYNTHESIS
   always @(*) begin
     case(dma_rdctrl_fsm_stateReg)
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_BOOT : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_BOOT     ";
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_IDLE : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_IDLE     ";
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_PARAM : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_GET_PARAM";
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_READ_DT  ";
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_CHECK_DT ";
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_READ_WT  ";
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_CHECK_WT ";
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_END      ";
-      default : dma_rdctrl_fsm_stateReg_string = "????????????????????????";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_BOOT : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_BOOT        ";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_IDLE : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_IDLE        ";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_DT_PARAM : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_GET_DT_PARAM";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_READ_DT     ";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_CHECK_DT    ";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_GET_WT_PARAM";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_READ_WT     ";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_CHECK_WT    ";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_END         ";
+      default : dma_rdctrl_fsm_stateReg_string = "???????????????????????????";
     endcase
   end
   always @(*) begin
     case(dma_rdctrl_fsm_stateNext)
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_BOOT : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_BOOT     ";
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_IDLE : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_IDLE     ";
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_PARAM : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_GET_PARAM";
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_READ_DT  ";
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_CHECK_DT ";
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_READ_WT  ";
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_CHECK_WT ";
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_END      ";
-      default : dma_rdctrl_fsm_stateNext_string = "????????????????????????";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_BOOT : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_BOOT        ";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_IDLE : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_IDLE        ";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_DT_PARAM : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_GET_DT_PARAM";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_READ_DT     ";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_CHECK_DT    ";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_GET_WT_PARAM";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_READ_WT     ";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_CHECK_WT    ";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_END         ";
+      default : dma_rdctrl_fsm_stateNext_string = "???????????????????????????";
     endcase
   end
   `endif
 
-  assign is_dtwt_mux = is_dtwt_mux_1;
+  always @(*) begin
+    dma_rd_finished = 1'b0;
+    case(dma_rdctrl_fsm_stateReg)
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_IDLE : begin
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_DT_PARAM : begin
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT : begin
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : begin
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : begin
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : begin
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT : begin
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END : begin
+        dma_rd_finished = 1'b1;
+      end
+      default : begin
+      end
+    endcase
+  end
+
   always @(*) begin
     isIdle = 1'b0;
     case(dma_rdctrl_fsm_stateReg)
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_IDLE : begin
         isIdle = 1'b1;
       end
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_PARAM : begin
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_DT_PARAM : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : begin
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : begin
       end
@@ -7287,11 +7350,13 @@ module dmaReadCtrl (
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_IDLE : begin
         cfg_ready = 1'b1;
       end
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_PARAM : begin
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_DT_PARAM : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : begin
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : begin
       end
@@ -7309,17 +7374,19 @@ module dmaReadCtrl (
     case(dma_rdctrl_fsm_stateReg)
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_IDLE : begin
       end
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_PARAM : begin
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_DT_PARAM : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT : begin
-        if(when_dmaReadCtrl_l82) begin
+        if(when_dmaReadCtrl_l90) begin
           dma_rd_enable = 1'b1;
         end
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : begin
       end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : begin
+      end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : begin
-        if(when_dmaReadCtrl_l108) begin
+        if(when_dmaReadCtrl_l125) begin
           dma_rd_enable = 1'b1;
         end
       end
@@ -7339,19 +7406,23 @@ module dmaReadCtrl (
   assign axim_ar_payload_size = dma_rd_axim_ar_payload_size;
   assign axim_ar_payload_burst = dma_rd_axim_ar_payload_burst;
   assign axim_r_ready = dma_rd_axim_r_ready;
-  assign output_valid = dma_rd_output_valid;
-  assign output_payload = dma_rd_output_payload;
+  assign dt_output_valid = dma_rd_dt_output_valid;
+  assign dt_output_payload = dma_rd_dt_output_payload;
+  assign wt_output_valid = dma_rd_wt_output_valid;
+  assign wt_output_payload = dma_rd_wt_output_payload;
   assign dma_rdctrl_fsm_wantExit = 1'b0;
   always @(*) begin
     dma_rdctrl_fsm_wantStart = 1'b0;
     case(dma_rdctrl_fsm_stateReg)
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_IDLE : begin
       end
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_PARAM : begin
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_DT_PARAM : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : begin
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : begin
       end
@@ -7370,35 +7441,38 @@ module dmaReadCtrl (
     dma_rdctrl_fsm_stateNext = dma_rdctrl_fsm_stateReg;
     case(dma_rdctrl_fsm_stateReg)
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_IDLE : begin
-        if(when_dmaReadCtrl_l68) begin
-          dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_PARAM;
+        if(when_dmaReadCtrl_l75) begin
+          dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_DT_PARAM;
         end
       end
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_PARAM : begin
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_DT_PARAM : begin
         dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT;
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT : begin
-        if(when_dmaReadCtrl_l82) begin
+        if(when_dmaReadCtrl_l90) begin
           dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT;
         end
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : begin
-        if(when_dmaReadCtrl_l95) begin
-          if(when_dmaReadCtrl_l96) begin
-            dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT;
+        if(when_dmaReadCtrl_l104) begin
+          if(when_dmaReadCtrl_l105) begin
+            dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM;
           end else begin
             dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT;
           end
         end
       end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : begin
+        dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT;
+      end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : begin
-        if(when_dmaReadCtrl_l108) begin
+        if(when_dmaReadCtrl_l125) begin
           dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT;
         end
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT : begin
-        if(when_dmaReadCtrl_l123) begin
-          if(when_dmaReadCtrl_l124) begin
+        if(when_dmaReadCtrl_l141) begin
+          if(when_dmaReadCtrl_l142) begin
             dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END;
           end else begin
             dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT;
@@ -7419,16 +7493,16 @@ module dmaReadCtrl (
     end
   end
 
-  assign when_dmaReadCtrl_l65 = (cfg_valid && cfg_ready);
-  assign when_dmaReadCtrl_l68 = (enable == 1'b1);
-  assign when_dmaReadCtrl_l82 = (dma_rd_isIdle == 1'b1);
-  assign when_dmaReadCtrl_l84 = (dt_wcnt == par_dtWidth);
-  assign when_dmaReadCtrl_l95 = (dma_rd_isIdle == 1'b1);
-  assign when_dmaReadCtrl_l96 = ((dt_vcnt == par_dtHeight) && (dt_wcnt == par_dtWidth));
-  assign when_dmaReadCtrl_l108 = (dma_rd_isIdle == 1'b1);
-  assign when_dmaReadCtrl_l111 = (wt_wcnt == par_wtWidth);
-  assign when_dmaReadCtrl_l123 = (dma_rd_isIdle == 1'b1);
-  assign when_dmaReadCtrl_l124 = ((wt_vcnt == par_wtHeight) && (dt_wcnt == par_wtWidth));
+  assign when_dmaReadCtrl_l72 = (cfg_valid && cfg_ready);
+  assign when_dmaReadCtrl_l75 = (enable == 1'b1);
+  assign when_dmaReadCtrl_l90 = (dma_rd_isIdle == 1'b1);
+  assign when_dmaReadCtrl_l92 = (dt_wcnt == par_dtWidth);
+  assign when_dmaReadCtrl_l104 = (dma_rd_isIdle == 1'b1);
+  assign when_dmaReadCtrl_l105 = ((dt_vcnt == _zz_when_dmaReadCtrl_l105) && (dt_wcnt == par_dtWidth));
+  assign when_dmaReadCtrl_l125 = (dma_rd_isIdle == 1'b1);
+  assign when_dmaReadCtrl_l128 = (wt_wcnt == par_wtWidth);
+  assign when_dmaReadCtrl_l141 = (dma_rd_isIdle == 1'b1);
+  assign when_dmaReadCtrl_l142 = ((wt_vcnt == _zz_when_dmaReadCtrl_l142) && (wt_wcnt == par_wtWidth));
   always @(posedge clk or posedge reset) begin
     if(reset) begin
       burstlen <= 8'h0;
@@ -7437,7 +7511,7 @@ module dmaReadCtrl (
       dt_vcnt <= 16'h0;
       wt_wcnt <= 16'h0;
       wt_vcnt <= 16'h0;
-      is_dtwt_mux_1 <= 1'b0;
+      is_dtwt_mux <= 1'b0;
       dma_rdctrl_fsm_stateReg <= `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_BOOT;
     end else begin
       dma_rdctrl_fsm_stateReg <= dma_rdctrl_fsm_stateNext;
@@ -7448,14 +7522,14 @@ module dmaReadCtrl (
           wt_wcnt <= 16'h0;
           wt_vcnt <= 16'h0;
         end
-        `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_PARAM : begin
-          is_dtwt_mux_1 <= 1'b1;
+        `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_DT_PARAM : begin
+          burstlen <= _zz_burstlen[7:0];
+          BaseAddr <= par_rd_dtBaseAddr;
+          is_dtwt_mux <= 1'b1;
         end
         `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT : begin
-          burstlen <= par_dtWidth[7:0];
-          BaseAddr <= par_rd_dtBaseAddr;
-          if(when_dmaReadCtrl_l82) begin
-            if(when_dmaReadCtrl_l84) begin
+          if(when_dmaReadCtrl_l90) begin
+            if(when_dmaReadCtrl_l92) begin
               dt_vcnt <= (dt_vcnt + 16'h0001);
               dt_wcnt <= 16'h0;
             end else begin
@@ -7464,17 +7538,21 @@ module dmaReadCtrl (
           end
         end
         `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : begin
-          if(when_dmaReadCtrl_l95) begin
-            if(when_dmaReadCtrl_l96) begin
-              burstlen <= par_wtWidth[7:0];
-              BaseAddr <= par_rd_wtBaseAddr;
-              is_dtwt_mux_1 <= 1'b0;
+          if(when_dmaReadCtrl_l104) begin
+            if(when_dmaReadCtrl_l105) begin
+              dt_vcnt <= 16'h0;
+              dt_wcnt <= 16'h0;
             end
           end
         end
+        `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : begin
+          is_dtwt_mux <= 1'b0;
+          burstlen <= 8'h07;
+          BaseAddr <= par_rd_wtBaseAddr;
+        end
         `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : begin
-          if(when_dmaReadCtrl_l108) begin
-            if(when_dmaReadCtrl_l111) begin
+          if(when_dmaReadCtrl_l125) begin
+            if(when_dmaReadCtrl_l128) begin
               wt_vcnt <= (wt_vcnt + 16'h0001);
               wt_wcnt <= 16'h0;
             end else begin
@@ -7495,7 +7573,7 @@ module dmaReadCtrl (
   always @(posedge clk) begin
     case(dma_rdctrl_fsm_stateReg)
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_IDLE : begin
-        if(when_dmaReadCtrl_l65) begin
+        if(when_dmaReadCtrl_l72) begin
           par_rd_dtBaseAddr <= cfg_payload_rd_dtBaseAddr;
           par_rd_wtBaseAddr <= cfg_payload_rd_wtBaseAddr;
           par_wr_delta_wt_BaseAddr <= cfg_payload_wr_delta_wt_BaseAddr;
@@ -7508,11 +7586,13 @@ module dmaReadCtrl (
           par_oHeight <= cfg_payload_oHeight;
         end
       end
-      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_PARAM : begin
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_DT_PARAM : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : begin
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : begin
       end
@@ -11421,12 +11501,12 @@ module buff2conv (
   wire       [47:0]   _zz_wt_rd_addr;
   wire       [47:0]   _zz_wt_rd_addr_1;
   wire       [47:0]   _zz_wt_rd_addr_2;
-  wire       [31:0]   _zz_when_buff2conv_l131;
-  wire       [15:0]   _zz_when_buff2conv_l131_1;
-  wire       [31:0]   _zz_when_buff2conv_l131_2;
-  wire       [15:0]   _zz_when_buff2conv_l131_3;
   wire       [31:0]   _zz_when_buff2conv_l136;
   wire       [15:0]   _zz_when_buff2conv_l136_1;
+  wire       [31:0]   _zz_when_buff2conv_l136_2;
+  wire       [15:0]   _zz_when_buff2conv_l136_3;
+  wire       [31:0]   _zz_when_buff2conv_l141;
+  wire       [15:0]   _zz_when_buff2conv_l141_1;
   reg        [31:0]   idx;
   reg        [31:0]   idy;
   reg        [31:0]   window_posx;
@@ -11464,11 +11544,11 @@ module buff2conv (
   wire                read_req_fsm_wantKill;
   reg        `read_req_fsm_enumDefinition_binary_sequential_type read_req_fsm_stateReg;
   reg        `read_req_fsm_enumDefinition_binary_sequential_type read_req_fsm_stateNext;
-  wire                when_buff2conv_l124;
-  wire                when_buff2conv_l131;
+  wire                when_buff2conv_l129;
   wire                when_buff2conv_l136;
-  wire                when_buff2conv_l148;
-  wire                when_buff2conv_l151;
+  wire                when_buff2conv_l141;
+  wire                when_buff2conv_l153;
+  wire                when_buff2conv_l156;
   `ifndef SYNTHESIS
   reg [247:0] read_req_fsm_stateReg_string;
   reg [247:0] read_req_fsm_stateNext_string;
@@ -11487,19 +11567,20 @@ module buff2conv (
   assign _zz_wt_rd_addr = (_zz_wt_rd_addr_1 + _zz_wt_rd_addr_2);
   assign _zz_wt_rd_addr_1 = (idy * param_dtWidth);
   assign _zz_wt_rd_addr_2 = {16'd0, idx};
-  assign _zz_when_buff2conv_l131_1 = (param_wtHeight - 16'h0001);
-  assign _zz_when_buff2conv_l131 = {16'd0, _zz_when_buff2conv_l131_1};
-  assign _zz_when_buff2conv_l131_3 = (param_wtWidth - 16'h0001);
-  assign _zz_when_buff2conv_l131_2 = {16'd0, _zz_when_buff2conv_l131_3};
-  assign _zz_when_buff2conv_l136_1 = (param_wtWidth - 16'h0001);
+  assign _zz_when_buff2conv_l136_1 = (param_wtHeight - 16'h0001);
   assign _zz_when_buff2conv_l136 = {16'd0, _zz_when_buff2conv_l136_1};
+  assign _zz_when_buff2conv_l136_3 = (param_wtWidth - 16'h0001);
+  assign _zz_when_buff2conv_l136_2 = {16'd0, _zz_when_buff2conv_l136_3};
+  assign _zz_when_buff2conv_l141_1 = (param_wtWidth - 16'h0001);
+  assign _zz_when_buff2conv_l141 = {16'd0, _zz_when_buff2conv_l141_1};
   `ifndef SYNTHESIS
   always @(*) begin
     case(read_req_fsm_stateReg)
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_BOOT : read_req_fsm_stateReg_string = "read_req_fsm_BOOT              ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : read_req_fsm_stateReg_string = "read_req_fsm_IDLE              ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : read_req_fsm_stateReg_string = "read_req_fsm_INIT              ";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : read_req_fsm_stateReg_string = "read_req_fsm_READ              ";
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_EN : read_req_fsm_stateReg_string = "read_req_fsm_READ_EN           ";
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_DATA : read_req_fsm_stateReg_string = "read_req_fsm_READ_DATA         ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : read_req_fsm_stateReg_string = "read_req_fsm_OUTPUT            ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : read_req_fsm_stateReg_string = "read_req_fsm_UPDATA_ADDR       ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : read_req_fsm_stateReg_string = "read_req_fsm_UPDATA_CONV_WINDOW";
@@ -11512,7 +11593,8 @@ module buff2conv (
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_BOOT : read_req_fsm_stateNext_string = "read_req_fsm_BOOT              ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : read_req_fsm_stateNext_string = "read_req_fsm_IDLE              ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : read_req_fsm_stateNext_string = "read_req_fsm_INIT              ";
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : read_req_fsm_stateNext_string = "read_req_fsm_READ              ";
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_EN : read_req_fsm_stateNext_string = "read_req_fsm_READ_EN           ";
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_DATA : read_req_fsm_stateNext_string = "read_req_fsm_READ_DATA         ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : read_req_fsm_stateNext_string = "read_req_fsm_OUTPUT            ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : read_req_fsm_stateNext_string = "read_req_fsm_UPDATA_ADDR       ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : read_req_fsm_stateNext_string = "read_req_fsm_UPDATA_CONV_WINDOW";
@@ -11530,8 +11612,10 @@ module buff2conv (
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
       end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_EN : begin
         read_en = 1'b1;
+      end
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_DATA : begin
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
       end
@@ -11553,10 +11637,12 @@ module buff2conv (
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
       end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_EN : begin
+      end
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_DATA : begin
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
-        if(when_buff2conv_l124) begin
+        if(when_buff2conv_l129) begin
           outvalid = 1'b1;
         end
       end
@@ -11618,7 +11704,9 @@ module buff2conv (
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
       end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_EN : begin
+      end
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_DATA : begin
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
       end
@@ -11644,21 +11732,24 @@ module buff2conv (
         end
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
-        read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ;
+        read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_EN;
       end
-      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_EN : begin
+        read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_DATA;
+      end
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_DATA : begin
         read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT;
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
-        if(when_buff2conv_l124) begin
+        if(when_buff2conv_l129) begin
           read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR;
         end
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
-        if(when_buff2conv_l131) begin
+        if(when_buff2conv_l136) begin
           read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW;
         end else begin
-          if(when_buff2conv_l136) begin
+          if(when_buff2conv_l141) begin
             read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR;
           end else begin
             read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR;
@@ -11666,10 +11757,10 @@ module buff2conv (
         end
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-        if(when_buff2conv_l148) begin
+        if(when_buff2conv_l153) begin
           read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE;
         end else begin
-          if(when_buff2conv_l151) begin
+          if(when_buff2conv_l156) begin
             read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR;
           end else begin
             read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR;
@@ -11677,7 +11768,7 @@ module buff2conv (
         end
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
-        read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ;
+        read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_EN;
       end
       default : begin
       end
@@ -11690,11 +11781,11 @@ module buff2conv (
     end
   end
 
-  assign when_buff2conv_l124 = (o_ft_ready && wire_wt_oready);
-  assign when_buff2conv_l131 = ((idy == _zz_when_buff2conv_l131) && (idx == _zz_when_buff2conv_l131_2));
-  assign when_buff2conv_l136 = (idx == _zz_when_buff2conv_l136);
-  assign when_buff2conv_l148 = ((window_posy == last_window_y) && (window_posx == last_window_x));
-  assign when_buff2conv_l151 = (window_posx == last_window_x);
+  assign when_buff2conv_l129 = (o_ft_ready && wire_wt_oready);
+  assign when_buff2conv_l136 = ((idy == _zz_when_buff2conv_l136) && (idx == _zz_when_buff2conv_l136_2));
+  assign when_buff2conv_l141 = (idx == _zz_when_buff2conv_l141);
+  assign when_buff2conv_l153 = ((window_posy == last_window_y) && (window_posx == last_window_x));
+  assign when_buff2conv_l156 = (window_posx == last_window_x);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
       idx <= 32'h0;
@@ -11730,7 +11821,9 @@ module buff2conv (
           window_posx <= 32'h0;
           window_posy <= 32'h0;
         end
-        `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ : begin
+        `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_EN : begin
+        end
+        `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_DATA : begin
           dt_rdata <= dt_ramrd_data;
           wt_rdata_0 <= wt_ramrd_0_data;
           wt_rdata_1 <= wt_ramrd_1_data;
@@ -11744,11 +11837,11 @@ module buff2conv (
         `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
         end
         `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
-          if(when_buff2conv_l131) begin
+          if(when_buff2conv_l136) begin
             idx <= 32'h0;
             idy <= 32'h0;
           end else begin
-            if(when_buff2conv_l136) begin
+            if(when_buff2conv_l141) begin
               idy <= (idy + 32'h00000001);
               idx <= 32'h0;
             end else begin
@@ -11757,8 +11850,8 @@ module buff2conv (
           end
         end
         `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-          if(!when_buff2conv_l148) begin
-            if(when_buff2conv_l151) begin
+          if(!when_buff2conv_l153) begin
+            if(when_buff2conv_l156) begin
               window_posx <= 32'h0;
               window_posy <= (window_posy + 32'h00000001);
             end else begin
@@ -11961,37 +12054,39 @@ module conv_buff (
 endmodule
 
 module dma2buff (
-  input               io_input_valid,
-  output              io_input_ready,
-  input      [255:0]  io_input_payload,
+  input               io_dt_input_valid,
+  output              io_dt_input_ready,
+  input      [255:0]  io_dt_input_payload,
+  input               io_wt_input_valid,
+  output              io_wt_input_ready,
+  input      [255:0]  io_wt_input_payload,
   input               io_clear,
-  input               io_is_dtwt_mux,
   output     [31:0]   io_dt_wr_addr,
   output     [255:0]  io_dt_wr_data,
-  output reg          io_dt_wr_en,
+  output              io_dt_wr_en,
   output     [31:0]   io_wt_wr_0_addr,
-  output reg [255:0]  io_wt_wr_0_data,
+  output     [255:0]  io_wt_wr_0_data,
   output reg          io_wt_wr_0_en,
   output     [31:0]   io_wt_wr_1_addr,
-  output reg [255:0]  io_wt_wr_1_data,
+  output     [255:0]  io_wt_wr_1_data,
   output reg          io_wt_wr_1_en,
   output     [31:0]   io_wt_wr_2_addr,
-  output reg [255:0]  io_wt_wr_2_data,
+  output     [255:0]  io_wt_wr_2_data,
   output reg          io_wt_wr_2_en,
   output     [31:0]   io_wt_wr_3_addr,
-  output reg [255:0]  io_wt_wr_3_data,
+  output     [255:0]  io_wt_wr_3_data,
   output reg          io_wt_wr_3_en,
   output     [31:0]   io_wt_wr_4_addr,
-  output reg [255:0]  io_wt_wr_4_data,
+  output     [255:0]  io_wt_wr_4_data,
   output reg          io_wt_wr_4_en,
   output     [31:0]   io_wt_wr_5_addr,
-  output reg [255:0]  io_wt_wr_5_data,
+  output     [255:0]  io_wt_wr_5_data,
   output reg          io_wt_wr_5_en,
   output     [31:0]   io_wt_wr_6_addr,
-  output reg [255:0]  io_wt_wr_6_data,
+  output     [255:0]  io_wt_wr_6_data,
   output reg          io_wt_wr_6_en,
   output     [31:0]   io_wt_wr_7_addr,
-  output reg [255:0]  io_wt_wr_7_data,
+  output     [255:0]  io_wt_wr_7_data,
   output reg          io_wt_wr_7_en,
   input               clk,
   input               reset
@@ -11999,13 +12094,13 @@ module dma2buff (
   reg        [15:0]   dtram_addr;
   reg        [15:0]   wtram_addr;
   reg        [2:0]    wt_idx;
-  wire                when_dma2buff_l50;
-  wire                when_dma2buff_l51;
-  wire                when_dma2buff_l56;
+  wire                when_dma2buff_l39;
+  wire                when_dma2buff_l45;
   wire       [7:0]    _zz_1;
-  wire                when_dma2buff_l62;
+  wire                when_dma2buff_l48;
 
-  assign io_input_ready = 1'b1;
+  assign io_dt_input_ready = 1'b1;
+  assign io_wt_input_ready = 1'b1;
   assign io_dt_wr_addr = {16'd0, dtram_addr};
   assign io_wt_wr_0_addr = {16'd0, wtram_addr};
   assign io_wt_wr_1_addr = {16'd0, wtram_addr};
@@ -12016,18 +12111,9 @@ module dma2buff (
   assign io_wt_wr_6_addr = {16'd0, wtram_addr};
   assign io_wt_wr_7_addr = {16'd0, wtram_addr};
   always @(*) begin
-    io_dt_wr_en = 1'b0;
-    if(when_dma2buff_l50) begin
-      if(when_dma2buff_l51) begin
-        io_dt_wr_en = 1'b1;
-      end
-    end
-  end
-
-  always @(*) begin
     io_wt_wr_0_en = 1'b0;
-    if(!when_dma2buff_l50) begin
-      if(when_dma2buff_l56) begin
+    if(when_dma2buff_l45) begin
+      if(_zz_1[0]) begin
         io_wt_wr_0_en = 1'b1;
       end
     end
@@ -12035,8 +12121,8 @@ module dma2buff (
 
   always @(*) begin
     io_wt_wr_1_en = 1'b0;
-    if(!when_dma2buff_l50) begin
-      if(when_dma2buff_l56) begin
+    if(when_dma2buff_l45) begin
+      if(_zz_1[1]) begin
         io_wt_wr_1_en = 1'b1;
       end
     end
@@ -12044,8 +12130,8 @@ module dma2buff (
 
   always @(*) begin
     io_wt_wr_2_en = 1'b0;
-    if(!when_dma2buff_l50) begin
-      if(when_dma2buff_l56) begin
+    if(when_dma2buff_l45) begin
+      if(_zz_1[2]) begin
         io_wt_wr_2_en = 1'b1;
       end
     end
@@ -12053,8 +12139,8 @@ module dma2buff (
 
   always @(*) begin
     io_wt_wr_3_en = 1'b0;
-    if(!when_dma2buff_l50) begin
-      if(when_dma2buff_l56) begin
+    if(when_dma2buff_l45) begin
+      if(_zz_1[3]) begin
         io_wt_wr_3_en = 1'b1;
       end
     end
@@ -12062,8 +12148,8 @@ module dma2buff (
 
   always @(*) begin
     io_wt_wr_4_en = 1'b0;
-    if(!when_dma2buff_l50) begin
-      if(when_dma2buff_l56) begin
+    if(when_dma2buff_l45) begin
+      if(_zz_1[4]) begin
         io_wt_wr_4_en = 1'b1;
       end
     end
@@ -12071,8 +12157,8 @@ module dma2buff (
 
   always @(*) begin
     io_wt_wr_5_en = 1'b0;
-    if(!when_dma2buff_l50) begin
-      if(when_dma2buff_l56) begin
+    if(when_dma2buff_l45) begin
+      if(_zz_1[5]) begin
         io_wt_wr_5_en = 1'b1;
       end
     end
@@ -12080,8 +12166,8 @@ module dma2buff (
 
   always @(*) begin
     io_wt_wr_6_en = 1'b0;
-    if(!when_dma2buff_l50) begin
-      if(when_dma2buff_l56) begin
+    if(when_dma2buff_l45) begin
+      if(_zz_1[6]) begin
         io_wt_wr_6_en = 1'b1;
       end
     end
@@ -12089,129 +12175,47 @@ module dma2buff (
 
   always @(*) begin
     io_wt_wr_7_en = 1'b0;
-    if(!when_dma2buff_l50) begin
-      if(when_dma2buff_l56) begin
+    if(when_dma2buff_l45) begin
+      if(_zz_1[7]) begin
         io_wt_wr_7_en = 1'b1;
       end
     end
   end
 
-  assign io_dt_wr_data = io_input_payload;
-  always @(*) begin
-    io_wt_wr_0_data = 256'h0;
-    if(!when_dma2buff_l50) begin
-      if(when_dma2buff_l56) begin
-        if(_zz_1[0]) begin
-          io_wt_wr_0_data = io_input_payload;
-        end
-      end
-    end
-  end
-
-  always @(*) begin
-    io_wt_wr_1_data = 256'h0;
-    if(!when_dma2buff_l50) begin
-      if(when_dma2buff_l56) begin
-        if(_zz_1[1]) begin
-          io_wt_wr_1_data = io_input_payload;
-        end
-      end
-    end
-  end
-
-  always @(*) begin
-    io_wt_wr_2_data = 256'h0;
-    if(!when_dma2buff_l50) begin
-      if(when_dma2buff_l56) begin
-        if(_zz_1[2]) begin
-          io_wt_wr_2_data = io_input_payload;
-        end
-      end
-    end
-  end
-
-  always @(*) begin
-    io_wt_wr_3_data = 256'h0;
-    if(!when_dma2buff_l50) begin
-      if(when_dma2buff_l56) begin
-        if(_zz_1[3]) begin
-          io_wt_wr_3_data = io_input_payload;
-        end
-      end
-    end
-  end
-
-  always @(*) begin
-    io_wt_wr_4_data = 256'h0;
-    if(!when_dma2buff_l50) begin
-      if(when_dma2buff_l56) begin
-        if(_zz_1[4]) begin
-          io_wt_wr_4_data = io_input_payload;
-        end
-      end
-    end
-  end
-
-  always @(*) begin
-    io_wt_wr_5_data = 256'h0;
-    if(!when_dma2buff_l50) begin
-      if(when_dma2buff_l56) begin
-        if(_zz_1[5]) begin
-          io_wt_wr_5_data = io_input_payload;
-        end
-      end
-    end
-  end
-
-  always @(*) begin
-    io_wt_wr_6_data = 256'h0;
-    if(!when_dma2buff_l50) begin
-      if(when_dma2buff_l56) begin
-        if(_zz_1[6]) begin
-          io_wt_wr_6_data = io_input_payload;
-        end
-      end
-    end
-  end
-
-  always @(*) begin
-    io_wt_wr_7_data = 256'h0;
-    if(!when_dma2buff_l50) begin
-      if(when_dma2buff_l56) begin
-        if(_zz_1[7]) begin
-          io_wt_wr_7_data = io_input_payload;
-        end
-      end
-    end
-  end
-
-  assign when_dma2buff_l50 = (io_is_dtwt_mux == 1'b1);
-  assign when_dma2buff_l51 = (io_input_valid && io_input_ready);
-  assign when_dma2buff_l56 = (io_input_valid && io_input_ready);
+  assign io_dt_wr_en = (io_dt_input_valid && io_dt_input_ready);
+  assign when_dma2buff_l39 = (io_dt_input_valid && io_dt_input_ready);
+  assign io_dt_wr_data = io_dt_input_payload;
+  assign when_dma2buff_l45 = (io_wt_input_valid && io_wt_input_ready);
   assign _zz_1 = ({7'd0,1'b1} <<< wt_idx);
-  assign when_dma2buff_l62 = (wt_idx == 3'b110);
+  assign when_dma2buff_l48 = (wt_idx == 3'b111);
+  assign io_wt_wr_0_data = io_wt_input_payload;
+  assign io_wt_wr_1_data = io_wt_input_payload;
+  assign io_wt_wr_2_data = io_wt_input_payload;
+  assign io_wt_wr_3_data = io_wt_input_payload;
+  assign io_wt_wr_4_data = io_wt_input_payload;
+  assign io_wt_wr_5_data = io_wt_input_payload;
+  assign io_wt_wr_6_data = io_wt_input_payload;
+  assign io_wt_wr_7_data = io_wt_input_payload;
   always @(posedge clk or posedge reset) begin
     if(reset) begin
       dtram_addr <= 16'h0;
       wtram_addr <= 16'h0;
       wt_idx <= 3'b000;
     end else begin
+      if(when_dma2buff_l39) begin
+        dtram_addr <= (dtram_addr + 16'h0001);
+      end
+      if(when_dma2buff_l45) begin
+        wt_idx <= (wt_idx + 3'b001);
+        if(when_dma2buff_l48) begin
+          wt_idx <= 3'b000;
+          wtram_addr <= (wtram_addr + 16'h0001);
+        end
+      end
       if(io_clear) begin
         dtram_addr <= 16'h0;
         wtram_addr <= 16'h0;
         wt_idx <= 3'b000;
-      end
-      if(when_dma2buff_l50) begin
-        if(when_dma2buff_l51) begin
-          dtram_addr <= (dtram_addr + 16'h0001);
-        end
-      end else begin
-        if(when_dma2buff_l56) begin
-          wt_idx <= (wt_idx + 3'b001);
-          if(when_dma2buff_l62) begin
-            wtram_addr <= (wtram_addr + 16'h0001);
-          end
-        end
       end
     end
   end
@@ -12294,50 +12298,77 @@ module dma_read (
   input               axim_r_payload_last,
   input      [31:0]   rd_para_BaseAddr,
   input      [7:0]    rd_para_burstlen,
-  output              output_valid,
-  input               output_ready,
-  output     [255:0]  output_payload,
+  input               is_dtwt_in,
+  output              dt_output_valid,
+  input               dt_output_ready,
+  output     [255:0]  dt_output_payload,
+  output              wt_output_valid,
+  input               wt_output_ready,
+  output     [255:0]  wt_output_payload,
   input               enable,
   output reg          isIdle,
   input               clk,
   input               reset
 );
-  wire                fifo_io_push_valid;
-  wire       [255:0]  fifo_io_push_payload;
-  wire                fifo_io_push_ready;
-  wire                fifo_io_pop_valid;
-  wire       [255:0]  fifo_io_pop_payload;
-  wire       [4:0]    fifo_io_occupancy;
-  wire       [4:0]    fifo_io_availability;
+  wire                dtfifo_io_push_valid;
+  wire       [255:0]  dtfifo_io_push_payload;
+  wire                wtfifo_io_push_valid;
+  wire       [255:0]  wtfifo_io_push_payload;
+  wire                dtfifo_io_push_ready;
+  wire                dtfifo_io_pop_valid;
+  wire       [255:0]  dtfifo_io_pop_payload;
+  wire       [6:0]    dtfifo_io_occupancy;
+  wire       [6:0]    dtfifo_io_availability;
+  wire                wtfifo_io_push_ready;
+  wire                wtfifo_io_pop_valid;
+  wire       [255:0]  wtfifo_io_pop_payload;
+  wire       [6:0]    wtfifo_io_occupancy;
+  wire       [6:0]    wtfifo_io_availability;
+  wire       [7:0]    _zz_when_dma_read_l91;
   reg        [31:0]   param_BaseAddr;
   reg        [7:0]    param_burstlen;
+  reg        [2:0]    burst_cnt;
   wire                dma_rd_fsm_wantExit;
   reg                 dma_rd_fsm_wantStart;
   wire                dma_rd_fsm_wantKill;
   reg        `dma_rd_fsm_enumDefinition_binary_sequential_type dma_rd_fsm_stateReg;
   reg        `dma_rd_fsm_enumDefinition_binary_sequential_type dma_rd_fsm_stateNext;
-  wire                when_dma_read_l62;
-  wire                when_dma_read_l69;
-  wire                when_dma_read_l76;
-  wire                when_dma_read_l77;
+  wire                when_dma_read_l75;
+  wire                when_dma_read_l82;
+  wire                when_dma_read_l89;
+  wire                when_dma_read_l91;
   `ifndef SYNTHESIS
   reg [119:0] dma_rd_fsm_stateReg_string;
   reg [119:0] dma_rd_fsm_stateNext_string;
   `endif
 
 
-  StreamFifo fifo (
-    .io_push_valid      (fifo_io_push_valid    ), //i
-    .io_push_ready      (fifo_io_push_ready    ), //o
-    .io_push_payload    (fifo_io_push_payload  ), //i
-    .io_pop_valid       (fifo_io_pop_valid     ), //o
-    .io_pop_ready       (output_ready          ), //i
-    .io_pop_payload     (fifo_io_pop_payload   ), //o
-    .io_flush           (1'b0                  ), //i
-    .io_occupancy       (fifo_io_occupancy     ), //o
-    .io_availability    (fifo_io_availability  ), //o
-    .clk                (clk                   ), //i
-    .reset              (reset                 )  //i
+  assign _zz_when_dma_read_l91 = {5'd0, burst_cnt};
+  StreamFifo dtfifo (
+    .io_push_valid      (dtfifo_io_push_valid    ), //i
+    .io_push_ready      (dtfifo_io_push_ready    ), //o
+    .io_push_payload    (dtfifo_io_push_payload  ), //i
+    .io_pop_valid       (dtfifo_io_pop_valid     ), //o
+    .io_pop_ready       (dt_output_ready         ), //i
+    .io_pop_payload     (dtfifo_io_pop_payload   ), //o
+    .io_flush           (1'b0                    ), //i
+    .io_occupancy       (dtfifo_io_occupancy     ), //o
+    .io_availability    (dtfifo_io_availability  ), //o
+    .clk                (clk                     ), //i
+    .reset              (reset                   )  //i
+  );
+  StreamFifo wtfifo (
+    .io_push_valid      (wtfifo_io_push_valid    ), //i
+    .io_push_ready      (wtfifo_io_push_ready    ), //o
+    .io_push_payload    (wtfifo_io_push_payload  ), //i
+    .io_pop_valid       (wtfifo_io_pop_valid     ), //o
+    .io_pop_ready       (wt_output_ready         ), //i
+    .io_pop_payload     (wtfifo_io_pop_payload   ), //o
+    .io_flush           (1'b0                    ), //i
+    .io_occupancy       (wtfifo_io_occupancy     ), //o
+    .io_availability    (wtfifo_io_availability  ), //o
+    .clk                (clk                     ), //i
+    .reset              (reset                   )  //i
   );
   `ifndef SYNTHESIS
   always @(*) begin
@@ -12360,8 +12391,10 @@ module dma_read (
   end
   `endif
 
-  assign output_valid = fifo_io_pop_valid;
-  assign output_payload = fifo_io_pop_payload;
+  assign dt_output_valid = dtfifo_io_pop_valid;
+  assign dt_output_payload = dtfifo_io_pop_payload;
+  assign wt_output_valid = wtfifo_io_pop_valid;
+  assign wt_output_payload = wtfifo_io_pop_payload;
   assign axim_ar_payload_addr = param_BaseAddr;
   assign axim_ar_payload_burst = 2'b01;
   assign axim_ar_payload_size = 3'b101;
@@ -12390,7 +12423,7 @@ module dma_read (
       `dma_rd_fsm_enumDefinition_binary_sequential_dma_rd_fsm_AR : begin
       end
       `dma_rd_fsm_enumDefinition_binary_sequential_dma_rd_fsm_R : begin
-        axim_r_ready = fifo_io_push_ready;
+        axim_r_ready = 1'b1;
       end
       default : begin
       end
@@ -12412,8 +12445,10 @@ module dma_read (
     endcase
   end
 
-  assign fifo_io_push_payload = axim_r_payload_data;
-  assign fifo_io_push_valid = (axim_r_valid && axim_r_ready);
+  assign dtfifo_io_push_payload = axim_r_payload_data;
+  assign dtfifo_io_push_valid = ((is_dtwt_in && axim_r_valid) && axim_r_ready);
+  assign wtfifo_io_push_payload = axim_r_payload_data;
+  assign wtfifo_io_push_valid = (((! is_dtwt_in) && axim_r_valid) && axim_r_ready);
   assign dma_rd_fsm_wantExit = 1'b0;
   always @(*) begin
     dma_rd_fsm_wantStart = 1'b0;
@@ -12435,18 +12470,18 @@ module dma_read (
     dma_rd_fsm_stateNext = dma_rd_fsm_stateReg;
     case(dma_rd_fsm_stateReg)
       `dma_rd_fsm_enumDefinition_binary_sequential_dma_rd_fsm_IDLE : begin
-        if(when_dma_read_l62) begin
+        if(when_dma_read_l75) begin
           dma_rd_fsm_stateNext = `dma_rd_fsm_enumDefinition_binary_sequential_dma_rd_fsm_AR;
         end
       end
       `dma_rd_fsm_enumDefinition_binary_sequential_dma_rd_fsm_AR : begin
-        if(when_dma_read_l69) begin
+        if(when_dma_read_l82) begin
           dma_rd_fsm_stateNext = `dma_rd_fsm_enumDefinition_binary_sequential_dma_rd_fsm_R;
         end
       end
       `dma_rd_fsm_enumDefinition_binary_sequential_dma_rd_fsm_R : begin
-        if(when_dma_read_l76) begin
-          if(when_dma_read_l77) begin
+        if(when_dma_read_l89) begin
+          if(when_dma_read_l91) begin
             dma_rd_fsm_stateNext = `dma_rd_fsm_enumDefinition_binary_sequential_dma_rd_fsm_IDLE;
           end
         end
@@ -12462,10 +12497,10 @@ module dma_read (
     end
   end
 
-  assign when_dma_read_l62 = (enable == 1'b1);
-  assign when_dma_read_l69 = ((axim_ar_valid == 1'b1) && (axim_ar_ready == 1'b1));
-  assign when_dma_read_l76 = ((axim_r_ready == 1'b1) && (axim_r_valid == 1'b1));
-  assign when_dma_read_l77 = (axim_r_payload_last == 1'b1);
+  assign when_dma_read_l75 = (enable == 1'b1);
+  assign when_dma_read_l82 = ((axim_ar_valid == 1'b1) && (axim_ar_ready == 1'b1));
+  assign when_dma_read_l89 = ((axim_r_ready == 1'b1) && (axim_r_valid == 1'b1));
+  assign when_dma_read_l91 = (_zz_when_dma_read_l91 == param_burstlen);
   always @(posedge clk) begin
     param_BaseAddr <= rd_para_BaseAddr;
     param_burstlen <= rd_para_burstlen;
@@ -12473,9 +12508,24 @@ module dma_read (
 
   always @(posedge clk or posedge reset) begin
     if(reset) begin
+      burst_cnt <= 3'b000;
       dma_rd_fsm_stateReg <= `dma_rd_fsm_enumDefinition_binary_sequential_dma_rd_fsm_BOOT;
     end else begin
       dma_rd_fsm_stateReg <= dma_rd_fsm_stateNext;
+      case(dma_rd_fsm_stateReg)
+        `dma_rd_fsm_enumDefinition_binary_sequential_dma_rd_fsm_IDLE : begin
+          burst_cnt <= 3'b000;
+        end
+        `dma_rd_fsm_enumDefinition_binary_sequential_dma_rd_fsm_AR : begin
+        end
+        `dma_rd_fsm_enumDefinition_binary_sequential_dma_rd_fsm_R : begin
+          if(when_dma_read_l89) begin
+            burst_cnt <= (burst_cnt + 3'b001);
+          end
+        end
+        default : begin
+        end
+      endcase
     end
   end
 
@@ -14777,6 +14827,8 @@ module conv_mem (
 
 endmodule
 
+//StreamFifo replaced by StreamFifo
+
 module StreamFifo (
   input               io_push_valid,
   output              io_push_ready,
@@ -14785,31 +14837,31 @@ module StreamFifo (
   input               io_pop_ready,
   output     [255:0]  io_pop_payload,
   input               io_flush,
-  output     [4:0]    io_occupancy,
-  output     [4:0]    io_availability,
+  output     [6:0]    io_occupancy,
+  output     [6:0]    io_availability,
   input               clk,
   input               reset
 );
   reg        [255:0]  _zz_logic_ram_port0;
-  wire       [3:0]    _zz_logic_pushPtr_valueNext;
+  wire       [5:0]    _zz_logic_pushPtr_valueNext;
   wire       [0:0]    _zz_logic_pushPtr_valueNext_1;
-  wire       [3:0]    _zz_logic_popPtr_valueNext;
+  wire       [5:0]    _zz_logic_popPtr_valueNext;
   wire       [0:0]    _zz_logic_popPtr_valueNext_1;
   wire                _zz_logic_ram_port;
   wire                _zz_io_pop_payload;
   wire       [255:0]  _zz_logic_ram_port_1;
-  wire       [3:0]    _zz_io_availability;
+  wire       [5:0]    _zz_io_availability;
   reg                 _zz_1;
   reg                 logic_pushPtr_willIncrement;
   reg                 logic_pushPtr_willClear;
-  reg        [3:0]    logic_pushPtr_valueNext;
-  reg        [3:0]    logic_pushPtr_value;
+  reg        [5:0]    logic_pushPtr_valueNext;
+  reg        [5:0]    logic_pushPtr_value;
   wire                logic_pushPtr_willOverflowIfInc;
   wire                logic_pushPtr_willOverflow;
   reg                 logic_popPtr_willIncrement;
   reg                 logic_popPtr_willClear;
-  reg        [3:0]    logic_popPtr_valueNext;
-  reg        [3:0]    logic_popPtr_value;
+  reg        [5:0]    logic_popPtr_valueNext;
+  reg        [5:0]    logic_popPtr_value;
   wire                logic_popPtr_willOverflowIfInc;
   wire                logic_popPtr_willOverflow;
   wire                logic_ptrMatch;
@@ -14820,13 +14872,13 @@ module StreamFifo (
   wire                logic_full;
   reg                 _zz_io_pop_valid;
   wire                when_Stream_l955;
-  wire       [3:0]    logic_ptrDif;
-  reg [255:0] logic_ram [0:15];
+  wire       [5:0]    logic_ptrDif;
+  reg [255:0] logic_ram [0:63];
 
   assign _zz_logic_pushPtr_valueNext_1 = logic_pushPtr_willIncrement;
-  assign _zz_logic_pushPtr_valueNext = {3'd0, _zz_logic_pushPtr_valueNext_1};
+  assign _zz_logic_pushPtr_valueNext = {5'd0, _zz_logic_pushPtr_valueNext_1};
   assign _zz_logic_popPtr_valueNext_1 = logic_popPtr_willIncrement;
-  assign _zz_logic_popPtr_valueNext = {3'd0, _zz_logic_popPtr_valueNext_1};
+  assign _zz_logic_popPtr_valueNext = {5'd0, _zz_logic_popPtr_valueNext_1};
   assign _zz_io_availability = (logic_popPtr_value - logic_pushPtr_value);
   assign _zz_io_pop_payload = 1'b1;
   assign _zz_logic_ram_port_1 = io_push_payload;
@@ -14863,12 +14915,12 @@ module StreamFifo (
     end
   end
 
-  assign logic_pushPtr_willOverflowIfInc = (logic_pushPtr_value == 4'b1111);
+  assign logic_pushPtr_willOverflowIfInc = (logic_pushPtr_value == 6'h3f);
   assign logic_pushPtr_willOverflow = (logic_pushPtr_willOverflowIfInc && logic_pushPtr_willIncrement);
   always @(*) begin
     logic_pushPtr_valueNext = (logic_pushPtr_value + _zz_logic_pushPtr_valueNext);
     if(logic_pushPtr_willClear) begin
-      logic_pushPtr_valueNext = 4'b0000;
+      logic_pushPtr_valueNext = 6'h0;
     end
   end
 
@@ -14886,12 +14938,12 @@ module StreamFifo (
     end
   end
 
-  assign logic_popPtr_willOverflowIfInc = (logic_popPtr_value == 4'b1111);
+  assign logic_popPtr_willOverflowIfInc = (logic_popPtr_value == 6'h3f);
   assign logic_popPtr_willOverflow = (logic_popPtr_willOverflowIfInc && logic_popPtr_willIncrement);
   always @(*) begin
     logic_popPtr_valueNext = (logic_popPtr_value + _zz_logic_popPtr_valueNext);
     if(logic_popPtr_willClear) begin
-      logic_popPtr_valueNext = 4'b0000;
+      logic_popPtr_valueNext = 6'h0;
     end
   end
 
@@ -14909,8 +14961,8 @@ module StreamFifo (
   assign io_availability = {((! logic_risingOccupancy) && logic_ptrMatch),_zz_io_availability};
   always @(posedge clk or posedge reset) begin
     if(reset) begin
-      logic_pushPtr_value <= 4'b0000;
-      logic_popPtr_value <= 4'b0000;
+      logic_pushPtr_value <= 6'h0;
+      logic_popPtr_value <= 6'h0;
       logic_risingOccupancy <= 1'b0;
       _zz_io_pop_valid <= 1'b0;
     end else begin
@@ -18404,6 +18456,7 @@ module fp_acc_63 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -18423,6 +18476,7 @@ module fp_acc_63 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -18597,7 +18651,7 @@ module fp_acc_63 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -18663,6 +18717,7 @@ module fp_acc_62 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -18682,6 +18737,7 @@ module fp_acc_62 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -18856,7 +18912,7 @@ module fp_acc_62 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -18922,6 +18978,7 @@ module fp_acc_61 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -18941,6 +18998,7 @@ module fp_acc_61 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -19115,7 +19173,7 @@ module fp_acc_61 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -19181,6 +19239,7 @@ module fp_acc_60 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -19200,6 +19259,7 @@ module fp_acc_60 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -19374,7 +19434,7 @@ module fp_acc_60 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -19440,6 +19500,7 @@ module fp_acc_59 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -19459,6 +19520,7 @@ module fp_acc_59 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -19633,7 +19695,7 @@ module fp_acc_59 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -19699,6 +19761,7 @@ module fp_acc_58 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -19718,6 +19781,7 @@ module fp_acc_58 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -19892,7 +19956,7 @@ module fp_acc_58 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -19958,6 +20022,7 @@ module fp_acc_57 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -19977,6 +20042,7 @@ module fp_acc_57 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -20151,7 +20217,7 @@ module fp_acc_57 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -20217,6 +20283,7 @@ module fp_acc_56 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -20236,6 +20303,7 @@ module fp_acc_56 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -20410,7 +20478,7 @@ module fp_acc_56 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -20476,6 +20544,7 @@ module fp_acc_55 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -20495,6 +20564,7 @@ module fp_acc_55 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -20669,7 +20739,7 @@ module fp_acc_55 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -20735,6 +20805,7 @@ module fp_acc_54 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -20754,6 +20825,7 @@ module fp_acc_54 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -20928,7 +21000,7 @@ module fp_acc_54 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -20994,6 +21066,7 @@ module fp_acc_53 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -21013,6 +21086,7 @@ module fp_acc_53 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -21187,7 +21261,7 @@ module fp_acc_53 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -21253,6 +21327,7 @@ module fp_acc_52 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -21272,6 +21347,7 @@ module fp_acc_52 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -21446,7 +21522,7 @@ module fp_acc_52 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -21512,6 +21588,7 @@ module fp_acc_51 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -21531,6 +21608,7 @@ module fp_acc_51 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -21705,7 +21783,7 @@ module fp_acc_51 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -21771,6 +21849,7 @@ module fp_acc_50 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -21790,6 +21869,7 @@ module fp_acc_50 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -21964,7 +22044,7 @@ module fp_acc_50 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -22030,6 +22110,7 @@ module fp_acc_49 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -22049,6 +22130,7 @@ module fp_acc_49 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -22223,7 +22305,7 @@ module fp_acc_49 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -22289,6 +22371,7 @@ module fp_acc_48 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -22308,6 +22391,7 @@ module fp_acc_48 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -22482,7 +22566,7 @@ module fp_acc_48 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -22548,6 +22632,7 @@ module fp_acc_47 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -22567,6 +22652,7 @@ module fp_acc_47 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -22741,7 +22827,7 @@ module fp_acc_47 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -22807,6 +22893,7 @@ module fp_acc_46 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -22826,6 +22913,7 @@ module fp_acc_46 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -23000,7 +23088,7 @@ module fp_acc_46 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -23066,6 +23154,7 @@ module fp_acc_45 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -23085,6 +23174,7 @@ module fp_acc_45 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -23259,7 +23349,7 @@ module fp_acc_45 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -23325,6 +23415,7 @@ module fp_acc_44 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -23344,6 +23435,7 @@ module fp_acc_44 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -23518,7 +23610,7 @@ module fp_acc_44 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -23584,6 +23676,7 @@ module fp_acc_43 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -23603,6 +23696,7 @@ module fp_acc_43 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -23777,7 +23871,7 @@ module fp_acc_43 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -23843,6 +23937,7 @@ module fp_acc_42 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -23862,6 +23957,7 @@ module fp_acc_42 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -24036,7 +24132,7 @@ module fp_acc_42 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -24102,6 +24198,7 @@ module fp_acc_41 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -24121,6 +24218,7 @@ module fp_acc_41 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -24295,7 +24393,7 @@ module fp_acc_41 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -24361,6 +24459,7 @@ module fp_acc_40 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -24380,6 +24479,7 @@ module fp_acc_40 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -24554,7 +24654,7 @@ module fp_acc_40 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -24620,6 +24720,7 @@ module fp_acc_39 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -24639,6 +24740,7 @@ module fp_acc_39 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -24813,7 +24915,7 @@ module fp_acc_39 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -24879,6 +24981,7 @@ module fp_acc_38 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -24898,6 +25001,7 @@ module fp_acc_38 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -25072,7 +25176,7 @@ module fp_acc_38 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -25138,6 +25242,7 @@ module fp_acc_37 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -25157,6 +25262,7 @@ module fp_acc_37 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -25331,7 +25437,7 @@ module fp_acc_37 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -25397,6 +25503,7 @@ module fp_acc_36 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -25416,6 +25523,7 @@ module fp_acc_36 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -25590,7 +25698,7 @@ module fp_acc_36 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -25656,6 +25764,7 @@ module fp_acc_35 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -25675,6 +25784,7 @@ module fp_acc_35 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -25849,7 +25959,7 @@ module fp_acc_35 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -25915,6 +26025,7 @@ module fp_acc_34 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -25934,6 +26045,7 @@ module fp_acc_34 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -26108,7 +26220,7 @@ module fp_acc_34 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -26174,6 +26286,7 @@ module fp_acc_33 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -26193,6 +26306,7 @@ module fp_acc_33 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -26367,7 +26481,7 @@ module fp_acc_33 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -26433,6 +26547,7 @@ module fp_acc_32 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -26452,6 +26567,7 @@ module fp_acc_32 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -26626,7 +26742,7 @@ module fp_acc_32 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -26692,6 +26808,7 @@ module fp_acc_31 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -26711,6 +26828,7 @@ module fp_acc_31 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -26885,7 +27003,7 @@ module fp_acc_31 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -26951,6 +27069,7 @@ module fp_acc_30 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -26970,6 +27089,7 @@ module fp_acc_30 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -27144,7 +27264,7 @@ module fp_acc_30 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -27210,6 +27330,7 @@ module fp_acc_29 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -27229,6 +27350,7 @@ module fp_acc_29 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -27403,7 +27525,7 @@ module fp_acc_29 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -27469,6 +27591,7 @@ module fp_acc_28 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -27488,6 +27611,7 @@ module fp_acc_28 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -27662,7 +27786,7 @@ module fp_acc_28 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -27728,6 +27852,7 @@ module fp_acc_27 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -27747,6 +27872,7 @@ module fp_acc_27 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -27921,7 +28047,7 @@ module fp_acc_27 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -27987,6 +28113,7 @@ module fp_acc_26 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -28006,6 +28133,7 @@ module fp_acc_26 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -28180,7 +28308,7 @@ module fp_acc_26 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -28246,6 +28374,7 @@ module fp_acc_25 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -28265,6 +28394,7 @@ module fp_acc_25 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -28439,7 +28569,7 @@ module fp_acc_25 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -28505,6 +28635,7 @@ module fp_acc_24 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -28524,6 +28655,7 @@ module fp_acc_24 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -28698,7 +28830,7 @@ module fp_acc_24 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -28764,6 +28896,7 @@ module fp_acc_23 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -28783,6 +28916,7 @@ module fp_acc_23 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -28957,7 +29091,7 @@ module fp_acc_23 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -29023,6 +29157,7 @@ module fp_acc_22 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -29042,6 +29177,7 @@ module fp_acc_22 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -29216,7 +29352,7 @@ module fp_acc_22 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -29282,6 +29418,7 @@ module fp_acc_21 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -29301,6 +29438,7 @@ module fp_acc_21 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -29475,7 +29613,7 @@ module fp_acc_21 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -29541,6 +29679,7 @@ module fp_acc_20 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -29560,6 +29699,7 @@ module fp_acc_20 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -29734,7 +29874,7 @@ module fp_acc_20 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -29800,6 +29940,7 @@ module fp_acc_19 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -29819,6 +29960,7 @@ module fp_acc_19 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -29993,7 +30135,7 @@ module fp_acc_19 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -30059,6 +30201,7 @@ module fp_acc_18 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -30078,6 +30221,7 @@ module fp_acc_18 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -30252,7 +30396,7 @@ module fp_acc_18 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -30318,6 +30462,7 @@ module fp_acc_17 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -30337,6 +30482,7 @@ module fp_acc_17 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -30511,7 +30657,7 @@ module fp_acc_17 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -30577,6 +30723,7 @@ module fp_acc_16 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -30596,6 +30743,7 @@ module fp_acc_16 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -30770,7 +30918,7 @@ module fp_acc_16 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -30836,6 +30984,7 @@ module fp_acc_15 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -30855,6 +31004,7 @@ module fp_acc_15 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -31029,7 +31179,7 @@ module fp_acc_15 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -31095,6 +31245,7 @@ module fp_acc_14 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -31114,6 +31265,7 @@ module fp_acc_14 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -31288,7 +31440,7 @@ module fp_acc_14 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -31354,6 +31506,7 @@ module fp_acc_13 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -31373,6 +31526,7 @@ module fp_acc_13 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -31547,7 +31701,7 @@ module fp_acc_13 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -31613,6 +31767,7 @@ module fp_acc_12 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -31632,6 +31787,7 @@ module fp_acc_12 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -31806,7 +31962,7 @@ module fp_acc_12 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -31872,6 +32028,7 @@ module fp_acc_11 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -31891,6 +32048,7 @@ module fp_acc_11 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -32065,7 +32223,7 @@ module fp_acc_11 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -32131,6 +32289,7 @@ module fp_acc_10 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -32150,6 +32309,7 @@ module fp_acc_10 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -32324,7 +32484,7 @@ module fp_acc_10 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -32390,6 +32550,7 @@ module fp_acc_9 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -32409,6 +32570,7 @@ module fp_acc_9 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -32583,7 +32745,7 @@ module fp_acc_9 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -32649,6 +32811,7 @@ module fp_acc_8 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -32668,6 +32831,7 @@ module fp_acc_8 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -32842,7 +33006,7 @@ module fp_acc_8 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -32908,6 +33072,7 @@ module fp_acc_7 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -32927,6 +33092,7 @@ module fp_acc_7 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -33101,7 +33267,7 @@ module fp_acc_7 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -33167,6 +33333,7 @@ module fp_acc_6 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -33186,6 +33353,7 @@ module fp_acc_6 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -33360,7 +33528,7 @@ module fp_acc_6 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -33426,6 +33594,7 @@ module fp_acc_5 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -33445,6 +33614,7 @@ module fp_acc_5 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -33619,7 +33789,7 @@ module fp_acc_5 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -33685,6 +33855,7 @@ module fp_acc_4 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -33704,6 +33875,7 @@ module fp_acc_4 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -33878,7 +34050,7 @@ module fp_acc_4 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -33944,6 +34116,7 @@ module fp_acc_3 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -33963,6 +34136,7 @@ module fp_acc_3 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -34137,7 +34311,7 @@ module fp_acc_3 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -34203,6 +34377,7 @@ module fp_acc_2 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -34222,6 +34397,7 @@ module fp_acc_2 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -34396,7 +34572,7 @@ module fp_acc_2 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -34462,6 +34638,7 @@ module fp_acc_1 (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -34481,6 +34658,7 @@ module fp_acc_1 (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -34655,7 +34833,7 @@ module fp_acc_1 (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
@@ -34721,6 +34899,7 @@ module fp_acc (
   wire                fp_adder_120_inb_ready;
   wire                fp_adder_120_out_valid;
   wire       [31:0]   fp_adder_120_out_payload;
+  wire       [15:0]   _zz_when_fp_acc_l81;
   reg        [15:0]   accnt;
   reg        [15:0]   par_acc_cnt_1;
   reg        [31:0]   result;
@@ -34740,6 +34919,7 @@ module fp_acc (
   `endif
 
 
+  assign _zz_when_fp_acc_l81 = (par_acc_cnt_1 + 16'h0001);
   fp_adder fp_adder_120 (
     .ina_valid      (fp_adder_120_ina_valid    ), //i
     .ina_ready      (fp_adder_120_ina_ready    ), //o
@@ -34914,7 +35094,7 @@ module fp_acc (
 
   assign when_fp_acc_l64 = (ina_ready && ina_valid);
   assign when_fp_acc_l73 = (fp_adder_120_out_valid && fp_adder_120_out_ready);
-  assign when_fp_acc_l81 = (accnt == par_acc_cnt_1);
+  assign when_fp_acc_l81 = (accnt == _zz_when_fp_acc_l81);
   assign when_fp_acc_l90 = (out_valid && out_ready);
   always @(posedge clk or posedge reset) begin
     if(reset) begin

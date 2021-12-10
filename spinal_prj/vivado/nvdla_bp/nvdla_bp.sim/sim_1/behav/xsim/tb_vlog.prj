@@ -1,0 +1,15 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib "D:/VM_share/NVDLA_BP/spinal_prj/SpinalTemplateSbt-master/VerilogHDL/enumdefine.v" --include "../../../../nvdla_bp.srcs/sources_1/bd/design_1/ipshared/85a3" --include "../../../../nvdla_bp.srcs/sources_1/ip/ddr4_0/ip_1/rtl/map" --include "../../../../nvdla_bp.srcs/sources_1/ip/ddr4_0/rtl/ip_top" --include "../../../../nvdla_bp.srcs/sources_1/ip/ddr4_0/rtl/cal" --include "../../../../../../SpinalTemplateSbt-master/VerilogHDL" \
+"../../../../nvdla_bp.ip_user_files/bd/design_1/ip/design_1_lmb_bram_1/sim/design_1_lmb_bram_1.v" \
+"../../../../nvdla_bp.ip_user_files/bd/design_1/ip/design_1_clk_wiz_1_1/design_1_clk_wiz_1_1_clk_wiz.v" \
+"../../../../nvdla_bp.ip_user_files/bd/design_1/ip/design_1_clk_wiz_1_1/design_1_clk_wiz_1_1.v" \
+"../../../../nvdla_bp.ip_user_files/bd/design_1/sim/design_1.v" \
+"../../../../../../SpinalTemplateSbt-master/VerilogHDL/bp_fpga_top.v" \
+"../../../../nvdla_bp.srcs/sources_1/bd/design_1/hdl/design_1_wrapper.v" \
+"../../../../nvdla_bp.srcs/sim_1/new/tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Webtalk v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
+# 
+# Start of session at: Tue Dec  7 21:44:40 2021
+# Process ID: 21056
+# Current directory: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.sdk/webtalk
+# Command line: wbtcv.exe -mode batch -source sdk_webtalk.tcl
+# Log file: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.sdk/webtalk/webtalk.log
+# Journal file: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.sdk/webtalk\webtalk.jou
+#-----------------------------------------------------------
+source sdk_webtalk.tcl

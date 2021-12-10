@@ -40,4 +40,4 @@ EAStep()
      fi
 }
 
-EAStep vivado -log bp_fpga_top.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source bp_fpga_top.tcl
+EAStep vivado -log design_1_wrapper.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source design_1_wrapper.tcl

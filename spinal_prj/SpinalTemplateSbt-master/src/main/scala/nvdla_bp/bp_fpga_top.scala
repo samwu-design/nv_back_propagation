@@ -42,13 +42,12 @@ case class bp_fpga_top(datawidth:Int,addrwidth:Int,idwidth:Int,eleWidth:Int,deep
 
   rdma.io.enable := cfg.io.glb_enable
   cbuf.io.clear := cfg.io.glb_enable
-  cbuf.io.is_dtwt_mux := cfg.io.is_delta_wt
 
-  conv.io.read_enable := True
-  conv.io.acc_enable := True
+  conv.io.read_enable := rdma.io.dma_rd_finished
+  conv.io.acc_enable := rdma.io.dma_rd_finished
   conv.io.is_delta_wt := cfg.io.is_delta_wt
 
-  wdma.io.enable := True
+  wdma.io.enable := rdma.io.dma_rd_finished
   wdma.io.is_delta_wt := cfg.io.is_delta_wt
 
 
@@ -60,7 +59,8 @@ case class bp_fpga_top(datawidth:Int,addrwidth:Int,idwidth:Int,eleWidth:Int,deep
   //dma input
 
   //***cbuf
-  cbuf.io.input <> rdma.io.output
+  cbuf.io.dt_input <> rdma.io.dt_output
+  cbuf.io.wt_input <> rdma.io.wt_output
 
 
   //conv

@@ -1,0 +1,1555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="ipif_pkg" />
+            <top_module name="lib_pkg" />
+            <top_module name="lmb_bram_if_funcs" />
+            <top_module name="mdm_funcs" />
+            <top_module name="tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="10418900000fs"></ZoomStartTime>
+      <ZoomEndTime time="10451400001fs"></ZoomEndTime>
+      <Cursor1Time time="10424550000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="367"></NameColumnWidth>
+      <ValueColumnWidth column_width="144"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="382" />
+   <wvobject fp_name="/tb/dut/wdma/io_axim_aw_valid" type="logic">
+      <obj_property name="ElementShortName">io_axim_aw_valid</obj_property>
+      <obj_property name="ObjectShortName">io_axim_aw_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_axim_aw_ready" type="logic">
+      <obj_property name="ElementShortName">io_axim_aw_ready</obj_property>
+      <obj_property name="ObjectShortName">io_axim_aw_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_axim_aw_payload_addr" type="array">
+      <obj_property name="ElementShortName">io_axim_aw_payload_addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_axim_aw_payload_addr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_axim_aw_payload_id" type="array">
+      <obj_property name="ElementShortName">io_axim_aw_payload_id[5:0]</obj_property>
+      <obj_property name="ObjectShortName">io_axim_aw_payload_id[5:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_axim_aw_payload_len" type="array">
+      <obj_property name="ElementShortName">io_axim_aw_payload_len[7:0]</obj_property>
+      <obj_property name="ObjectShortName">io_axim_aw_payload_len[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_axim_aw_payload_size" type="array">
+      <obj_property name="ElementShortName">io_axim_aw_payload_size[2:0]</obj_property>
+      <obj_property name="ObjectShortName">io_axim_aw_payload_size[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_axim_aw_payload_burst" type="array">
+      <obj_property name="ElementShortName">io_axim_aw_payload_burst[1:0]</obj_property>
+      <obj_property name="ObjectShortName">io_axim_aw_payload_burst[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_axim_w_valid" type="logic">
+      <obj_property name="ElementShortName">io_axim_w_valid</obj_property>
+      <obj_property name="ObjectShortName">io_axim_w_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_axim_w_ready" type="logic">
+      <obj_property name="ElementShortName">io_axim_w_ready</obj_property>
+      <obj_property name="ObjectShortName">io_axim_w_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_axim_w_payload_data" type="array">
+      <obj_property name="ElementShortName">io_axim_w_payload_data[255:0]</obj_property>
+      <obj_property name="ObjectShortName">io_axim_w_payload_data[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_axim_w_payload_strb" type="array">
+      <obj_property name="ElementShortName">io_axim_w_payload_strb[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_axim_w_payload_strb[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_axim_w_payload_last" type="logic">
+      <obj_property name="ElementShortName">io_axim_w_payload_last</obj_property>
+      <obj_property name="ObjectShortName">io_axim_w_payload_last</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_axim_b_valid" type="logic">
+      <obj_property name="ElementShortName">io_axim_b_valid</obj_property>
+      <obj_property name="ObjectShortName">io_axim_b_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_axim_b_ready" type="logic">
+      <obj_property name="ElementShortName">io_axim_b_ready</obj_property>
+      <obj_property name="ObjectShortName">io_axim_b_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_axim_b_payload_id" type="array">
+      <obj_property name="ElementShortName">io_axim_b_payload_id[5:0]</obj_property>
+      <obj_property name="ObjectShortName">io_axim_b_payload_id[5:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_axim_b_payload_resp" type="array">
+      <obj_property name="ElementShortName">io_axim_b_payload_resp[1:0]</obj_property>
+      <obj_property name="ObjectShortName">io_axim_b_payload_resp[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_cfg_valid" type="logic">
+      <obj_property name="ElementShortName">io_cfg_valid</obj_property>
+      <obj_property name="ObjectShortName">io_cfg_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_cfg_ready" type="logic">
+      <obj_property name="ElementShortName">io_cfg_ready</obj_property>
+      <obj_property name="ObjectShortName">io_cfg_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_cfg_payload_rd_dtBaseAddr" type="array">
+      <obj_property name="ElementShortName">io_cfg_payload_rd_dtBaseAddr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_cfg_payload_rd_dtBaseAddr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_cfg_payload_rd_wtBaseAddr" type="array">
+      <obj_property name="ElementShortName">io_cfg_payload_rd_wtBaseAddr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_cfg_payload_rd_wtBaseAddr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_cfg_payload_wr_delta_wt_BaseAddr" type="array">
+      <obj_property name="ElementShortName">io_cfg_payload_wr_delta_wt_BaseAddr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_cfg_payload_wr_delta_wt_BaseAddr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_cfg_payload_wr_sigma_BaseAddr" type="array">
+      <obj_property name="ElementShortName">io_cfg_payload_wr_sigma_BaseAddr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_cfg_payload_wr_sigma_BaseAddr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_cfg_payload_dtWidth" type="array">
+      <obj_property name="ElementShortName">io_cfg_payload_dtWidth[15:0]</obj_property>
+      <obj_property name="ObjectShortName">io_cfg_payload_dtWidth[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_cfg_payload_dtHeight" type="array">
+      <obj_property name="ElementShortName">io_cfg_payload_dtHeight[15:0]</obj_property>
+      <obj_property name="ObjectShortName">io_cfg_payload_dtHeight[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_cfg_payload_wtWidth" type="array">
+      <obj_property name="ElementShortName">io_cfg_payload_wtWidth[15:0]</obj_property>
+      <obj_property name="ObjectShortName">io_cfg_payload_wtWidth[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_cfg_payload_wtHeight" type="array">
+      <obj_property name="ElementShortName">io_cfg_payload_wtHeight[15:0]</obj_property>
+      <obj_property name="ObjectShortName">io_cfg_payload_wtHeight[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_cfg_payload_oWidth" type="array">
+      <obj_property name="ElementShortName">io_cfg_payload_oWidth[15:0]</obj_property>
+      <obj_property name="ObjectShortName">io_cfg_payload_oWidth[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_cfg_payload_oHeight" type="array">
+      <obj_property name="ElementShortName">io_cfg_payload_oHeight[15:0]</obj_property>
+      <obj_property name="ObjectShortName">io_cfg_payload_oHeight[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_0_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_0_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_0_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_0_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_0_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_0_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_0_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_0_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_1_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_1_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_1_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_1_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_1_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_1_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_1_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_1_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_2_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_2_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_2_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_2_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_2_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_2_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_2_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_2_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_3_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_3_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_3_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_3_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_3_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_3_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_3_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_3_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_4_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_4_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_4_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_4_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_4_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_4_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_4_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_4_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_5_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_5_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_5_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_5_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_5_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_5_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_5_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_5_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_6_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_6_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_6_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_6_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_6_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_6_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_6_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_6_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_7_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_7_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_7_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_7_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_7_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_0_7_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_0_7_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_0_7_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_0_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_0_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_0_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_0_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_0_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_0_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_0_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_0_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_1_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_1_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_1_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_1_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_1_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_1_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_1_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_1_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_2_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_2_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_2_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_2_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_2_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_2_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_2_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_2_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_3_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_3_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_3_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_3_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_3_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_3_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_3_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_3_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_4_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_4_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_4_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_4_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_4_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_4_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_4_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_4_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_5_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_5_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_5_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_5_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_5_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_5_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_5_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_5_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_6_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_6_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_6_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_6_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_6_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_6_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_6_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_6_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_7_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_7_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_7_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_7_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_7_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_1_7_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_1_7_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_1_7_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_0_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_0_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_0_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_0_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_0_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_0_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_0_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_0_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_1_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_1_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_1_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_1_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_1_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_1_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_1_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_1_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_2_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_2_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_2_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_2_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_2_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_2_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_2_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_2_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_3_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_3_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_3_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_3_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_3_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_3_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_3_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_3_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_4_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_4_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_4_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_4_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_4_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_4_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_4_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_4_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_5_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_5_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_5_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_5_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_5_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_5_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_5_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_5_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_6_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_6_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_6_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_6_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_6_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_6_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_6_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_6_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_7_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_7_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_7_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_7_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_7_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_2_7_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_2_7_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_2_7_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_0_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_0_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_0_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_0_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_0_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_0_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_0_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_0_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_1_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_1_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_1_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_1_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_1_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_1_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_1_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_1_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_2_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_2_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_2_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_2_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_2_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_2_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_2_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_2_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_3_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_3_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_3_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_3_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_3_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_3_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_3_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_3_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_4_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_4_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_4_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_4_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_4_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_4_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_4_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_4_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_5_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_5_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_5_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_5_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_5_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_5_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_5_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_5_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_6_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_6_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_6_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_6_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_6_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_6_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_6_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_6_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_7_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_7_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_7_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_7_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_7_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_3_7_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_3_7_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_3_7_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_0_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_0_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_0_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_0_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_0_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_0_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_0_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_0_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_1_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_1_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_1_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_1_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_1_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_1_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_1_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_1_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_2_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_2_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_2_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_2_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_2_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_2_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_2_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_2_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_3_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_3_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_3_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_3_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_3_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_3_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_3_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_3_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_4_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_4_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_4_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_4_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_4_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_4_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_4_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_4_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_5_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_5_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_5_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_5_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_5_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_5_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_5_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_5_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_6_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_6_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_6_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_6_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_6_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_6_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_6_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_6_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_7_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_7_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_7_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_7_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_7_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_4_7_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_4_7_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_4_7_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_0_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_0_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_0_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_0_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_0_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_0_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_0_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_0_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_1_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_1_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_1_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_1_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_1_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_1_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_1_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_1_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_2_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_2_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_2_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_2_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_2_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_2_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_2_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_2_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_3_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_3_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_3_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_3_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_3_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_3_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_3_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_3_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_4_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_4_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_4_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_4_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_4_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_4_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_4_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_4_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_5_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_5_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_5_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_5_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_5_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_5_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_5_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_5_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_6_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_6_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_6_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_6_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_6_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_6_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_6_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_6_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_7_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_7_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_7_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_7_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_7_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_5_7_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_5_7_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_5_7_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_0_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_0_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_0_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_0_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_0_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_0_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_0_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_0_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_1_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_1_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_1_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_1_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_1_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_1_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_1_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_1_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_2_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_2_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_2_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_2_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_2_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_2_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_2_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_2_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_3_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_3_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_3_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_3_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_3_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_3_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_3_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_3_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_4_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_4_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_4_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_4_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_4_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_4_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_4_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_4_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_5_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_5_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_5_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_5_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_5_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_5_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_5_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_5_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_6_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_6_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_6_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_6_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_6_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_6_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_6_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_6_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_7_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_7_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_7_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_7_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_7_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_6_7_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_6_7_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_6_7_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_0_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_0_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_0_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_0_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_0_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_0_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_0_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_0_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_1_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_1_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_1_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_1_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_1_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_1_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_1_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_1_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_2_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_2_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_2_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_2_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_2_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_2_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_2_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_2_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_3_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_3_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_3_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_3_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_3_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_3_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_3_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_3_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_4_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_4_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_4_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_4_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_4_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_4_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_4_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_4_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_5_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_5_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_5_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_5_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_5_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_5_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_5_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_5_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_6_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_6_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_6_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_6_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_6_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_6_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_6_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_6_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_7_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_7_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_7_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_7_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_7_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_delta_wt_7_7_payload" type="array">
+      <obj_property name="ElementShortName">io_i_delta_wt_7_7_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_delta_wt_7_7_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_0_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_sigma_0_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_0_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_0_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_sigma_0_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_0_payload" type="array">
+      <obj_property name="ElementShortName">io_i_sigma_0_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_0_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_1_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_sigma_1_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_1_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_1_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_sigma_1_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_1_payload" type="array">
+      <obj_property name="ElementShortName">io_i_sigma_1_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_1_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_2_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_sigma_2_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_2_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_2_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_sigma_2_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_2_payload" type="array">
+      <obj_property name="ElementShortName">io_i_sigma_2_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_2_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_3_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_sigma_3_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_3_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_3_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_sigma_3_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_3_payload" type="array">
+      <obj_property name="ElementShortName">io_i_sigma_3_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_3_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_4_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_sigma_4_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_4_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_4_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_sigma_4_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_4_payload" type="array">
+      <obj_property name="ElementShortName">io_i_sigma_4_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_4_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_5_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_sigma_5_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_5_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_5_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_sigma_5_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_5_payload" type="array">
+      <obj_property name="ElementShortName">io_i_sigma_5_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_5_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_6_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_sigma_6_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_6_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_6_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_sigma_6_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_6_payload" type="array">
+      <obj_property name="ElementShortName">io_i_sigma_6_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_6_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_7_valid" type="logic">
+      <obj_property name="ElementShortName">io_i_sigma_7_valid</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_7_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_7_ready" type="logic">
+      <obj_property name="ElementShortName">io_i_sigma_7_ready</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_i_sigma_7_payload" type="array">
+      <obj_property name="ElementShortName">io_i_sigma_7_payload[31:0]</obj_property>
+      <obj_property name="ObjectShortName">io_i_sigma_7_payload[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_enable" type="logic">
+      <obj_property name="ElementShortName">io_enable</obj_property>
+      <obj_property name="ObjectShortName">io_enable</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/io_is_delta_wt" type="logic">
+      <obj_property name="ElementShortName">io_is_delta_wt</obj_property>
+      <obj_property name="ObjectShortName">io_is_delta_wt</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_sgm_io_out_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_sgm_io_out_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_sgm_io_out_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_0_io_in_0_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_0_io_in_0_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_0_io_in_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_0_io_in_1_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_0_io_in_1_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_0_io_in_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_0_io_in_2_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_0_io_in_2_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_0_io_in_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_0_io_in_3_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_0_io_in_3_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_0_io_in_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_0_io_in_4_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_0_io_in_4_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_0_io_in_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_0_io_in_5_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_0_io_in_5_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_0_io_in_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_0_io_in_6_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_0_io_in_6_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_0_io_in_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_0_io_in_7_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_0_io_in_7_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_0_io_in_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_0_io_out_valid" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_0_io_out_valid</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_0_io_out_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_0_io_out_payload" type="array">
+      <obj_property name="ElementShortName">cvt_wt_0_io_out_payload[255:0]</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_0_io_out_payload[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_1_io_in_0_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_1_io_in_0_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_1_io_in_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_1_io_in_1_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_1_io_in_1_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_1_io_in_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_1_io_in_2_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_1_io_in_2_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_1_io_in_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_1_io_in_3_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_1_io_in_3_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_1_io_in_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_1_io_in_4_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_1_io_in_4_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_1_io_in_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_1_io_in_5_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_1_io_in_5_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_1_io_in_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_1_io_in_6_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_1_io_in_6_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_1_io_in_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_1_io_in_7_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_1_io_in_7_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_1_io_in_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_1_io_out_valid" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_1_io_out_valid</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_1_io_out_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_1_io_out_payload" type="array">
+      <obj_property name="ElementShortName">cvt_wt_1_io_out_payload[255:0]</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_1_io_out_payload[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_2_io_in_0_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_2_io_in_0_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_2_io_in_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_2_io_in_1_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_2_io_in_1_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_2_io_in_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_2_io_in_2_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_2_io_in_2_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_2_io_in_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_2_io_in_3_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_2_io_in_3_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_2_io_in_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_2_io_in_4_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_2_io_in_4_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_2_io_in_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_2_io_in_5_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_2_io_in_5_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_2_io_in_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_2_io_in_6_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_2_io_in_6_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_2_io_in_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_2_io_in_7_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_2_io_in_7_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_2_io_in_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_2_io_out_valid" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_2_io_out_valid</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_2_io_out_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_2_io_out_payload" type="array">
+      <obj_property name="ElementShortName">cvt_wt_2_io_out_payload[255:0]</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_2_io_out_payload[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_3_io_in_0_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_3_io_in_0_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_3_io_in_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_3_io_in_1_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_3_io_in_1_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_3_io_in_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_3_io_in_2_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_3_io_in_2_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_3_io_in_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_3_io_in_3_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_3_io_in_3_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_3_io_in_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_3_io_in_4_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_3_io_in_4_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_3_io_in_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_3_io_in_5_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_3_io_in_5_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_3_io_in_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_3_io_in_6_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_3_io_in_6_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_3_io_in_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_3_io_in_7_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_3_io_in_7_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_3_io_in_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_3_io_out_valid" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_3_io_out_valid</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_3_io_out_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_3_io_out_payload" type="array">
+      <obj_property name="ElementShortName">cvt_wt_3_io_out_payload[255:0]</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_3_io_out_payload[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_4_io_in_0_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_4_io_in_0_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_4_io_in_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_4_io_in_1_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_4_io_in_1_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_4_io_in_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_4_io_in_2_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_4_io_in_2_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_4_io_in_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_4_io_in_3_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_4_io_in_3_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_4_io_in_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_4_io_in_4_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_4_io_in_4_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_4_io_in_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_4_io_in_5_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_4_io_in_5_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_4_io_in_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_4_io_in_6_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_4_io_in_6_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_4_io_in_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_4_io_in_7_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_4_io_in_7_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_4_io_in_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_4_io_out_valid" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_4_io_out_valid</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_4_io_out_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_4_io_out_payload" type="array">
+      <obj_property name="ElementShortName">cvt_wt_4_io_out_payload[255:0]</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_4_io_out_payload[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_5_io_in_0_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_5_io_in_0_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_5_io_in_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_5_io_in_1_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_5_io_in_1_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_5_io_in_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_5_io_in_2_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_5_io_in_2_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_5_io_in_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_5_io_in_3_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_5_io_in_3_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_5_io_in_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_5_io_in_4_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_5_io_in_4_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_5_io_in_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_5_io_in_5_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_5_io_in_5_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_5_io_in_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_5_io_in_6_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_5_io_in_6_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_5_io_in_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_5_io_in_7_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_5_io_in_7_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_5_io_in_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_5_io_out_valid" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_5_io_out_valid</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_5_io_out_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_5_io_out_payload" type="array">
+      <obj_property name="ElementShortName">cvt_wt_5_io_out_payload[255:0]</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_5_io_out_payload[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_6_io_in_0_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_6_io_in_0_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_6_io_in_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_6_io_in_1_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_6_io_in_1_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_6_io_in_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_6_io_in_2_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_6_io_in_2_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_6_io_in_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_6_io_in_3_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_6_io_in_3_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_6_io_in_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_6_io_in_4_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_6_io_in_4_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_6_io_in_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_6_io_in_5_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_6_io_in_5_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_6_io_in_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_6_io_in_6_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_6_io_in_6_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_6_io_in_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_6_io_in_7_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_6_io_in_7_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_6_io_in_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_6_io_out_valid" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_6_io_out_valid</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_6_io_out_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_6_io_out_payload" type="array">
+      <obj_property name="ElementShortName">cvt_wt_6_io_out_payload[255:0]</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_6_io_out_payload[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_7_io_in_0_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_7_io_in_0_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_7_io_in_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_7_io_in_1_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_7_io_in_1_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_7_io_in_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_7_io_in_2_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_7_io_in_2_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_7_io_in_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_7_io_in_3_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_7_io_in_3_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_7_io_in_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_7_io_in_4_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_7_io_in_4_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_7_io_in_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_7_io_in_5_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_7_io_in_5_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_7_io_in_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_7_io_in_6_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_7_io_in_6_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_7_io_in_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_7_io_in_7_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_7_io_in_7_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_7_io_in_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_7_io_out_valid" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_7_io_out_valid</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_7_io_out_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_7_io_out_payload" type="array">
+      <obj_property name="ElementShortName">cvt_wt_7_io_out_payload[255:0]</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_7_io_out_payload[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_sgm_io_in_0_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_sgm_io_in_0_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_sgm_io_in_0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_sgm_io_in_1_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_sgm_io_in_1_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_sgm_io_in_1_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_sgm_io_in_2_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_sgm_io_in_2_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_sgm_io_in_2_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_sgm_io_in_3_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_sgm_io_in_3_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_sgm_io_in_3_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_sgm_io_in_4_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_sgm_io_in_4_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_sgm_io_in_4_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_sgm_io_in_5_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_sgm_io_in_5_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_sgm_io_in_5_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_sgm_io_in_6_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_sgm_io_in_6_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_sgm_io_in_6_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_sgm_io_in_7_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_sgm_io_in_7_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_sgm_io_in_7_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_sgm_io_out_valid" type="logic">
+      <obj_property name="ElementShortName">cvt_sgm_io_out_valid</obj_property>
+      <obj_property name="ObjectShortName">cvt_sgm_io_out_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_sgm_io_out_payload" type="array">
+      <obj_property name="ElementShortName">cvt_sgm_io_out_payload[255:0]</obj_property>
+      <obj_property name="ObjectShortName">cvt_sgm_io_out_payload[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/_zz_io_axim_w_payload_last" type="array">
+      <obj_property name="ElementShortName">_zz_io_axim_w_payload_last[7:0]</obj_property>
+      <obj_property name="ObjectShortName">_zz_io_axim_w_payload_last[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/addr" type="array">
+      <obj_property name="ElementShortName">addr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">addr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/burst_len" type="array">
+      <obj_property name="ElementShortName">burst_len[7:0]</obj_property>
+      <obj_property name="ObjectShortName">burst_len[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/burst_cnt" type="array">
+      <obj_property name="ElementShortName">burst_cnt[7:0]</obj_property>
+      <obj_property name="ObjectShortName">burst_cnt[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/data_wt_0" type="array">
+      <obj_property name="ElementShortName">data_wt_0[255:0]</obj_property>
+      <obj_property name="ObjectShortName">data_wt_0[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/data_wt_1" type="array">
+      <obj_property name="ElementShortName">data_wt_1[255:0]</obj_property>
+      <obj_property name="ObjectShortName">data_wt_1[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/data_wt_2" type="array">
+      <obj_property name="ElementShortName">data_wt_2[255:0]</obj_property>
+      <obj_property name="ObjectShortName">data_wt_2[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/data_wt_3" type="array">
+      <obj_property name="ElementShortName">data_wt_3[255:0]</obj_property>
+      <obj_property name="ObjectShortName">data_wt_3[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/data_wt_4" type="array">
+      <obj_property name="ElementShortName">data_wt_4[255:0]</obj_property>
+      <obj_property name="ObjectShortName">data_wt_4[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/data_wt_5" type="array">
+      <obj_property name="ElementShortName">data_wt_5[255:0]</obj_property>
+      <obj_property name="ObjectShortName">data_wt_5[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/data_wt_6" type="array">
+      <obj_property name="ElementShortName">data_wt_6[255:0]</obj_property>
+      <obj_property name="ObjectShortName">data_wt_6[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/data_wt_7" type="array">
+      <obj_property name="ElementShortName">data_wt_7[255:0]</obj_property>
+      <obj_property name="ObjectShortName">data_wt_7[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/data_sgm" type="array">
+      <obj_property name="ElementShortName">data_sgm[255:0]</obj_property>
+      <obj_property name="ObjectShortName">data_sgm[255:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/wt_cnt" type="array">
+      <obj_property name="ElementShortName">wt_cnt[3:0]</obj_property>
+      <obj_property name="ObjectShortName">wt_cnt[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cfg_rd_dtBaseAddr" type="array">
+      <obj_property name="ElementShortName">cfg_rd_dtBaseAddr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cfg_rd_dtBaseAddr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cfg_rd_wtBaseAddr" type="array">
+      <obj_property name="ElementShortName">cfg_rd_wtBaseAddr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cfg_rd_wtBaseAddr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cfg_wr_delta_wt_BaseAddr" type="array">
+      <obj_property name="ElementShortName">cfg_wr_delta_wt_BaseAddr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cfg_wr_delta_wt_BaseAddr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cfg_wr_sigma_BaseAddr" type="array">
+      <obj_property name="ElementShortName">cfg_wr_sigma_BaseAddr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cfg_wr_sigma_BaseAddr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cfg_dtWidth" type="array">
+      <obj_property name="ElementShortName">cfg_dtWidth[15:0]</obj_property>
+      <obj_property name="ObjectShortName">cfg_dtWidth[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cfg_dtHeight" type="array">
+      <obj_property name="ElementShortName">cfg_dtHeight[15:0]</obj_property>
+      <obj_property name="ObjectShortName">cfg_dtHeight[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cfg_wtWidth" type="array">
+      <obj_property name="ElementShortName">cfg_wtWidth[15:0]</obj_property>
+      <obj_property name="ObjectShortName">cfg_wtWidth[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cfg_wtHeight" type="array">
+      <obj_property name="ElementShortName">cfg_wtHeight[15:0]</obj_property>
+      <obj_property name="ObjectShortName">cfg_wtHeight[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cfg_oWidth" type="array">
+      <obj_property name="ElementShortName">cfg_oWidth[15:0]</obj_property>
+      <obj_property name="ObjectShortName">cfg_oWidth[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cfg_oHeight" type="array">
+      <obj_property name="ElementShortName">cfg_oHeight[15:0]</obj_property>
+      <obj_property name="ObjectShortName">cfg_oHeight[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_o_ready" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_o_ready</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_o_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/cvt_wt_o_valid" type="logic">
+      <obj_property name="ElementShortName">cvt_wt_o_valid</obj_property>
+      <obj_property name="ObjectShortName">cvt_wt_o_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/when_dmaWriteCtrl_l73" type="logic">
+      <obj_property name="ElementShortName">when_dmaWriteCtrl_l73</obj_property>
+      <obj_property name="ObjectShortName">when_dmaWriteCtrl_l73</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/dma_wrctrl_fsm_wantExit" type="logic">
+      <obj_property name="ElementShortName">dma_wrctrl_fsm_wantExit</obj_property>
+      <obj_property name="ObjectShortName">dma_wrctrl_fsm_wantExit</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/dma_wrctrl_fsm_wantStart" type="logic">
+      <obj_property name="ElementShortName">dma_wrctrl_fsm_wantStart</obj_property>
+      <obj_property name="ObjectShortName">dma_wrctrl_fsm_wantStart</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/dma_wrctrl_fsm_wantKill" type="logic">
+      <obj_property name="ElementShortName">dma_wrctrl_fsm_wantKill</obj_property>
+      <obj_property name="ObjectShortName">dma_wrctrl_fsm_wantKill</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/dma_wrctrl_fsm_stateReg" type="array">
+      <obj_property name="ElementShortName">dma_wrctrl_fsm_stateReg[3:0]</obj_property>
+      <obj_property name="ObjectShortName">dma_wrctrl_fsm_stateReg[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/dma_wrctrl_fsm_stateNext" type="array">
+      <obj_property name="ElementShortName">dma_wrctrl_fsm_stateNext[3:0]</obj_property>
+      <obj_property name="ObjectShortName">dma_wrctrl_fsm_stateNext[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/when_dmaWriteCtrl_l101" type="logic">
+      <obj_property name="ElementShortName">when_dmaWriteCtrl_l101</obj_property>
+      <obj_property name="ObjectShortName">when_dmaWriteCtrl_l101</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/when_dmaWriteCtrl_l104" type="logic">
+      <obj_property name="ElementShortName">when_dmaWriteCtrl_l104</obj_property>
+      <obj_property name="ObjectShortName">when_dmaWriteCtrl_l104</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/when_dmaWriteCtrl_l110" type="logic">
+      <obj_property name="ElementShortName">when_dmaWriteCtrl_l110</obj_property>
+      <obj_property name="ObjectShortName">when_dmaWriteCtrl_l110</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/when_dmaWriteCtrl_l123" type="logic">
+      <obj_property name="ElementShortName">when_dmaWriteCtrl_l123</obj_property>
+      <obj_property name="ObjectShortName">when_dmaWriteCtrl_l123</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/when_dmaWriteCtrl_l160" type="logic">
+      <obj_property name="ElementShortName">when_dmaWriteCtrl_l160</obj_property>
+      <obj_property name="ObjectShortName">when_dmaWriteCtrl_l160</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/when_dmaWriteCtrl_l169" type="logic">
+      <obj_property name="ElementShortName">when_dmaWriteCtrl_l169</obj_property>
+      <obj_property name="ObjectShortName">when_dmaWriteCtrl_l169</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/when_dmaWriteCtrl_l176" type="logic">
+      <obj_property name="ElementShortName">when_dmaWriteCtrl_l176</obj_property>
+      <obj_property name="ObjectShortName">when_dmaWriteCtrl_l176</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/when_dmaWriteCtrl_l186" type="logic">
+      <obj_property name="ElementShortName">when_dmaWriteCtrl_l186</obj_property>
+      <obj_property name="ObjectShortName">when_dmaWriteCtrl_l186</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/when_dmaWriteCtrl_l199" type="logic">
+      <obj_property name="ElementShortName">when_dmaWriteCtrl_l199</obj_property>
+      <obj_property name="ObjectShortName">when_dmaWriteCtrl_l199</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/dma_wrctrl_fsm_stateReg_string" type="array">
+      <obj_property name="ElementShortName">dma_wrctrl_fsm_stateReg_string[239:0]</obj_property>
+      <obj_property name="ObjectShortName">dma_wrctrl_fsm_stateReg_string[239:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dut/wdma/dma_wrctrl_fsm_stateNext_string" type="array">
+      <obj_property name="ElementShortName">dma_wrctrl_fsm_stateNext_string[239:0]</obj_property>
+      <obj_property name="ObjectShortName">dma_wrctrl_fsm_stateNext_string[239:0]</obj_property>
+   </wvobject>
+</wave_config>

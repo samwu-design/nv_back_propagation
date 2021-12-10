@@ -18,16 +18,22 @@ case class dma_read(datawidth:Int,addrwidth:Int,idwidth:Int) extends Component{
   val io = new Bundle {
     val axim = master(Axi4ReadOnly(axiconfig))
     val rd_para = dma_rd_para(addrwidth)
-    val output = master Stream(UInt(datawidth bits))
+    val is_dtwt_in = in Bool()
+
+    val dt_output = master Stream(UInt(datawidth bits))
+    val wt_output = master Stream(UInt(datawidth bits))
+
     val enable = in Bool()
     val isIdle = out Bool()
   }
   noIoPrefix()
-  val fifo = StreamFifo(UInt(datawidth bits),16)
+  val dtfifo = StreamFifo(UInt(datawidth bits),64)
+  val wtfifo = StreamFifo(UInt(datawidth bits),64)
 
   val param = Reg(dma_rd_para(addrwidth))
 
-  io.output <> fifo.io.pop
+  io.dt_output <> dtfifo.io.pop
+  io.wt_output <> wtfifo.io.pop
 
   param := io.rd_para
 
@@ -48,8 +54,14 @@ case class dma_read(datawidth:Int,addrwidth:Int,idwidth:Int) extends Component{
   //  fifo.io.push.payload := io.axim.r.payload.data.asUInt
   //}
 
-  fifo.io.push.payload := io.axim.r.payload.data.asUInt
-  fifo.io.push.valid := io.axim.r.valid && io.axim.r.ready
+  dtfifo.io.push.payload := io.axim.r.payload.data.asUInt
+  dtfifo.io.push.valid := io.is_dtwt_in && io.axim.r.valid && io.axim.r.ready
+
+  wtfifo.io.push.payload := io.axim.r.payload.data.asUInt
+  wtfifo.io.push.valid := (~io.is_dtwt_in) && io.axim.r.valid && io.axim.r.ready
+
+
+  val burst_cnt = Reg(UInt(3 bits))init(0)
 
 
   val dma_rd_fsm = new StateMachine {
@@ -59,6 +71,7 @@ case class dma_read(datawidth:Int,addrwidth:Int,idwidth:Int) extends Component{
 
     IDLE.whenIsActive {
       io.isIdle := True
+      burst_cnt := 0
       when(io.enable === True) {
         goto(AR)
       }
@@ -72,9 +85,11 @@ case class dma_read(datawidth:Int,addrwidth:Int,idwidth:Int) extends Component{
     }
 
     R.whenIsActive{
-      io.axim.r.ready := fifo.io.push.ready
+      io.axim.r.ready := True
       when(io.axim.r.ready === True && io.axim.r.valid === True){
-        when(io.axim.r.last === True){
+        burst_cnt := burst_cnt + 1
+        when(burst_cnt === param.burstlen){
+          //when(io.axim.r.last === True){
           goto(IDLE)
         }
       }

@@ -15,10 +15,11 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
   val io = new Bundle {
     val axim = master(Axi4ReadOnly(axiconfig))
     val cfg = slave Stream(glb_param())
-    val output = master Stream(UInt(datawidth bits))
+    val dt_output = master Stream(UInt(datawidth bits))
+    val wt_output = master Stream(UInt(datawidth bits))
     val enable = in Bool()
     val isIdle = out Bool()
-    val is_dtwt_mux = out Bool()
+    val dma_rd_finished = out Bool()
   }
   noIoPrefix()
 
@@ -34,7 +35,10 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
   val dma_rd = new dma_read(datawidth,addrwidth,idwidth)
 
   val is_dtwt_mux = Reg(Bool())init(False)
-  io.is_dtwt_mux := is_dtwt_mux
+  dma_rd.io.is_dtwt_in := is_dtwt_mux
+
+  io.dma_rd_finished := False
+
   io.isIdle := False
 
   io.cfg.ready := False
@@ -44,17 +48,20 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
   dma_rd.io.rd_para.BaseAddr := BaseAddr
 
   io.axim <> dma_rd.io.axim
-  io.output <> dma_rd.io.output
+  io.dt_output <> dma_rd.io.dt_output
+  io.wt_output <> dma_rd.io.wt_output
 
   val dma_rdctrl_fsm = new StateMachine {
     val IDLE = new State with EntryPoint
-    val GET_PARAM = new State
+    val GET_DT_PARAM = new State
     val READ_DT = new State
     val CHECK_DT = new State
+    val GET_WT_PARAM = new State
     val READ_WT = new State
     val CHECK_WT = new State
     val END = new State
 
+    //1
     IDLE.whenIsActive {
       dt_wcnt := 0
       dt_vcnt := 0
@@ -66,19 +73,20 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
         par := io.cfg
       }
       when(io.enable === True) {
-        goto(GET_PARAM)
+        goto(GET_DT_PARAM)
       }
     }
 
-    // update parameter only in needed time
-    GET_PARAM.whenIsActive{
+    //2 update parameter only in needed time
+    GET_DT_PARAM.whenIsActive{
+      burstlen := (par.dtWidth - 1).resized
+      BaseAddr := par.rd_dtBaseAddr
       is_dtwt_mux := True
       goto(READ_DT)
     }
 
+    //3
     READ_DT.whenIsActive{
-      burstlen := par.dtWidth.resized
-      BaseAddr := par.rd_dtBaseAddr
       when(dma_rd.io.isIdle === True){
         dma_rd.io.enable := True
         when(dt_wcnt === par.dtWidth){
@@ -91,19 +99,28 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
       }
     }
 
+    //4
     CHECK_DT.whenIsActive{
       when(dma_rd.io.isIdle === True){
-        when(dt_vcnt === par.dtHeight && dt_wcnt === par.dtWidth) {
-          burstlen := par.wtWidth.resized
-          BaseAddr := par.rd_wtBaseAddr
-          is_dtwt_mux := False
-          goto(READ_WT)
+        when(dt_vcnt === par.dtHeight - 1 && dt_wcnt === par.dtWidth) {   // 1x1  --> 1x0
+          dt_vcnt := 0
+          dt_wcnt := 0
+          goto(GET_WT_PARAM)
         }.otherwise{
           goto(READ_DT)
         }
       }
     }
 
+    GET_WT_PARAM.whenIsActive{
+      is_dtwt_mux := False
+      //burstlen := (par.wtWidth - 1).resized
+      burstlen := U(7)
+      BaseAddr := par.rd_wtBaseAddr
+      goto(READ_WT)
+    }
+
+    //5
     READ_WT.whenIsActive{
       when(dma_rd.io.isIdle === True){
         dma_rd.io.enable := True
@@ -119,9 +136,10 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
       }
     }
 
+    //6
     CHECK_WT.whenIsActive{
       when(dma_rd.io.isIdle === True){
-        when(wt_vcnt === par.wtHeight && dt_wcnt === par.wtWidth) {
+        when(wt_vcnt === par.wtHeight-1 && wt_wcnt === par.wtWidth) {
           goto(END)
         }.otherwise{
           goto(READ_WT)
@@ -129,7 +147,9 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
       }
     }
 
+    //7
     END.whenIsActive{
+      io.dma_rd_finished := True
       goto(IDLE)
     }
 

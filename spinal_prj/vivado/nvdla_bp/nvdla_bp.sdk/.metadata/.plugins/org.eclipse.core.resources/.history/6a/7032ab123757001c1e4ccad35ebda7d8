@@ -1,0 +1,26 @@
+/*
+ * test.c
+ *
+ *  Created on: 2021Äê12ÔÂ7ÈÕ
+ *      Author: wusha
+ */
+
+#include <xparameters.h>
+#include <xplatform_info.h>
+
+
+u32 apbwrite(u32 address , u32 data){
+	Xil_out32(XPAR_APB_M_BASEADDR+address,data);
+}
+
+
+u32 apbread(u32 address){
+	u32 data;
+	data = Xil_out32(XPAR_APB_M_BASEADDR);
+	return data;
+}
+
+
+void main(){
+
+}

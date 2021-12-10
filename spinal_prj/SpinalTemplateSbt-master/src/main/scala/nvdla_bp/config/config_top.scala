@@ -25,6 +25,10 @@ case class config_top(apbAddr: Int, apbdata: Int) extends Component {
   val start = Reg(Bool())
   val is_delta_wt = Reg(Bool())init(False)
 
+  val apb_addr = UInt(apbAddr bits)
+
+  apb_addr := io.apb.PADDR(15 downto 0).resized
+
   io.rdma_glb_param.payload := cfg
   io.rdma_glb_param.valid := True
 
@@ -48,7 +52,8 @@ case class config_top(apbAddr: Int, apbdata: Int) extends Component {
 
     when(io.apb.PWRITE === True) {
       // write
-      switch((io.apb.PADDR).asBits) {
+      //switch((io.apb.PADDR.asBits)) {
+      switch(apb_addr.asBits) {
         // enable
         is(B"32'h00000000") {
           start := io.apb.PWDATA(0) // only one cycle

@@ -1,0 +1,15 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../nvdla_bp.ip_user_files/bd/design_1/ip/design_1_microblaze_0_0/sim/design_1_microblaze_0_0.vhd" \
+"../../../../nvdla_bp.ip_user_files/bd/design_1/ip/design_1_dlmb_v10_1/sim/design_1_dlmb_v10_1.vhd" \
+"../../../../nvdla_bp.ip_user_files/bd/design_1/ip/design_1_ilmb_v10_1/sim/design_1_ilmb_v10_1.vhd" \
+"../../../../nvdla_bp.ip_user_files/bd/design_1/ip/design_1_dlmb_bram_if_cntlr_1/sim/design_1_dlmb_bram_if_cntlr_1.vhd" \
+"../../../../nvdla_bp.ip_user_files/bd/design_1/ip/design_1_ilmb_bram_if_cntlr_1/sim/design_1_ilmb_bram_if_cntlr_1.vhd" \
+"../../../../nvdla_bp.ip_user_files/bd/design_1/ip/design_1_mdm_1_1/sim/design_1_mdm_1_1.vhd" \
+"../../../../nvdla_bp.ip_user_files/bd/design_1/ip/design_1_rst_clk_wiz_1_100M_1/sim/design_1_rst_clk_wiz_1_100M_1.vhd" \
+"../../../../nvdla_bp.ip_user_files/bd/design_1/ip/design_1_axi_apb_bridge_0_0/sim/design_1_axi_apb_bridge_0_0.vhd" \
+"../../../../nvdla_bp.srcs/sources_1/ip/fp_adder_bb/sim/fp_adder_bb.vhd" \
+"../../../../nvdla_bp.srcs/sources_1/ip/fp_multi_bb/sim/fp_multi_bb.vhd" \
+
+# Do not sort compile order
+nosort

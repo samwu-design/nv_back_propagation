@@ -108,11 +108,11 @@ case class dmaWriteCtrl(datawidth:Int, addrwidth:Int, idwidth:Int, eleWidth:Int)
 
     CHECK_GET_PARAM.whenIsActive{
       when(io.is_delta_wt === True){
-        addr := cfg.rd_dtBaseAddr
-        burst_len := 8
+        addr := cfg.wr_delta_wt_BaseAddr
+        burst_len := 1
         goto(GET_DATA_WT)
       }.otherwise{
-        addr := cfg.rd_wtBaseAddr
+        addr := cfg.wr_sigma_BaseAddr
         burst_len := 1
         goto(GET_DATA_SGM)
       }
