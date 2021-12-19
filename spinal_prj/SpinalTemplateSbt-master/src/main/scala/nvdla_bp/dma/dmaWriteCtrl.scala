@@ -16,6 +16,7 @@ case class dmaWriteCtrl(datawidth:Int, addrwidth:Int, idwidth:Int, eleWidth:Int)
      val i_sigma = Vec(slave Stream (SInt(eleWidth bits)), 8)
      val enable = in Bool()
      val is_delta_wt = in Bool()
+     val conv_finished = out Bool()
    }
 
 
@@ -31,9 +32,14 @@ case class dmaWriteCtrl(datawidth:Int, addrwidth:Int, idwidth:Int, eleWidth:Int)
   val data_sgm = Reg(UInt(datawidth bits))init(0)
 
   val wt_cnt = Reg(UInt(4 bits))init(0)
-
   val cfg = Reg(glb_param())
 
+  val o_wcnt = Reg(UInt(4 bits))init(0)
+  val o_vcnt = Reg(UInt(4 bits))init(0)
+
+
+
+  io.conv_finished := False
   // data cvt for axi
   for(i<- 0 until 8){
     io.i_delta_wt(i) <> cvt_wt(i).io.in
@@ -53,8 +59,6 @@ case class dmaWriteCtrl(datawidth:Int, addrwidth:Int, idwidth:Int, eleWidth:Int)
   cvt_sgm.io.out.ready := False
 
   //narrows.io.out.ready := False
-
-
   io.i_sigma <> cvt_sgm.io.in
 
 
@@ -64,11 +68,12 @@ case class dmaWriteCtrl(datawidth:Int, addrwidth:Int, idwidth:Int, eleWidth:Int)
   io.axim.aw.payload.addr := addr
   io.axim.aw.payload.setBurstINCR()
   io.axim.aw.payload.size := log2Up(datawidth/8)
-  io.axim.aw.payload.len := burst_len - 1
+  io.axim.aw.payload.len := burst_len
 
   io.axim.w.valid := False
-  io.axim.w.last := burst_cnt === (burst_len - 1)
+  io.axim.w.last := (burst_cnt === burst_len)
 
+  io.axim.b.ready := False
   //io.axim.w.data := data_wt.asBits
   when(io.is_delta_wt === True){
     io.axim.w.data := data_wt(0).asBits
@@ -76,86 +81,72 @@ case class dmaWriteCtrl(datawidth:Int, addrwidth:Int, idwidth:Int, eleWidth:Int)
     io.axim.w.data := data_sgm.asBits
   }
 
-
   //io.axim.w.data := Mux(io.is_delta_wt,data_wt,data_sgm)
 
   io.axim.w.strb := (~U(0,(datawidth/8) bits)).asBits
 
-  io.axim.b.ready := False
+  io.cfg.ready := True
+  when(io.cfg.fire){
+    cfg := io.cfg.payload
+  }
 
-  io.cfg.ready := False
 
   val dma_wrctrl_fsm = new StateMachine {
     val IDLE = new State with EntryPoint
-    val CHECK_GET_PARAM = new State
-    val GET_DATA_WT =  new State
-    val GET_DATA_SGM =  new State
+    val INIT_GET_PARAM = new State
+    val UPDATE_ADDR = new State
+    val GET_DELTA_WT =  new State
+    val GET_SGM =  new State
     val AW = new State
     val W_DELTA_WT = new State
     val W_SIGMA = new State
+    val WBRESP = new State
+    val W_CHECK = new State
     val END = new State
 
 
     IDLE.whenIsActive{
-      io.cfg.ready := True
-      when(io.cfg.fire){
-        cfg := io.cfg.payload
-      }
       when(io.enable === True){
-        goto(CHECK_GET_PARAM)
+        goto(INIT_GET_PARAM)
       }
     }
 
-    CHECK_GET_PARAM.whenIsActive{
+    INIT_GET_PARAM.whenIsActive{
       when(io.is_delta_wt === True){
         addr := cfg.wr_delta_wt_BaseAddr
-        burst_len := 1
-        goto(GET_DATA_WT)
+        burst_len := U(7)
+        goto(GET_DELTA_WT)
       }.otherwise{
         addr := cfg.wr_sigma_BaseAddr
-        burst_len := 1
-        goto(GET_DATA_SGM)
+        burst_len := U(0)
+        goto(GET_SGM)
       }
     }
 
-    GET_DATA_WT.whenIsActive{
+    UPDATE_ADDR.whenIsActive{
+      when(io.is_delta_wt === True){
+        addr := addr + 256
+        burst_len := U(7)
+        goto(GET_DELTA_WT)
+      }.otherwise{
+        addr := addr + 32
+        burst_len := U(0)
+        goto(GET_SGM)
+      }
+    }
+
+    GET_DELTA_WT.whenIsActive{
       cvt_wt_o_ready := True
       when(cvt_wt_o_ready === True && cvt_wt_o_valid === True){
-        switch(burst_cnt){
-          is(0){
-            data_wt(0) := cvt_wt(0).io.out.payload
+          for(i<- 0 until 8){
+            data_wt(i) := cvt_wt(i).io.out.payload
           }
-          is(1){
-            data_wt(1) := cvt_wt(1).io.out.payload
-          }
-          is(2){
-            data_wt(2) := cvt_wt(2).io.out.payload
-          }
-          is(3){
-            data_wt(3) := cvt_wt(3).io.out.payload
-          }
-          is(4){
-            data_wt(4) := cvt_wt(4).io.out.payload
-          }
-          is(5){
-            data_wt(5) := cvt_wt(5).io.out.payload
-          }
-          is(6){
-            data_wt(6) := cvt_wt(6).io.out.payload
-          }
-          is(7){
-            data_wt(7) := cvt_wt(7).io.out.payload
-          }
-          default{
-            //data_wt(0) := cvt_wt(0).io.out.payload
-          }
-        }
         //data_wt := cvt_wt(burst_cnt.resized).io.out.payload
         goto(AW)
       }
     }
 
-    GET_DATA_SGM.whenIsActive{
+    GET_SGM.whenIsActive{
       cvt_sgm.io.out.ready := True
       when(cvt_sgm.io.out.valid === True && cvt_sgm.io.out.ready === True){
         data_sgm := cvt_sgm.io.out.payload
@@ -167,9 +158,14 @@ case class dmaWriteCtrl(datawidth:Int, addrwidth:Int, idwidth:Int, eleWidth:Int)
     AW.whenIsActive{
       io.axim.aw.valid := True
       when(io.axim.aw.fire){
-        goto(W_DELTA_WT)
+        when(io.is_delta_wt === True) {
+          goto(W_DELTA_WT)
+        }.otherwise{
+          goto(W_SIGMA)
+        }
       }
     }
+
 
     W_DELTA_WT.whenIsActive{
       io.axim.w.valid := True
@@ -180,16 +176,10 @@ case class dmaWriteCtrl(datawidth:Int, addrwidth:Int, idwidth:Int, eleWidth:Int)
           data_wt(i) := data_wt(i+1)
         }
 
-        wt_cnt := wt_cnt + 1
-        when(io.axim.w.last){
-          wt_cnt := 0
-          when(burst_cnt === 8){
-            goto(END)
-          }.otherwise{
-            burst_cnt := burst_cnt + 1
-            addr := addr + 32   // 256bit = 32byte
-            goto(AW)
-          }
+        // check last
+        burst_cnt := burst_cnt + 1
+        when(burst_cnt === burst_len){
+          goto(WBRESP)
         }
       }
     }
@@ -197,11 +187,35 @@ case class dmaWriteCtrl(datawidth:Int, addrwidth:Int, idwidth:Int, eleWidth:Int)
     W_SIGMA.whenIsActive{
       io.axim.w.valid := True
       when(io.axim.w.fire){
-          goto(END)
+          goto(WBRESP)
       }
     }
 
+    WBRESP.whenIsActive{
+      io.axim.b.ready := True
+      when(io.axim.b.fire){
+        goto(W_CHECK)
+      }
+    }
+
+    W_CHECK.whenIsActive{
+      burst_cnt := 0
+      when(o_vcnt === cfg.oHeight-1 && o_wcnt === cfg.oWidth-1){
+        goto(END)
+      }.otherwise {
+        goto(UPDATE_ADDR)
+        when(o_wcnt === cfg.oWidth - 1) {
+          o_wcnt := 0
+          o_vcnt := o_vcnt + 1
+        }.otherwise {
+          o_wcnt := o_wcnt + 1
+        }
+      }
+    }
+
+
     END.whenIsActive{
+      io.conv_finished := True
       goto(IDLE)
     }
 

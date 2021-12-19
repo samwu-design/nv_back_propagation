@@ -24,13 +24,17 @@ case class dma_read(datawidth:Int,addrwidth:Int,idwidth:Int) extends Component{
     val wt_output = master Stream(UInt(datawidth bits))
 
     val enable = in Bool()
+    val flush = in Bool()
     val isIdle = out Bool()
   }
   noIoPrefix()
-  val dtfifo = StreamFifo(UInt(datawidth bits),64)
-  val wtfifo = StreamFifo(UInt(datawidth bits),64)
+  val dtfifo = StreamFifo(UInt(datawidth bits),32)
+  val wtfifo = StreamFifo(UInt(datawidth bits),32)
 
   val param = Reg(dma_rd_para(addrwidth))
+
+  dtfifo.io.flush := io.flush
+  wtfifo.io.flush := io.flush
 
   io.dt_output <> dtfifo.io.pop
   io.wt_output <> wtfifo.io.pop
@@ -50,13 +54,9 @@ case class dma_read(datawidth:Int,addrwidth:Int,idwidth:Int) extends Component{
   io.isIdle := False
 
   // store axi data in fifo
-  //when(io.axim.r.payload.isOKAY() && io.axim.r.ready && io.axim.r.valid){
-  //  fifo.io.push.payload := io.axim.r.payload.data.asUInt
-  //}
 
   dtfifo.io.push.payload := io.axim.r.payload.data.asUInt
   dtfifo.io.push.valid := io.is_dtwt_in && io.axim.r.valid && io.axim.r.ready
-
   wtfifo.io.push.payload := io.axim.r.payload.data.asUInt
   wtfifo.io.push.valid := (~io.is_dtwt_in) && io.axim.r.valid && io.axim.r.ready
 

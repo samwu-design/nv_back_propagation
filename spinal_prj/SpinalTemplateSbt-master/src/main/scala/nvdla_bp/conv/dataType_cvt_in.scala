@@ -2,6 +2,7 @@ package nvdla_bp.conv
 
 import spinal.core._
 import spinal.lib._
+import spinal.lib.fsm.{EntryPoint, State, StateMachine}
 
 case class dataType_cvt_in(eleWidth: Int) extends Component {
   val io = new Bundle {

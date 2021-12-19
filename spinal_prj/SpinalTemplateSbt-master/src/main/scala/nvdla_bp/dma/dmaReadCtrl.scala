@@ -43,6 +43,7 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
 
   io.cfg.ready := False
 
+  dma_rd.io.flush := io.enable
   dma_rd.io.enable := False
   dma_rd.io.rd_para.burstlen := burstlen
   dma_rd.io.rd_para.BaseAddr := BaseAddr
@@ -56,9 +57,11 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
     val GET_DT_PARAM = new State
     val READ_DT = new State
     val CHECK_DT = new State
+    val UPADDR_DT = new State
     val GET_WT_PARAM = new State
     val READ_WT = new State
     val CHECK_WT = new State
+    val UPADDR_WT = new State
     val END = new State
 
     //1
@@ -89,12 +92,7 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
     READ_DT.whenIsActive{
       when(dma_rd.io.isIdle === True){
         dma_rd.io.enable := True
-        when(dt_wcnt === par.dtWidth){
-          dt_vcnt := dt_vcnt + 1
-          dt_wcnt := 0
-        }.otherwise{
-          dt_wcnt := dt_wcnt + 1
-        }
+        dt_vcnt := dt_vcnt + 1
         goto(CHECK_DT)
       }
     }
@@ -102,14 +100,18 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
     //4
     CHECK_DT.whenIsActive{
       when(dma_rd.io.isIdle === True){
-        when(dt_vcnt === par.dtHeight - 1 && dt_wcnt === par.dtWidth) {   // 1x1  --> 1x0
+        when(dt_vcnt === par.dtHeight) {   // 1x1  --> 1x0
           dt_vcnt := 0
-          dt_wcnt := 0
           goto(GET_WT_PARAM)
         }.otherwise{
-          goto(READ_DT)
+          goto(UPADDR_DT)
         }
       }
+    }
+
+    UPADDR_DT.whenIsActive{
+      BaseAddr := (BaseAddr + (par.dtWidth |<< 5)).resized
+      goto(READ_DT)
     }
 
     GET_WT_PARAM.whenIsActive{
@@ -120,14 +122,14 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
       goto(READ_WT)
     }
 
-    //5
+    //5  8 kernel num
     READ_WT.whenIsActive{
       when(dma_rd.io.isIdle === True){
         dma_rd.io.enable := True
 
         when(wt_wcnt === par.wtWidth){
           wt_vcnt := wt_vcnt + 1
-          wt_wcnt := 0
+          wt_wcnt := 1
         }.otherwise{
           wt_wcnt := wt_wcnt + 1
         }
@@ -142,9 +144,14 @@ case class dmaReadCtrl(datawidth:Int,addrwidth:Int,idwidth:Int) extends Componen
         when(wt_vcnt === par.wtHeight-1 && wt_wcnt === par.wtWidth) {
           goto(END)
         }.otherwise{
-          goto(READ_WT)
+          goto(UPADDR_WT)
         }
       }
+    }
+
+    UPADDR_WT.whenIsActive{
+      BaseAddr := (BaseAddr + 256).resized
+      goto(READ_WT)
     }
 
     //7

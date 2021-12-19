@@ -19,15 +19,32 @@ case class config_top(apbAddr: Int, apbdata: Int) extends Component {
     val glb_enable = out Bool()
     val is_delta_wt = out Bool()
 
+    val conv_finished = in Bool()
+    val interrupter = out Bool()
+
   }
 
   val cfg = Reg(glb_param())
-  val start = Reg(Bool())
+  val start = Reg(Bool())init(False)
   val is_delta_wt = Reg(Bool())init(False)
-
+  val interrupter = Reg(Bool())init(False)
   val apb_addr = UInt(apbAddr bits)
+  val clear_interrupter = Reg(Bits(1 bits))init(0)
+  clear_interrupter := 0
+
+  val state_reg = Reg(UInt(32 bits))init(0)
 
   apb_addr := io.apb.PADDR(15 downto 0).resized
+
+  io.interrupter := interrupter
+
+  // interrupter
+  when(io.conv_finished){
+    interrupter := True
+  }.elsewhen(clear_interrupter === 0){
+    interrupter := False
+  }
+
 
   io.rdma_glb_param.payload := cfg
   io.rdma_glb_param.valid := True
@@ -48,6 +65,10 @@ case class config_top(apbAddr: Int, apbdata: Int) extends Component {
 
   io.is_delta_wt := is_delta_wt
 
+  state_reg(0 downto 0) := (start === True).asUInt
+  state_reg(1 downto 1) := (interrupter === True).asUInt
+  state_reg(31 downto 2) := 0
+
   when(io.apb.PENABLE === True && io.apb.PSEL === 1) {
 
     when(io.apb.PWRITE === True) {
@@ -56,11 +77,17 @@ case class config_top(apbAddr: Int, apbdata: Int) extends Component {
       switch(apb_addr.asBits) {
         // enable
         is(B"32'h00000000") {
-          start := io.apb.PWDATA(0) // only one cycle
+          when(interrupter === False){
+            start := io.apb.PWDATA(0) // only one cycle
+          }
         }
 
         is(B"32'h00000004") {
           is_delta_wt := io.apb.PWDATA(0)
+        }
+
+        is(B"32'h00000008") {
+          clear_interrupter := io.apb.PWDATA(0)// only one cycle
         }
 
         is(B"32'h00000010") {
@@ -98,9 +125,16 @@ case class config_top(apbAddr: Int, apbdata: Int) extends Component {
 
     }.otherwise {
       // read
-      switch((io.apb.PADDR).asBits) {
+      switch((apb_addr).asBits) {
         // status
-
+        is(B"32'h00000000") {
+          io.apb.PRDATA := state_reg.asBits.resized //
+          /*
+          * [0] := busy
+          * [1] := interrupter active
+          *
+          * */
+        }
 
         is(B"32'h00000010") {
           io.apb.PRDATA := cfg.dtWidth.asBits.resized

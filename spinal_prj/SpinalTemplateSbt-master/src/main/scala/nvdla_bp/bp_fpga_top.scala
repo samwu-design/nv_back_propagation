@@ -22,7 +22,7 @@ case class bp_fpga_top(datawidth:Int,addrwidth:Int,idwidth:Int,eleWidth:Int,deep
     val axim_w = master(Axi4WriteOnly(axiconfig)) // write delta weight && sigma
     //val axi4lite = slave(AxiLite4(axilitecfg)) // configure access
     val apb = slave(Apb3(apb3cfg))
-    val interruper = out Bool()
+    val interrupter = out Bool()
   }
 
   val rdma = new  dmaReadCtrl(datawidth,addrwidth,idwidth)
@@ -36,16 +36,19 @@ case class bp_fpga_top(datawidth:Int,addrwidth:Int,idwidth:Int,eleWidth:Int,deep
   io.axim_r <> rdma.io.axim
   io.axim_w <> wdma.io.axim
   io.apb <> cfg.io.apb
-  io.interruper := False
 
+  io.interrupter := cfg.io.interrupter
   // ctrol-----
+  cfg.io.conv_finished := wdma.io.conv_finished
 
   rdma.io.enable := cfg.io.glb_enable
   cbuf.io.clear := cfg.io.glb_enable
 
+
+
   conv.io.read_enable := rdma.io.dma_rd_finished
-  conv.io.acc_enable := rdma.io.dma_rd_finished
   conv.io.is_delta_wt := cfg.io.is_delta_wt
+  conv.io.conv_finished := wdma.io.conv_finished
 
   wdma.io.enable := rdma.io.dma_rd_finished
   wdma.io.is_delta_wt := cfg.io.is_delta_wt

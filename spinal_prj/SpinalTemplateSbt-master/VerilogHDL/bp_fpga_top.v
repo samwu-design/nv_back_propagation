@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.5.0    git head : 83a031922866b078c411ec5529e00f1b6e79f8e7
 // Component : bp_fpga_top
-// Git hash  : e77e67b127657a9ca1008a70c6e85e67d032281b
+// Git hash  : 4271e1cc02cfdc98d5f5668afd78bc4007098f4d
 
 
 `define dma_rdctrl_fsm_enumDefinition_binary_sequential_type [3:0]
@@ -9,10 +9,12 @@
 `define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_DT_PARAM 4'b0010
 `define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT 4'b0011
 `define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT 4'b0100
-`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM 4'b0101
-`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT 4'b0110
-`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT 4'b0111
-`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END 4'b1000
+`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_DT 4'b0101
+`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM 4'b0110
+`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT 4'b0111
+`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT 4'b1000
+`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_WT 4'b1001
+`define dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END 4'b1010
 
 `define dma_rd_fsm_enumDefinition_binary_sequential_type [1:0]
 `define dma_rd_fsm_enumDefinition_binary_sequential_dma_rd_fsm_BOOT 2'b00
@@ -23,13 +25,16 @@
 `define dma_wrctrl_fsm_enumDefinition_binary_sequential_type [3:0]
 `define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_BOOT 4'b0000
 `define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE 4'b0001
-`define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_CHECK_GET_PARAM 4'b0010
-`define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_WT 4'b0011
-`define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_SGM 4'b0100
-`define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW 4'b0101
-`define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT 4'b0110
-`define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA 4'b0111
-`define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END 4'b1000
+`define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_INIT_GET_PARAM 4'b0010
+`define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_UPDATE_ADDR 4'b0011
+`define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT 4'b0100
+`define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM 4'b0101
+`define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW 4'b0110
+`define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT 4'b0111
+`define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA 4'b1000
+`define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_WBRESP 4'b1001
+`define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_CHECK 4'b1010
+`define dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END 4'b1011
 
 `define read_req_fsm_enumDefinition_binary_sequential_type [3:0]
 `define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_BOOT 4'b0000
@@ -41,6 +46,7 @@
 `define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR 4'b0110
 `define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW 4'b0111
 `define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR 4'b1000
+`define read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END 4'b1001
 
 `define acc_fsm_enumDefinition_binary_sequential_type [2:0]
 `define acc_fsm_enumDefinition_binary_sequential_acc_fsm_BOOT 3'b000
@@ -663,7 +669,7 @@ module bp_fpga_top (
   input      [31:0]   io_apb_PWDATA,
   output     [31:0]   io_apb_PRDATA,
   output              io_apb_PSLVERROR,
-  output              io_interruper,
+  output              io_interrupter,
   input               clk,
   input               reset
 );
@@ -765,6 +771,7 @@ module bp_fpga_top (
   wire                wdma_io_i_sigma_5_ready;
   wire                wdma_io_i_sigma_6_ready;
   wire                wdma_io_i_sigma_7_ready;
+  wire                wdma_io_conv_finished;
   wire                cbuf_io_dt_input_ready;
   wire                cbuf_io_wt_input_ready;
   wire       [255:0]  cbuf_io_dt_rd_data;
@@ -1169,6 +1176,7 @@ module bp_fpga_top (
   wire       [15:0]   cfg_io_conv_glb_param_payload_oHeight;
   wire                cfg_io_glb_enable;
   wire                cfg_io_is_delta_wt;
+  wire                cfg_io_interrupter;
 
   dmaReadCtrl rdma (
     .axim_ar_valid                       (rdma_axim_ar_valid                                  ), //o
@@ -1453,8 +1461,9 @@ module bp_fpga_top (
     .io_i_sigma_7_valid                     (adder_io_out_7_valid                                ), //i
     .io_i_sigma_7_ready                     (wdma_io_i_sigma_7_ready                             ), //o
     .io_i_sigma_7_payload                   (adder_io_out_7_payload                              ), //i
-    .io_enable                              (1'b1                                                ), //i
+    .io_enable                              (rdma_dma_rd_finished                                ), //i
     .io_is_delta_wt                         (cfg_io_is_delta_wt                                  ), //i
+    .io_conv_finished                       (wdma_io_conv_finished                               ), //o
     .clk                                    (clk                                                 ), //i
     .reset                                  (reset                                               )  //i
   );
@@ -1510,7 +1519,6 @@ module bp_fpga_top (
     .cfg_payload_oWidth                  (cfg_io_conv_glb_param_payload_oWidth                ), //i
     .cfg_payload_oHeight                 (cfg_io_conv_glb_param_payload_oHeight               ), //i
     .read_enable                         (rdma_dma_rd_finished                                ), //i
-    .acc_enable                          (rdma_dma_rd_finished                                ), //i
     .is_delta_wt                         (cfg_io_is_delta_wt                                  ), //i
     .dt_ramrd_addr                       (conv_dt_ramrd_addr                                  ), //o
     .dt_ramrd_data                       (cbuf_io_dt_rd_data                                  ), //i
@@ -1923,6 +1931,7 @@ module bp_fpga_top (
     .o_sigma_7_7_valid                   (conv_o_sigma_7_7_valid                              ), //o
     .o_sigma_7_7_ready                   (adder_io_in_7_7_ready                               ), //i
     .o_sigma_7_7_payload                 (conv_o_sigma_7_7_payload                            ), //o
+    .conv_finished                       (wdma_io_conv_finished                               ), //i
     .clk                                 (clk                                                 ), //i
     .reset                               (reset                                               )  //i
   );
@@ -2192,6 +2201,8 @@ module bp_fpga_top (
     .io_conv_glb_param_payload_oHeight                 (cfg_io_conv_glb_param_payload_oHeight               ), //o
     .io_glb_enable                                     (cfg_io_glb_enable                                   ), //o
     .io_is_delta_wt                                    (cfg_io_is_delta_wt                                  ), //o
+    .io_conv_finished                                  (wdma_io_conv_finished                               ), //i
+    .io_interrupter                                    (cfg_io_interrupter                                  ), //o
     .clk                                               (clk                                                 ), //i
     .reset                                             (reset                                               )  //i
   );
@@ -2216,7 +2227,7 @@ module bp_fpga_top (
   assign io_apb_PREADY = cfg_io_apb_PREADY;
   assign io_apb_PRDATA = cfg_io_apb_PRDATA;
   assign io_apb_PSLVERROR = cfg_io_apb_PSLVERROR;
-  assign io_interruper = 1'b0;
+  assign io_interrupter = cfg_io_interrupter;
 
 endmodule
 
@@ -2267,6 +2278,8 @@ module config_top (
   output     [15:0]   io_conv_glb_param_payload_oHeight,
   output              io_glb_enable,
   output              io_is_delta_wt,
+  input               io_conv_finished,
+  output              io_interrupter,
   input               clk,
   input               reset
 );
@@ -2295,11 +2308,16 @@ module config_top (
   reg        [15:0]   cfg_oHeight;
   reg                 start;
   reg                 is_delta_wt;
+  reg                 interrupter;
   wire       [31:0]   apb_addr;
-  wire                when_config_top_l51;
-  wire                when_config_top_l53;
-  wire       [31:0]   switch_config_top_l56;
-  wire       [31:0]   switch_config_top_l101;
+  reg                 clear_interrupter;
+  reg        [31:0]   state_reg;
+  wire                when_config_top_l44;
+  wire                when_config_top_l72;
+  wire                when_config_top_l74;
+  wire       [31:0]   switch_config_top_l77;
+  wire                when_config_top_l80;
+  wire       [31:0]   switch_config_top_l128;
 
   assign _zz_apb_addr = io_apb_PADDR[15 : 0];
   assign _zz_cfg_dtWidth = io_apb_PWDATA;
@@ -2315,6 +2333,8 @@ module config_top (
   assign _zz_io_apb_PRDATA_4 = cfg_oWidth;
   assign _zz_io_apb_PRDATA_5 = cfg_oHeight;
   assign apb_addr = {16'd0, _zz_apb_addr};
+  assign io_interrupter = interrupter;
+  assign when_config_top_l44 = (clear_interrupter == 1'b1);
   assign io_rdma_glb_param_payload_rd_dtBaseAddr = cfg_rd_dtBaseAddr;
   assign io_rdma_glb_param_payload_rd_wtBaseAddr = cfg_rd_wtBaseAddr;
   assign io_rdma_glb_param_payload_wr_delta_wt_BaseAddr = cfg_wr_delta_wt_BaseAddr;
@@ -2352,9 +2372,12 @@ module config_top (
   assign io_apb_PREADY = 1'b1;
   always @(*) begin
     io_apb_PRDATA = 32'h0;
-    if(when_config_top_l51) begin
-      if(!when_config_top_l53) begin
-        case(switch_config_top_l101)
+    if(when_config_top_l72) begin
+      if(!when_config_top_l74) begin
+        case(switch_config_top_l128)
+          32'h0 : begin
+            io_apb_PRDATA = state_reg;
+          end
           32'h00000010 : begin
             io_apb_PRDATA = {16'd0, _zz_io_apb_PRDATA};
           end
@@ -2395,19 +2418,44 @@ module config_top (
 
   assign io_apb_PSLVERROR = 1'b0;
   assign io_is_delta_wt = is_delta_wt;
-  assign when_config_top_l51 = ((io_apb_PENABLE == 1'b1) && (io_apb_PSEL == 1'b1));
-  assign when_config_top_l53 = (io_apb_PWRITE == 1'b1);
-  assign switch_config_top_l56 = apb_addr;
-  assign switch_config_top_l101 = io_apb_PADDR;
+  assign when_config_top_l72 = ((io_apb_PENABLE == 1'b1) && (io_apb_PSEL == 1'b1));
+  assign when_config_top_l74 = (io_apb_PWRITE == 1'b1);
+  assign switch_config_top_l77 = apb_addr;
+  assign when_config_top_l80 = (interrupter == 1'b0);
+  assign switch_config_top_l128 = apb_addr;
   always @(posedge clk or posedge reset) begin
     if(reset) begin
+      start <= 1'b0;
       is_delta_wt <= 1'b0;
+      interrupter <= 1'b0;
+      clear_interrupter <= 1'b0;
+      state_reg <= 32'h0;
     end else begin
-      if(when_config_top_l51) begin
-        if(when_config_top_l53) begin
-          case(switch_config_top_l56)
+      clear_interrupter <= 1'b0;
+      if(io_conv_finished) begin
+        interrupter <= 1'b1;
+      end else begin
+        if(when_config_top_l44) begin
+          interrupter <= 1'b0;
+        end
+      end
+      start <= 1'b0;
+      state_reg[0 : 0] <= (start == 1'b1);
+      state_reg[1 : 1] <= (interrupter == 1'b1);
+      state_reg[31 : 2] <= 30'h0;
+      if(when_config_top_l72) begin
+        if(when_config_top_l74) begin
+          case(switch_config_top_l77)
+            32'h0 : begin
+              if(when_config_top_l80) begin
+                start <= io_apb_PWDATA[0];
+              end
+            end
             32'h00000004 : begin
               is_delta_wt <= io_apb_PWDATA[0];
+            end
+            32'h00000008 : begin
+              clear_interrupter <= io_apb_PWDATA[0];
             end
             default : begin
             end
@@ -2418,13 +2466,9 @@ module config_top (
   end
 
   always @(posedge clk) begin
-    start <= 1'b0;
-    if(when_config_top_l51) begin
-      if(when_config_top_l53) begin
-        case(switch_config_top_l56)
-          32'h0 : begin
-            start <= io_apb_PWDATA[0];
-          end
+    if(when_config_top_l72) begin
+      if(when_config_top_l74) begin
+        case(switch_config_top_l77)
           32'h00000010 : begin
             cfg_dtWidth <= _zz_cfg_dtWidth[15:0];
           end
@@ -3102,7 +3146,6 @@ module conv_top (
   input      [15:0]   cfg_payload_oWidth,
   input      [15:0]   cfg_payload_oHeight,
   input               read_enable,
-  input               acc_enable,
   input               is_delta_wt,
   output     [31:0]   dt_ramrd_addr,
   input      [255:0]  dt_ramrd_data,
@@ -3515,6 +3558,7 @@ module conv_top (
   output              o_sigma_7_7_valid,
   input               o_sigma_7_7_ready,
   output     [31:0]   o_sigma_7_7_payload,
+  input               conv_finished,
   input               clk,
   input               reset
 );
@@ -3556,6 +3600,7 @@ module conv_top (
   wire       [255:0]  read_req_o_wt_6_payload;
   wire                read_req_o_wt_7_valid;
   wire       [255:0]  read_req_o_wt_7_payload;
+  wire                read_req_acc_enable;
   wire                data_cvt_io_i_ft_ready;
   wire                data_cvt_io_i_wt_0_ready;
   wire                data_cvt_io_i_wt_1_ready;
@@ -4302,6 +4347,8 @@ module conv_top (
     .o_wt_7_ready                        (data_cvt_io_i_wt_7_ready          ), //i
     .o_wt_7_payload                      (read_req_o_wt_7_payload           ), //o
     .read_enable                         (read_enable                       ), //i
+    .conv_finished                       (conv_finished                     ), //i
+    .acc_enable                          (read_req_acc_enable               ), //o
     .clk                                 (clk                               ), //i
     .reset                               (reset                             )  //i
   );
@@ -4960,7 +5007,7 @@ module conv_top (
     .s_out_7_7_ready      (mux_io_indata_7_7_ready       ), //i
     .s_out_7_7_payload    (conv_core_s_out_7_7_payload   ), //o
     .par_acc_cnt          (conv_core_par_acc_cnt         ), //i
-    .acc_enable           (acc_enable                    ), //i
+    .acc_enable           (read_req_acc_enable           ), //i
     .clk                  (clk                           ), //i
     .reset                (reset                         )  //i
   );
@@ -6025,11 +6072,11 @@ module dmaWriteCtrl (
   output     [31:0]   io_axim_w_payload_strb,
   output              io_axim_w_payload_last,
   input               io_axim_b_valid,
-  output              io_axim_b_ready,
+  output reg          io_axim_b_ready,
   input      [5:0]    io_axim_b_payload_id,
   input      [1:0]    io_axim_b_payload_resp,
   input               io_cfg_valid,
-  output reg          io_cfg_ready,
+  output              io_cfg_ready,
   input      [31:0]   io_cfg_payload_rd_dtBaseAddr,
   input      [31:0]   io_cfg_payload_rd_wtBaseAddr,
   input      [31:0]   io_cfg_payload_wr_delta_wt_BaseAddr,
@@ -6258,6 +6305,7 @@ module dmaWriteCtrl (
   input      [31:0]   io_i_sigma_7_payload,
   input               io_enable,
   input               io_is_delta_wt,
+  output reg          io_conv_finished,
   input               clk,
   input               reset
 );
@@ -6352,7 +6400,12 @@ module dmaWriteCtrl (
   wire                cvt_sgm_io_in_7_ready;
   wire                cvt_sgm_io_out_valid;
   wire       [255:0]  cvt_sgm_io_out_payload;
-  wire       [7:0]    _zz_io_axim_w_payload_last;
+  wire       [15:0]   _zz_when_dmaWriteCtrl_l203;
+  wire       [15:0]   _zz_when_dmaWriteCtrl_l203_1;
+  wire       [15:0]   _zz_when_dmaWriteCtrl_l203_2;
+  wire       [15:0]   _zz_when_dmaWriteCtrl_l203_3;
+  wire       [15:0]   _zz_when_dmaWriteCtrl_l207;
+  wire       [15:0]   _zz_when_dmaWriteCtrl_l207_1;
   reg        [31:0]   addr;
   reg        [7:0]    burst_len;
   reg        [7:0]    burst_cnt;
@@ -6365,7 +6418,7 @@ module dmaWriteCtrl (
   reg        [255:0]  data_wt_6;
   reg        [255:0]  data_wt_7;
   reg        [255:0]  data_sgm;
-  reg        [3:0]    wt_cnt;
+  wire       [3:0]    wt_cnt;
   reg        [31:0]   cfg_rd_dtBaseAddr;
   reg        [31:0]   cfg_rd_wtBaseAddr;
   reg        [31:0]   cfg_wr_delta_wt_BaseAddr;
@@ -6376,30 +6429,42 @@ module dmaWriteCtrl (
   reg        [15:0]   cfg_wtHeight;
   reg        [15:0]   cfg_oWidth;
   reg        [15:0]   cfg_oHeight;
+  reg        [3:0]    o_wcnt;
+  reg        [3:0]    o_vcnt;
   reg                 cvt_wt_o_ready;
   wire                cvt_wt_o_valid;
-  wire                when_dmaWriteCtrl_l73;
+  wire                when_dmaWriteCtrl_l78;
+  wire                when_dmaWriteCtrl_l89;
   wire                dma_wrctrl_fsm_wantExit;
   reg                 dma_wrctrl_fsm_wantStart;
   wire                dma_wrctrl_fsm_wantKill;
   reg        `dma_wrctrl_fsm_enumDefinition_binary_sequential_type dma_wrctrl_fsm_stateReg;
   reg        `dma_wrctrl_fsm_enumDefinition_binary_sequential_type dma_wrctrl_fsm_stateNext;
-  wire                when_dmaWriteCtrl_l101;
-  wire                when_dmaWriteCtrl_l104;
-  wire                when_dmaWriteCtrl_l110;
-  wire                when_dmaWriteCtrl_l123;
+  wire                when_dmaWriteCtrl_l109;
+  wire                when_dmaWriteCtrl_l115;
+  wire                when_dmaWriteCtrl_l127;
+  wire                when_dmaWriteCtrl_l140;
+  wire                when_dmaWriteCtrl_l151;
   wire                when_dmaWriteCtrl_l160;
-  wire                when_dmaWriteCtrl_l169;
-  wire                when_dmaWriteCtrl_l176;
-  wire                when_dmaWriteCtrl_l186;
-  wire                when_dmaWriteCtrl_l199;
+  wire                when_dmaWriteCtrl_l161;
+  wire                when_dmaWriteCtrl_l172;
+  wire                when_dmaWriteCtrl_l181;
+  wire                when_dmaWriteCtrl_l189;
+  wire                when_dmaWriteCtrl_l196;
+  wire                when_dmaWriteCtrl_l203;
+  wire                when_dmaWriteCtrl_l207;
   `ifndef SYNTHESIS
-  reg [239:0] dma_wrctrl_fsm_stateReg_string;
-  reg [239:0] dma_wrctrl_fsm_stateNext_string;
+  reg [231:0] dma_wrctrl_fsm_stateReg_string;
+  reg [231:0] dma_wrctrl_fsm_stateNext_string;
   `endif
 
 
-  assign _zz_io_axim_w_payload_last = (burst_len - 8'h01);
+  assign _zz_when_dmaWriteCtrl_l203 = {12'd0, o_vcnt};
+  assign _zz_when_dmaWriteCtrl_l203_1 = (cfg_oHeight - 16'h0001);
+  assign _zz_when_dmaWriteCtrl_l203_2 = {12'd0, o_wcnt};
+  assign _zz_when_dmaWriteCtrl_l203_3 = (cfg_oWidth - 16'h0001);
+  assign _zz_when_dmaWriteCtrl_l207 = {12'd0, o_wcnt};
+  assign _zz_when_dmaWriteCtrl_l207_1 = (cfg_oWidth - 16'h0001);
   cvt_stream2uint cvt_wt_0 (
     .io_in_0_valid      (io_i_delta_wt_0_0_valid    ), //i
     .io_in_0_ready      (cvt_wt_0_io_in_0_ready     ), //o
@@ -6664,33 +6729,71 @@ module dmaWriteCtrl (
   `ifndef SYNTHESIS
   always @(*) begin
     case(dma_wrctrl_fsm_stateReg)
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_BOOT : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_BOOT           ";
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_IDLE           ";
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_CHECK_GET_PARAM : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_CHECK_GET_PARAM";
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_WT : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_GET_DATA_WT    ";
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_SGM : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_GET_DATA_SGM   ";
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_AW             ";
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_W_DELTA_WT     ";
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_W_SIGMA        ";
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_END            ";
-      default : dma_wrctrl_fsm_stateReg_string = "??????????????????????????????";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_BOOT : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_BOOT          ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_IDLE          ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_INIT_GET_PARAM : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_INIT_GET_PARAM";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_UPDATE_ADDR : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_UPDATE_ADDR   ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_GET_DELTA_WT  ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_GET_SGM       ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_AW            ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_W_DELTA_WT    ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_W_SIGMA       ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_WBRESP : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_WBRESP        ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_CHECK : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_W_CHECK       ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END : dma_wrctrl_fsm_stateReg_string = "dma_wrctrl_fsm_END           ";
+      default : dma_wrctrl_fsm_stateReg_string = "?????????????????????????????";
     endcase
   end
   always @(*) begin
     case(dma_wrctrl_fsm_stateNext)
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_BOOT : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_BOOT           ";
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_IDLE           ";
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_CHECK_GET_PARAM : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_CHECK_GET_PARAM";
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_WT : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_GET_DATA_WT    ";
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_SGM : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_GET_DATA_SGM   ";
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_AW             ";
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_W_DELTA_WT     ";
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_W_SIGMA        ";
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_END            ";
-      default : dma_wrctrl_fsm_stateNext_string = "??????????????????????????????";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_BOOT : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_BOOT          ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_IDLE          ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_INIT_GET_PARAM : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_INIT_GET_PARAM";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_UPDATE_ADDR : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_UPDATE_ADDR   ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_GET_DELTA_WT  ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_GET_SGM       ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_AW            ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_W_DELTA_WT    ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_W_SIGMA       ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_WBRESP : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_WBRESP        ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_CHECK : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_W_CHECK       ";
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END : dma_wrctrl_fsm_stateNext_string = "dma_wrctrl_fsm_END           ";
+      default : dma_wrctrl_fsm_stateNext_string = "?????????????????????????????";
     endcase
   end
   `endif
+
+  assign wt_cnt = 4'b0000;
+  always @(*) begin
+    io_conv_finished = 1'b0;
+    case(dma_wrctrl_fsm_stateReg)
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_INIT_GET_PARAM : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_UPDATE_ADDR : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_WBRESP : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_CHECK : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END : begin
+        io_conv_finished = 1'b1;
+      end
+      default : begin
+      end
+    endcase
+  end
 
   assign io_i_delta_wt_0_0_ready = cvt_wt_0_io_in_0_ready;
   assign io_i_delta_wt_0_1_ready = cvt_wt_0_io_in_1_ready;
@@ -6761,18 +6864,24 @@ module dmaWriteCtrl (
     case(dma_wrctrl_fsm_stateReg)
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE : begin
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_CHECK_GET_PARAM : begin
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_INIT_GET_PARAM : begin
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_WT : begin
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_UPDATE_ADDR : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT : begin
         cvt_wt_o_ready = 1'b1;
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_SGM : begin
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM : begin
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW : begin
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT : begin
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_WBRESP : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_CHECK : begin
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END : begin
       end
@@ -6787,11 +6896,13 @@ module dmaWriteCtrl (
     case(dma_wrctrl_fsm_stateReg)
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE : begin
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_CHECK_GET_PARAM : begin
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_INIT_GET_PARAM : begin
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_WT : begin
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_UPDATE_ADDR : begin
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_SGM : begin
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM : begin
         cvt_sgm_io_out_ready = 1'b1;
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW : begin
@@ -6799,6 +6910,10 @@ module dmaWriteCtrl (
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT : begin
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_WBRESP : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_CHECK : begin
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END : begin
       end
@@ -6820,11 +6935,13 @@ module dmaWriteCtrl (
     case(dma_wrctrl_fsm_stateReg)
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE : begin
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_CHECK_GET_PARAM : begin
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_INIT_GET_PARAM : begin
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_WT : begin
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_UPDATE_ADDR : begin
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_SGM : begin
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM : begin
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW : begin
         io_axim_aw_valid = 1'b1;
@@ -6832,6 +6949,10 @@ module dmaWriteCtrl (
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT : begin
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_WBRESP : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_CHECK : begin
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END : begin
       end
@@ -6844,17 +6965,19 @@ module dmaWriteCtrl (
   assign io_axim_aw_payload_addr = addr;
   assign io_axim_aw_payload_burst = 2'b01;
   assign io_axim_aw_payload_size = 3'b101;
-  assign io_axim_aw_payload_len = (burst_len - 8'h01);
+  assign io_axim_aw_payload_len = burst_len;
   always @(*) begin
     io_axim_w_valid = 1'b0;
     case(dma_wrctrl_fsm_stateReg)
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE : begin
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_CHECK_GET_PARAM : begin
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_INIT_GET_PARAM : begin
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_WT : begin
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_UPDATE_ADDR : begin
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_SGM : begin
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM : begin
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW : begin
       end
@@ -6864,6 +6987,10 @@ module dmaWriteCtrl (
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA : begin
         io_axim_w_valid = 1'b1;
       end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_WBRESP : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_CHECK : begin
+      end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END : begin
       end
       default : begin
@@ -6871,10 +6998,41 @@ module dmaWriteCtrl (
     endcase
   end
 
-  assign io_axim_w_payload_last = (burst_cnt == _zz_io_axim_w_payload_last);
-  assign when_dmaWriteCtrl_l73 = (io_is_delta_wt == 1'b1);
+  assign io_axim_w_payload_last = (burst_cnt == burst_len);
   always @(*) begin
-    if(when_dmaWriteCtrl_l73) begin
+    io_axim_b_ready = 1'b0;
+    case(dma_wrctrl_fsm_stateReg)
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_INIT_GET_PARAM : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_UPDATE_ADDR : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_WBRESP : begin
+        io_axim_b_ready = 1'b1;
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_CHECK : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  assign when_dmaWriteCtrl_l78 = (io_is_delta_wt == 1'b1);
+  always @(*) begin
+    if(when_dmaWriteCtrl_l78) begin
       io_axim_w_payload_data = data_wt_0;
     end else begin
       io_axim_w_payload_data = data_sgm;
@@ -6882,49 +7040,31 @@ module dmaWriteCtrl (
   end
 
   assign io_axim_w_payload_strb = (~ 32'h0);
-  assign io_axim_b_ready = 1'b0;
-  always @(*) begin
-    io_cfg_ready = 1'b0;
-    case(dma_wrctrl_fsm_stateReg)
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE : begin
-        io_cfg_ready = 1'b1;
-      end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_CHECK_GET_PARAM : begin
-      end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_WT : begin
-      end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_SGM : begin
-      end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW : begin
-      end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT : begin
-      end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA : begin
-      end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END : begin
-      end
-      default : begin
-      end
-    endcase
-  end
-
+  assign io_cfg_ready = 1'b1;
+  assign when_dmaWriteCtrl_l89 = (io_cfg_valid && io_cfg_ready);
   assign dma_wrctrl_fsm_wantExit = 1'b0;
   always @(*) begin
     dma_wrctrl_fsm_wantStart = 1'b0;
     case(dma_wrctrl_fsm_stateReg)
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE : begin
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_CHECK_GET_PARAM : begin
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_INIT_GET_PARAM : begin
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_WT : begin
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_UPDATE_ADDR : begin
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_SGM : begin
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM : begin
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW : begin
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT : begin
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_WBRESP : begin
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_CHECK : begin
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END : begin
       end
@@ -6939,46 +7079,65 @@ module dmaWriteCtrl (
     dma_wrctrl_fsm_stateNext = dma_wrctrl_fsm_stateReg;
     case(dma_wrctrl_fsm_stateReg)
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE : begin
-        if(when_dmaWriteCtrl_l104) begin
-          dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_CHECK_GET_PARAM;
+        if(when_dmaWriteCtrl_l109) begin
+          dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_INIT_GET_PARAM;
         end
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_CHECK_GET_PARAM : begin
-        if(when_dmaWriteCtrl_l110) begin
-          dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_WT;
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_INIT_GET_PARAM : begin
+        if(when_dmaWriteCtrl_l115) begin
+          dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT;
         end else begin
-          dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_SGM;
+          dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM;
         end
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_WT : begin
-        if(when_dmaWriteCtrl_l123) begin
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_UPDATE_ADDR : begin
+        if(when_dmaWriteCtrl_l127) begin
+          dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT;
+        end else begin
+          dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM;
+        end
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT : begin
+        if(when_dmaWriteCtrl_l140) begin
           dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW;
         end
       end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_SGM : begin
-        if(when_dmaWriteCtrl_l160) begin
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM : begin
+        if(when_dmaWriteCtrl_l151) begin
           dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW;
         end
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW : begin
-        if(when_dmaWriteCtrl_l169) begin
-          dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT;
+        if(when_dmaWriteCtrl_l160) begin
+          if(when_dmaWriteCtrl_l161) begin
+            dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT;
+          end else begin
+            dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA;
+          end
         end
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT : begin
-        if(when_dmaWriteCtrl_l176) begin
-          if(io_axim_w_payload_last) begin
-            if(when_dmaWriteCtrl_l186) begin
-              dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END;
-            end else begin
-              dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW;
-            end
+        if(when_dmaWriteCtrl_l172) begin
+          if(when_dmaWriteCtrl_l181) begin
+            dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_WBRESP;
           end
         end
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA : begin
-        if(when_dmaWriteCtrl_l199) begin
+        if(when_dmaWriteCtrl_l189) begin
+          dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_WBRESP;
+        end
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_WBRESP : begin
+        if(when_dmaWriteCtrl_l196) begin
+          dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_CHECK;
+        end
+      end
+      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_CHECK : begin
+        if(when_dmaWriteCtrl_l203) begin
           dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END;
+        end else begin
+          dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_UPDATE_ADDR;
         end
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END : begin
@@ -6995,15 +7154,19 @@ module dmaWriteCtrl (
     end
   end
 
-  assign when_dmaWriteCtrl_l101 = (io_cfg_valid && io_cfg_ready);
-  assign when_dmaWriteCtrl_l104 = (io_enable == 1'b1);
-  assign when_dmaWriteCtrl_l110 = (io_is_delta_wt == 1'b1);
-  assign when_dmaWriteCtrl_l123 = ((cvt_wt_o_ready == 1'b1) && (cvt_wt_o_valid == 1'b1));
-  assign when_dmaWriteCtrl_l160 = ((cvt_sgm_io_out_valid == 1'b1) && (cvt_sgm_io_out_ready == 1'b1));
-  assign when_dmaWriteCtrl_l169 = (io_axim_aw_valid && io_axim_aw_ready);
-  assign when_dmaWriteCtrl_l176 = (io_axim_w_valid && io_axim_w_ready);
-  assign when_dmaWriteCtrl_l186 = (burst_cnt == 8'h08);
-  assign when_dmaWriteCtrl_l199 = (io_axim_w_valid && io_axim_w_ready);
+  assign when_dmaWriteCtrl_l109 = (io_enable == 1'b1);
+  assign when_dmaWriteCtrl_l115 = (io_is_delta_wt == 1'b1);
+  assign when_dmaWriteCtrl_l127 = (io_is_delta_wt == 1'b1);
+  assign when_dmaWriteCtrl_l140 = ((cvt_wt_o_ready == 1'b1) && (cvt_wt_o_valid == 1'b1));
+  assign when_dmaWriteCtrl_l151 = ((cvt_sgm_io_out_valid == 1'b1) && (cvt_sgm_io_out_ready == 1'b1));
+  assign when_dmaWriteCtrl_l160 = (io_axim_aw_valid && io_axim_aw_ready);
+  assign when_dmaWriteCtrl_l161 = (io_is_delta_wt == 1'b1);
+  assign when_dmaWriteCtrl_l172 = (io_axim_w_valid && io_axim_w_ready);
+  assign when_dmaWriteCtrl_l181 = (burst_cnt == burst_len);
+  assign when_dmaWriteCtrl_l189 = (io_axim_w_valid && io_axim_w_ready);
+  assign when_dmaWriteCtrl_l196 = (io_axim_b_valid && io_axim_b_ready);
+  assign when_dmaWriteCtrl_l203 = ((_zz_when_dmaWriteCtrl_l203 == _zz_when_dmaWriteCtrl_l203_1) && (_zz_when_dmaWriteCtrl_l203_2 == _zz_when_dmaWriteCtrl_l203_3));
+  assign when_dmaWriteCtrl_l207 = (_zz_when_dmaWriteCtrl_l207 == _zz_when_dmaWriteCtrl_l207_1);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
       addr <= 32'h0;
@@ -7018,63 +7181,53 @@ module dmaWriteCtrl (
       data_wt_6 <= 256'h0;
       data_wt_7 <= 256'h0;
       data_sgm <= 256'h0;
-      wt_cnt <= 4'b0000;
+      o_wcnt <= 4'b0000;
+      o_vcnt <= 4'b0000;
       dma_wrctrl_fsm_stateReg <= `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_BOOT;
     end else begin
       dma_wrctrl_fsm_stateReg <= dma_wrctrl_fsm_stateNext;
       case(dma_wrctrl_fsm_stateReg)
         `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE : begin
         end
-        `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_CHECK_GET_PARAM : begin
-          if(when_dmaWriteCtrl_l110) begin
-            addr <= cfg_rd_dtBaseAddr;
-            burst_len <= 8'h08;
+        `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_INIT_GET_PARAM : begin
+          if(when_dmaWriteCtrl_l115) begin
+            addr <= cfg_wr_delta_wt_BaseAddr;
+            burst_len <= 8'h07;
           end else begin
-            addr <= cfg_rd_wtBaseAddr;
-            burst_len <= 8'h01;
+            addr <= cfg_wr_sigma_BaseAddr;
+            burst_len <= 8'h0;
           end
         end
-        `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_WT : begin
-          if(when_dmaWriteCtrl_l123) begin
-            case(burst_cnt)
-              8'h0 : begin
-                data_wt_0 <= cvt_wt_0_io_out_payload;
-              end
-              8'h01 : begin
-                data_wt_1 <= cvt_wt_1_io_out_payload;
-              end
-              8'h02 : begin
-                data_wt_2 <= cvt_wt_2_io_out_payload;
-              end
-              8'h03 : begin
-                data_wt_3 <= cvt_wt_3_io_out_payload;
-              end
-              8'h04 : begin
-                data_wt_4 <= cvt_wt_4_io_out_payload;
-              end
-              8'h05 : begin
-                data_wt_5 <= cvt_wt_5_io_out_payload;
-              end
-              8'h06 : begin
-                data_wt_6 <= cvt_wt_6_io_out_payload;
-              end
-              8'h07 : begin
-                data_wt_7 <= cvt_wt_7_io_out_payload;
-              end
-              default : begin
-              end
-            endcase
+        `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_UPDATE_ADDR : begin
+          if(when_dmaWriteCtrl_l127) begin
+            addr <= (addr + 32'h00000100);
+            burst_len <= 8'h07;
+          end else begin
+            addr <= (addr + 32'h00000020);
+            burst_len <= 8'h0;
           end
         end
-        `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_SGM : begin
-          if(when_dmaWriteCtrl_l160) begin
+        `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT : begin
+          if(when_dmaWriteCtrl_l140) begin
+            data_wt_0 <= cvt_wt_0_io_out_payload;
+            data_wt_1 <= cvt_wt_1_io_out_payload;
+            data_wt_2 <= cvt_wt_2_io_out_payload;
+            data_wt_3 <= cvt_wt_3_io_out_payload;
+            data_wt_4 <= cvt_wt_4_io_out_payload;
+            data_wt_5 <= cvt_wt_5_io_out_payload;
+            data_wt_6 <= cvt_wt_6_io_out_payload;
+            data_wt_7 <= cvt_wt_7_io_out_payload;
+          end
+        end
+        `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM : begin
+          if(when_dmaWriteCtrl_l151) begin
             data_sgm <= cvt_sgm_io_out_payload;
           end
         end
         `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW : begin
         end
         `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT : begin
-          if(when_dmaWriteCtrl_l176) begin
+          if(when_dmaWriteCtrl_l172) begin
             data_wt_0 <= data_wt_1;
             data_wt_1 <= data_wt_2;
             data_wt_2 <= data_wt_3;
@@ -7082,17 +7235,23 @@ module dmaWriteCtrl (
             data_wt_4 <= data_wt_5;
             data_wt_5 <= data_wt_6;
             data_wt_6 <= data_wt_7;
-            wt_cnt <= (wt_cnt + 4'b0001);
-            if(io_axim_w_payload_last) begin
-              wt_cnt <= 4'b0000;
-              if(!when_dmaWriteCtrl_l186) begin
-                burst_cnt <= (burst_cnt + 8'h01);
-                addr <= (addr + 32'h00000020);
-              end
-            end
+            burst_cnt <= (burst_cnt + 8'h01);
           end
         end
         `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA : begin
+        end
+        `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_WBRESP : begin
+        end
+        `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_CHECK : begin
+          burst_cnt <= 8'h0;
+          if(!when_dmaWriteCtrl_l203) begin
+            if(when_dmaWriteCtrl_l207) begin
+              o_wcnt <= 4'b0000;
+              o_vcnt <= (o_vcnt + 4'b0001);
+            end else begin
+              o_wcnt <= (o_wcnt + 4'b0001);
+            end
+          end
         end
         `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END : begin
         end
@@ -7103,38 +7262,18 @@ module dmaWriteCtrl (
   end
 
   always @(posedge clk) begin
-    case(dma_wrctrl_fsm_stateReg)
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE : begin
-        if(when_dmaWriteCtrl_l101) begin
-          cfg_rd_dtBaseAddr <= io_cfg_payload_rd_dtBaseAddr;
-          cfg_rd_wtBaseAddr <= io_cfg_payload_rd_wtBaseAddr;
-          cfg_wr_delta_wt_BaseAddr <= io_cfg_payload_wr_delta_wt_BaseAddr;
-          cfg_wr_sigma_BaseAddr <= io_cfg_payload_wr_sigma_BaseAddr;
-          cfg_dtWidth <= io_cfg_payload_dtWidth;
-          cfg_dtHeight <= io_cfg_payload_dtHeight;
-          cfg_wtWidth <= io_cfg_payload_wtWidth;
-          cfg_wtHeight <= io_cfg_payload_wtHeight;
-          cfg_oWidth <= io_cfg_payload_oWidth;
-          cfg_oHeight <= io_cfg_payload_oHeight;
-        end
-      end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_CHECK_GET_PARAM : begin
-      end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_WT : begin
-      end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DATA_SGM : begin
-      end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW : begin
-      end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT : begin
-      end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA : begin
-      end
-      `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END : begin
-      end
-      default : begin
-      end
-    endcase
+    if(when_dmaWriteCtrl_l89) begin
+      cfg_rd_dtBaseAddr <= io_cfg_payload_rd_dtBaseAddr;
+      cfg_rd_wtBaseAddr <= io_cfg_payload_rd_wtBaseAddr;
+      cfg_wr_delta_wt_BaseAddr <= io_cfg_payload_wr_delta_wt_BaseAddr;
+      cfg_wr_sigma_BaseAddr <= io_cfg_payload_wr_sigma_BaseAddr;
+      cfg_dtWidth <= io_cfg_payload_dtWidth;
+      cfg_dtHeight <= io_cfg_payload_dtHeight;
+      cfg_wtWidth <= io_cfg_payload_wtWidth;
+      cfg_wtHeight <= io_cfg_payload_wtHeight;
+      cfg_oWidth <= io_cfg_payload_oWidth;
+      cfg_oHeight <= io_cfg_payload_oHeight;
+    end
   end
 
 
@@ -7192,8 +7331,9 @@ module dmaReadCtrl (
   wire       [255:0]  dma_rd_wt_output_payload;
   wire                dma_rd_isIdle;
   wire       [15:0]   _zz_burstlen;
-  wire       [15:0]   _zz_when_dmaReadCtrl_l105;
-  wire       [15:0]   _zz_when_dmaReadCtrl_l142;
+  wire       [31:0]   _zz_BaseAddr;
+  wire       [15:0]   _zz_BaseAddr_1;
+  wire       [15:0]   _zz_when_dmaReadCtrl_l144;
   reg        [31:0]   par_rd_dtBaseAddr;
   reg        [31:0]   par_rd_wtBaseAddr;
   reg        [31:0]   par_wr_delta_wt_BaseAddr;
@@ -7216,16 +7356,15 @@ module dmaReadCtrl (
   wire                dma_rdctrl_fsm_wantKill;
   reg        `dma_rdctrl_fsm_enumDefinition_binary_sequential_type dma_rdctrl_fsm_stateReg;
   reg        `dma_rdctrl_fsm_enumDefinition_binary_sequential_type dma_rdctrl_fsm_stateNext;
-  wire                when_dmaReadCtrl_l72;
   wire                when_dmaReadCtrl_l75;
-  wire                when_dmaReadCtrl_l90;
-  wire                when_dmaReadCtrl_l92;
-  wire                when_dmaReadCtrl_l104;
-  wire                when_dmaReadCtrl_l105;
-  wire                when_dmaReadCtrl_l125;
-  wire                when_dmaReadCtrl_l128;
-  wire                when_dmaReadCtrl_l141;
-  wire                when_dmaReadCtrl_l142;
+  wire                when_dmaReadCtrl_l78;
+  wire                when_dmaReadCtrl_l93;
+  wire                when_dmaReadCtrl_l102;
+  wire                when_dmaReadCtrl_l103;
+  wire                when_dmaReadCtrl_l127;
+  wire                when_dmaReadCtrl_l130;
+  wire                when_dmaReadCtrl_l143;
+  wire                when_dmaReadCtrl_l144;
   `ifndef SYNTHESIS
   reg [215:0] dma_rdctrl_fsm_stateReg_string;
   reg [215:0] dma_rdctrl_fsm_stateNext_string;
@@ -7233,8 +7372,9 @@ module dmaReadCtrl (
 
 
   assign _zz_burstlen = (par_dtWidth - 16'h0001);
-  assign _zz_when_dmaReadCtrl_l105 = (par_dtHeight - 16'h0001);
-  assign _zz_when_dmaReadCtrl_l142 = (par_wtHeight - 16'h0001);
+  assign _zz_BaseAddr_1 = (par_dtWidth <<< 5);
+  assign _zz_BaseAddr = {16'd0, _zz_BaseAddr_1};
+  assign _zz_when_dmaReadCtrl_l144 = (par_wtHeight - 16'h0001);
   dma_read dma_rd (
     .axim_ar_valid            (dma_rd_axim_ar_valid          ), //o
     .axim_ar_ready            (axim_ar_ready                 ), //i
@@ -7259,6 +7399,7 @@ module dmaReadCtrl (
     .wt_output_ready          (wt_output_ready               ), //i
     .wt_output_payload        (dma_rd_wt_output_payload      ), //o
     .enable                   (dma_rd_enable                 ), //i
+    .flush                    (enable                        ), //i
     .isIdle                   (dma_rd_isIdle                 ), //o
     .clk                      (clk                           ), //i
     .reset                    (reset                         )  //i
@@ -7271,9 +7412,11 @@ module dmaReadCtrl (
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_DT_PARAM : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_GET_DT_PARAM";
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_READ_DT     ";
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_CHECK_DT    ";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_DT : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_UPADDR_DT   ";
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_GET_WT_PARAM";
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_READ_WT     ";
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_CHECK_WT    ";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_WT : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_UPADDR_WT   ";
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END : dma_rdctrl_fsm_stateReg_string = "dma_rdctrl_fsm_END         ";
       default : dma_rdctrl_fsm_stateReg_string = "???????????????????????????";
     endcase
@@ -7285,9 +7428,11 @@ module dmaReadCtrl (
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_DT_PARAM : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_GET_DT_PARAM";
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_READ_DT     ";
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_CHECK_DT    ";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_DT : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_UPADDR_DT   ";
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_GET_WT_PARAM";
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_READ_WT     ";
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_CHECK_WT    ";
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_WT : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_UPADDR_WT   ";
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END : dma_rdctrl_fsm_stateNext_string = "dma_rdctrl_fsm_END         ";
       default : dma_rdctrl_fsm_stateNext_string = "???????????????????????????";
     endcase
@@ -7305,11 +7450,15 @@ module dmaReadCtrl (
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : begin
       end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_DT : begin
+      end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT : begin
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_WT : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END : begin
         dma_rd_finished = 1'b1;
@@ -7331,11 +7480,15 @@ module dmaReadCtrl (
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : begin
       end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_DT : begin
+      end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT : begin
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_WT : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END : begin
       end
@@ -7356,11 +7509,15 @@ module dmaReadCtrl (
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : begin
       end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_DT : begin
+      end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT : begin
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_WT : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END : begin
       end
@@ -7377,20 +7534,24 @@ module dmaReadCtrl (
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_DT_PARAM : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT : begin
-        if(when_dmaReadCtrl_l90) begin
+        if(when_dmaReadCtrl_l93) begin
           dma_rd_enable = 1'b1;
         end
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : begin
       end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_DT : begin
+      end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : begin
-        if(when_dmaReadCtrl_l125) begin
+        if(when_dmaReadCtrl_l127) begin
           dma_rd_enable = 1'b1;
         end
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT : begin
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_WT : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END : begin
       end
@@ -7422,11 +7583,15 @@ module dmaReadCtrl (
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : begin
       end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_DT : begin
+      end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT : begin
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_WT : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END : begin
       end
@@ -7441,7 +7606,7 @@ module dmaReadCtrl (
     dma_rdctrl_fsm_stateNext = dma_rdctrl_fsm_stateReg;
     case(dma_rdctrl_fsm_stateReg)
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_IDLE : begin
-        if(when_dmaReadCtrl_l75) begin
+        if(when_dmaReadCtrl_l78) begin
           dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_DT_PARAM;
         end
       end
@@ -7449,35 +7614,41 @@ module dmaReadCtrl (
         dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT;
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT : begin
-        if(when_dmaReadCtrl_l90) begin
+        if(when_dmaReadCtrl_l93) begin
           dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT;
         end
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : begin
-        if(when_dmaReadCtrl_l104) begin
-          if(when_dmaReadCtrl_l105) begin
+        if(when_dmaReadCtrl_l102) begin
+          if(when_dmaReadCtrl_l103) begin
             dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM;
           end else begin
-            dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT;
+            dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_DT;
           end
         end
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_DT : begin
+        dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT;
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : begin
         dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT;
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : begin
-        if(when_dmaReadCtrl_l125) begin
+        if(when_dmaReadCtrl_l127) begin
           dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT;
         end
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT : begin
-        if(when_dmaReadCtrl_l141) begin
-          if(when_dmaReadCtrl_l142) begin
+        if(when_dmaReadCtrl_l143) begin
+          if(when_dmaReadCtrl_l144) begin
             dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END;
           end else begin
-            dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT;
+            dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_WT;
           end
         end
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_WT : begin
+        dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT;
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END : begin
         dma_rdctrl_fsm_stateNext = `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_IDLE;
@@ -7493,16 +7664,15 @@ module dmaReadCtrl (
     end
   end
 
-  assign when_dmaReadCtrl_l72 = (cfg_valid && cfg_ready);
-  assign when_dmaReadCtrl_l75 = (enable == 1'b1);
-  assign when_dmaReadCtrl_l90 = (dma_rd_isIdle == 1'b1);
-  assign when_dmaReadCtrl_l92 = (dt_wcnt == par_dtWidth);
-  assign when_dmaReadCtrl_l104 = (dma_rd_isIdle == 1'b1);
-  assign when_dmaReadCtrl_l105 = ((dt_vcnt == _zz_when_dmaReadCtrl_l105) && (dt_wcnt == par_dtWidth));
-  assign when_dmaReadCtrl_l125 = (dma_rd_isIdle == 1'b1);
-  assign when_dmaReadCtrl_l128 = (wt_wcnt == par_wtWidth);
-  assign when_dmaReadCtrl_l141 = (dma_rd_isIdle == 1'b1);
-  assign when_dmaReadCtrl_l142 = ((wt_vcnt == _zz_when_dmaReadCtrl_l142) && (wt_wcnt == par_wtWidth));
+  assign when_dmaReadCtrl_l75 = (cfg_valid && cfg_ready);
+  assign when_dmaReadCtrl_l78 = (enable == 1'b1);
+  assign when_dmaReadCtrl_l93 = (dma_rd_isIdle == 1'b1);
+  assign when_dmaReadCtrl_l102 = (dma_rd_isIdle == 1'b1);
+  assign when_dmaReadCtrl_l103 = (dt_vcnt == par_dtHeight);
+  assign when_dmaReadCtrl_l127 = (dma_rd_isIdle == 1'b1);
+  assign when_dmaReadCtrl_l130 = (wt_wcnt == par_wtWidth);
+  assign when_dmaReadCtrl_l143 = (dma_rd_isIdle == 1'b1);
+  assign when_dmaReadCtrl_l144 = ((wt_vcnt == _zz_when_dmaReadCtrl_l144) && (wt_wcnt == par_wtWidth));
   always @(posedge clk or posedge reset) begin
     if(reset) begin
       burstlen <= 8'h0;
@@ -7528,22 +7698,19 @@ module dmaReadCtrl (
           is_dtwt_mux <= 1'b1;
         end
         `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_DT : begin
-          if(when_dmaReadCtrl_l90) begin
-            if(when_dmaReadCtrl_l92) begin
-              dt_vcnt <= (dt_vcnt + 16'h0001);
-              dt_wcnt <= 16'h0;
-            end else begin
-              dt_wcnt <= (dt_wcnt + 16'h0001);
-            end
+          if(when_dmaReadCtrl_l93) begin
+            dt_vcnt <= (dt_vcnt + 16'h0001);
           end
         end
         `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : begin
-          if(when_dmaReadCtrl_l104) begin
-            if(when_dmaReadCtrl_l105) begin
+          if(when_dmaReadCtrl_l102) begin
+            if(when_dmaReadCtrl_l103) begin
               dt_vcnt <= 16'h0;
-              dt_wcnt <= 16'h0;
             end
           end
+        end
+        `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_DT : begin
+          BaseAddr <= (BaseAddr + _zz_BaseAddr);
         end
         `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : begin
           is_dtwt_mux <= 1'b0;
@@ -7551,16 +7718,19 @@ module dmaReadCtrl (
           BaseAddr <= par_rd_wtBaseAddr;
         end
         `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : begin
-          if(when_dmaReadCtrl_l125) begin
-            if(when_dmaReadCtrl_l128) begin
+          if(when_dmaReadCtrl_l127) begin
+            if(when_dmaReadCtrl_l130) begin
               wt_vcnt <= (wt_vcnt + 16'h0001);
-              wt_wcnt <= 16'h0;
+              wt_wcnt <= 16'h0001;
             end else begin
               wt_wcnt <= (wt_wcnt + 16'h0001);
             end
           end
         end
         `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT : begin
+        end
+        `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_WT : begin
+          BaseAddr <= (BaseAddr + 32'h00000100);
         end
         `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END : begin
         end
@@ -7573,7 +7743,7 @@ module dmaReadCtrl (
   always @(posedge clk) begin
     case(dma_rdctrl_fsm_stateReg)
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_IDLE : begin
-        if(when_dmaReadCtrl_l72) begin
+        if(when_dmaReadCtrl_l75) begin
           par_rd_dtBaseAddr <= cfg_payload_rd_dtBaseAddr;
           par_rd_wtBaseAddr <= cfg_payload_rd_wtBaseAddr;
           par_wr_delta_wt_BaseAddr <= cfg_payload_wr_delta_wt_BaseAddr;
@@ -7592,11 +7762,15 @@ module dmaReadCtrl (
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_DT : begin
       end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_DT : begin
+      end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_GET_WT_PARAM : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_READ_WT : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_CHECK_WT : begin
+      end
+      `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_UPADDR_WT : begin
       end
       `dma_rdctrl_fsm_enumDefinition_binary_sequential_dma_rdctrl_fsm_END : begin
       end
@@ -11486,6 +11660,8 @@ module buff2conv (
   input               o_wt_7_ready,
   output     [255:0]  o_wt_7_payload,
   input               read_enable,
+  input               conv_finished,
+  output              acc_enable,
   input               clk,
   input               reset
 );
@@ -11501,12 +11677,12 @@ module buff2conv (
   wire       [47:0]   _zz_wt_rd_addr;
   wire       [47:0]   _zz_wt_rd_addr_1;
   wire       [47:0]   _zz_wt_rd_addr_2;
-  wire       [31:0]   _zz_when_buff2conv_l136;
-  wire       [15:0]   _zz_when_buff2conv_l136_1;
-  wire       [31:0]   _zz_when_buff2conv_l136_2;
-  wire       [15:0]   _zz_when_buff2conv_l136_3;
-  wire       [31:0]   _zz_when_buff2conv_l141;
-  wire       [15:0]   _zz_when_buff2conv_l141_1;
+  wire       [31:0]   _zz_when_buff2conv_l140;
+  wire       [15:0]   _zz_when_buff2conv_l140_1;
+  wire       [31:0]   _zz_when_buff2conv_l140_2;
+  wire       [15:0]   _zz_when_buff2conv_l140_3;
+  wire       [31:0]   _zz_when_buff2conv_l146;
+  wire       [15:0]   _zz_when_buff2conv_l146_1;
   reg        [31:0]   idx;
   reg        [31:0]   idy;
   reg        [31:0]   window_posx;
@@ -11539,16 +11715,17 @@ module buff2conv (
   reg        [15:0]   param_oHeight;
   reg                 read_en;
   reg                 outvalid;
+  reg                 acc_enable_1;
   wire                read_req_fsm_wantExit;
   reg                 read_req_fsm_wantStart;
   wire                read_req_fsm_wantKill;
   reg        `read_req_fsm_enumDefinition_binary_sequential_type read_req_fsm_stateReg;
   reg        `read_req_fsm_enumDefinition_binary_sequential_type read_req_fsm_stateNext;
-  wire                when_buff2conv_l129;
-  wire                when_buff2conv_l136;
-  wire                when_buff2conv_l141;
-  wire                when_buff2conv_l153;
+  wire                when_buff2conv_l133;
+  wire                when_buff2conv_l140;
+  wire                when_buff2conv_l146;
   wire                when_buff2conv_l156;
+  wire                when_buff2conv_l160;
   `ifndef SYNTHESIS
   reg [247:0] read_req_fsm_stateReg_string;
   reg [247:0] read_req_fsm_stateNext_string;
@@ -11565,14 +11742,14 @@ module buff2conv (
   assign _zz_dt_rd_addr_5 = (idy * param_dtWidth);
   assign _zz_dt_rd_addr_6 = {16'd0, idx};
   assign _zz_wt_rd_addr = (_zz_wt_rd_addr_1 + _zz_wt_rd_addr_2);
-  assign _zz_wt_rd_addr_1 = (idy * param_dtWidth);
+  assign _zz_wt_rd_addr_1 = (idy * param_wtWidth);
   assign _zz_wt_rd_addr_2 = {16'd0, idx};
-  assign _zz_when_buff2conv_l136_1 = (param_wtHeight - 16'h0001);
-  assign _zz_when_buff2conv_l136 = {16'd0, _zz_when_buff2conv_l136_1};
-  assign _zz_when_buff2conv_l136_3 = (param_wtWidth - 16'h0001);
-  assign _zz_when_buff2conv_l136_2 = {16'd0, _zz_when_buff2conv_l136_3};
-  assign _zz_when_buff2conv_l141_1 = (param_wtWidth - 16'h0001);
-  assign _zz_when_buff2conv_l141 = {16'd0, _zz_when_buff2conv_l141_1};
+  assign _zz_when_buff2conv_l140_1 = (param_wtHeight - 16'h0001);
+  assign _zz_when_buff2conv_l140 = {16'd0, _zz_when_buff2conv_l140_1};
+  assign _zz_when_buff2conv_l140_3 = (param_wtWidth - 16'h0001);
+  assign _zz_when_buff2conv_l140_2 = {16'd0, _zz_when_buff2conv_l140_3};
+  assign _zz_when_buff2conv_l146_1 = (param_wtWidth - 16'h0001);
+  assign _zz_when_buff2conv_l146 = {16'd0, _zz_when_buff2conv_l146_1};
   `ifndef SYNTHESIS
   always @(*) begin
     case(read_req_fsm_stateReg)
@@ -11585,6 +11762,7 @@ module buff2conv (
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : read_req_fsm_stateReg_string = "read_req_fsm_UPDATA_ADDR       ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : read_req_fsm_stateReg_string = "read_req_fsm_UPDATA_CONV_WINDOW";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : read_req_fsm_stateReg_string = "read_req_fsm_CACU_ADDR         ";
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : read_req_fsm_stateReg_string = "read_req_fsm_END               ";
       default : read_req_fsm_stateReg_string = "???????????????????????????????";
     endcase
   end
@@ -11599,11 +11777,13 @@ module buff2conv (
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : read_req_fsm_stateNext_string = "read_req_fsm_UPDATA_ADDR       ";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : read_req_fsm_stateNext_string = "read_req_fsm_UPDATA_CONV_WINDOW";
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : read_req_fsm_stateNext_string = "read_req_fsm_CACU_ADDR         ";
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : read_req_fsm_stateNext_string = "read_req_fsm_END               ";
       default : read_req_fsm_stateNext_string = "???????????????????????????????";
     endcase
   end
   `endif
 
+  assign acc_enable = acc_enable_1;
   assign cfg_ready = 1'b1;
   always @(*) begin
     read_en = 1'b0;
@@ -11625,6 +11805,8 @@ module buff2conv (
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
       end
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
+      end
       default : begin
       end
     endcase
@@ -11642,7 +11824,7 @@ module buff2conv (
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_DATA : begin
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
-        if(when_buff2conv_l129) begin
+        if(when_buff2conv_l133) begin
           outvalid = 1'b1;
         end
       end
@@ -11651,6 +11833,8 @@ module buff2conv (
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
+      end
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
       end
       default : begin
       end
@@ -11716,6 +11900,8 @@ module buff2conv (
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
       end
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
+      end
       default : begin
         read_req_fsm_wantStart = 1'b1;
       end
@@ -11741,34 +11927,29 @@ module buff2conv (
         read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT;
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
-        if(when_buff2conv_l129) begin
+        if(when_buff2conv_l133) begin
           read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR;
         end
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
-        if(when_buff2conv_l136) begin
+        if(when_buff2conv_l140) begin
           read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW;
         end else begin
-          if(when_buff2conv_l141) begin
-            read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR;
-          end else begin
-            read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR;
-          end
+          read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR;
         end
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-        if(when_buff2conv_l153) begin
-          read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE;
+        if(when_buff2conv_l156) begin
+          read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END;
         end else begin
-          if(when_buff2conv_l156) begin
-            read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR;
-          end else begin
-            read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR;
-          end
+          read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR;
         end
       end
       `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
         read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_READ_EN;
+      end
+      `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
+        read_req_fsm_stateNext = `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE;
       end
       default : begin
       end
@@ -11781,11 +11962,11 @@ module buff2conv (
     end
   end
 
-  assign when_buff2conv_l129 = (o_ft_ready && wire_wt_oready);
-  assign when_buff2conv_l136 = ((idy == _zz_when_buff2conv_l136) && (idx == _zz_when_buff2conv_l136_2));
-  assign when_buff2conv_l141 = (idx == _zz_when_buff2conv_l141);
-  assign when_buff2conv_l153 = ((window_posy == last_window_y) && (window_posx == last_window_x));
-  assign when_buff2conv_l156 = (window_posx == last_window_x);
+  assign when_buff2conv_l133 = (o_ft_ready && wire_wt_oready);
+  assign when_buff2conv_l140 = ((idy == _zz_when_buff2conv_l140) && (idx == _zz_when_buff2conv_l140_2));
+  assign when_buff2conv_l146 = (idx == _zz_when_buff2conv_l146);
+  assign when_buff2conv_l156 = ((window_posy == last_window_y) && (window_posx == last_window_x));
+  assign when_buff2conv_l160 = (window_posx == last_window_x);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
       idx <= 32'h0;
@@ -11805,6 +11986,7 @@ module buff2conv (
       wt_rdata_5 <= 256'h0;
       wt_rdata_6 <= 256'h0;
       wt_rdata_7 <= 256'h0;
+      acc_enable_1 <= 1'b0;
       read_req_fsm_stateReg <= `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_BOOT;
     end else begin
       last_window_y <= {16'd0, _zz_last_window_y};
@@ -11814,6 +11996,9 @@ module buff2conv (
       read_req_fsm_stateReg <= read_req_fsm_stateNext;
       case(read_req_fsm_stateReg)
         `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_IDLE : begin
+          if(read_enable) begin
+            acc_enable_1 <= 1'b1;
+          end
         end
         `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_INIT : begin
           idx <= 32'h0;
@@ -11837,11 +12022,11 @@ module buff2conv (
         `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_OUTPUT : begin
         end
         `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_ADDR : begin
-          if(when_buff2conv_l136) begin
+          if(when_buff2conv_l140) begin
             idx <= 32'h0;
             idy <= 32'h0;
           end else begin
-            if(when_buff2conv_l141) begin
+            if(when_buff2conv_l146) begin
               idy <= (idy + 32'h00000001);
               idx <= 32'h0;
             end else begin
@@ -11850,8 +12035,8 @@ module buff2conv (
           end
         end
         `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_UPDATA_CONV_WINDOW : begin
-          if(!when_buff2conv_l153) begin
-            if(when_buff2conv_l156) begin
+          if(!when_buff2conv_l156) begin
+            if(when_buff2conv_l160) begin
               window_posx <= 32'h0;
               window_posy <= (window_posy + 32'h00000001);
             end else begin
@@ -11860,6 +12045,11 @@ module buff2conv (
           end
         end
         `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_CACU_ADDR : begin
+        end
+        `read_req_fsm_enumDefinition_binary_sequential_read_req_fsm_END : begin
+          if(conv_finished) begin
+            acc_enable_1 <= 1'b0;
+          end
         end
         default : begin
         end
@@ -12306,6 +12496,7 @@ module dma_read (
   input               wt_output_ready,
   output     [255:0]  wt_output_payload,
   input               enable,
+  input               flush,
   output reg          isIdle,
   input               clk,
   input               reset
@@ -12317,13 +12508,13 @@ module dma_read (
   wire                dtfifo_io_push_ready;
   wire                dtfifo_io_pop_valid;
   wire       [255:0]  dtfifo_io_pop_payload;
-  wire       [6:0]    dtfifo_io_occupancy;
-  wire       [6:0]    dtfifo_io_availability;
+  wire       [5:0]    dtfifo_io_occupancy;
+  wire       [5:0]    dtfifo_io_availability;
   wire                wtfifo_io_push_ready;
   wire                wtfifo_io_pop_valid;
   wire       [255:0]  wtfifo_io_pop_payload;
-  wire       [6:0]    wtfifo_io_occupancy;
-  wire       [6:0]    wtfifo_io_availability;
+  wire       [5:0]    wtfifo_io_occupancy;
+  wire       [5:0]    wtfifo_io_availability;
   wire       [7:0]    _zz_when_dma_read_l91;
   reg        [31:0]   param_BaseAddr;
   reg        [7:0]    param_burstlen;
@@ -12351,7 +12542,7 @@ module dma_read (
     .io_pop_valid       (dtfifo_io_pop_valid     ), //o
     .io_pop_ready       (dt_output_ready         ), //i
     .io_pop_payload     (dtfifo_io_pop_payload   ), //o
-    .io_flush           (1'b0                    ), //i
+    .io_flush           (flush                   ), //i
     .io_occupancy       (dtfifo_io_occupancy     ), //o
     .io_availability    (dtfifo_io_availability  ), //o
     .clk                (clk                     ), //i
@@ -12364,7 +12555,7 @@ module dma_read (
     .io_pop_valid       (wtfifo_io_pop_valid     ), //o
     .io_pop_ready       (wt_output_ready         ), //i
     .io_pop_payload     (wtfifo_io_pop_payload   ), //o
-    .io_flush           (1'b0                    ), //i
+    .io_flush           (flush                   ), //i
     .io_occupancy       (wtfifo_io_occupancy     ), //o
     .io_availability    (wtfifo_io_availability  ), //o
     .clk                (clk                     ), //i
@@ -14837,31 +15028,31 @@ module StreamFifo (
   input               io_pop_ready,
   output     [255:0]  io_pop_payload,
   input               io_flush,
-  output     [6:0]    io_occupancy,
-  output     [6:0]    io_availability,
+  output     [5:0]    io_occupancy,
+  output     [5:0]    io_availability,
   input               clk,
   input               reset
 );
   reg        [255:0]  _zz_logic_ram_port0;
-  wire       [5:0]    _zz_logic_pushPtr_valueNext;
+  wire       [4:0]    _zz_logic_pushPtr_valueNext;
   wire       [0:0]    _zz_logic_pushPtr_valueNext_1;
-  wire       [5:0]    _zz_logic_popPtr_valueNext;
+  wire       [4:0]    _zz_logic_popPtr_valueNext;
   wire       [0:0]    _zz_logic_popPtr_valueNext_1;
   wire                _zz_logic_ram_port;
   wire                _zz_io_pop_payload;
   wire       [255:0]  _zz_logic_ram_port_1;
-  wire       [5:0]    _zz_io_availability;
+  wire       [4:0]    _zz_io_availability;
   reg                 _zz_1;
   reg                 logic_pushPtr_willIncrement;
   reg                 logic_pushPtr_willClear;
-  reg        [5:0]    logic_pushPtr_valueNext;
-  reg        [5:0]    logic_pushPtr_value;
+  reg        [4:0]    logic_pushPtr_valueNext;
+  reg        [4:0]    logic_pushPtr_value;
   wire                logic_pushPtr_willOverflowIfInc;
   wire                logic_pushPtr_willOverflow;
   reg                 logic_popPtr_willIncrement;
   reg                 logic_popPtr_willClear;
-  reg        [5:0]    logic_popPtr_valueNext;
-  reg        [5:0]    logic_popPtr_value;
+  reg        [4:0]    logic_popPtr_valueNext;
+  reg        [4:0]    logic_popPtr_value;
   wire                logic_popPtr_willOverflowIfInc;
   wire                logic_popPtr_willOverflow;
   wire                logic_ptrMatch;
@@ -14872,13 +15063,13 @@ module StreamFifo (
   wire                logic_full;
   reg                 _zz_io_pop_valid;
   wire                when_Stream_l955;
-  wire       [5:0]    logic_ptrDif;
-  reg [255:0] logic_ram [0:63];
+  wire       [4:0]    logic_ptrDif;
+  reg [255:0] logic_ram [0:31];
 
   assign _zz_logic_pushPtr_valueNext_1 = logic_pushPtr_willIncrement;
-  assign _zz_logic_pushPtr_valueNext = {5'd0, _zz_logic_pushPtr_valueNext_1};
+  assign _zz_logic_pushPtr_valueNext = {4'd0, _zz_logic_pushPtr_valueNext_1};
   assign _zz_logic_popPtr_valueNext_1 = logic_popPtr_willIncrement;
-  assign _zz_logic_popPtr_valueNext = {5'd0, _zz_logic_popPtr_valueNext_1};
+  assign _zz_logic_popPtr_valueNext = {4'd0, _zz_logic_popPtr_valueNext_1};
   assign _zz_io_availability = (logic_popPtr_value - logic_pushPtr_value);
   assign _zz_io_pop_payload = 1'b1;
   assign _zz_logic_ram_port_1 = io_push_payload;
@@ -14915,12 +15106,12 @@ module StreamFifo (
     end
   end
 
-  assign logic_pushPtr_willOverflowIfInc = (logic_pushPtr_value == 6'h3f);
+  assign logic_pushPtr_willOverflowIfInc = (logic_pushPtr_value == 5'h1f);
   assign logic_pushPtr_willOverflow = (logic_pushPtr_willOverflowIfInc && logic_pushPtr_willIncrement);
   always @(*) begin
     logic_pushPtr_valueNext = (logic_pushPtr_value + _zz_logic_pushPtr_valueNext);
     if(logic_pushPtr_willClear) begin
-      logic_pushPtr_valueNext = 6'h0;
+      logic_pushPtr_valueNext = 5'h0;
     end
   end
 
@@ -14938,12 +15129,12 @@ module StreamFifo (
     end
   end
 
-  assign logic_popPtr_willOverflowIfInc = (logic_popPtr_value == 6'h3f);
+  assign logic_popPtr_willOverflowIfInc = (logic_popPtr_value == 5'h1f);
   assign logic_popPtr_willOverflow = (logic_popPtr_willOverflowIfInc && logic_popPtr_willIncrement);
   always @(*) begin
     logic_popPtr_valueNext = (logic_popPtr_value + _zz_logic_popPtr_valueNext);
     if(logic_popPtr_willClear) begin
-      logic_popPtr_valueNext = 6'h0;
+      logic_popPtr_valueNext = 5'h0;
     end
   end
 
@@ -14961,8 +15152,8 @@ module StreamFifo (
   assign io_availability = {((! logic_risingOccupancy) && logic_ptrMatch),_zz_io_availability};
   always @(posedge clk or posedge reset) begin
     if(reset) begin
-      logic_pushPtr_value <= 6'h0;
-      logic_popPtr_value <= 6'h0;
+      logic_pushPtr_value <= 5'h0;
+      logic_popPtr_value <= 5'h0;
       logic_risingOccupancy <= 1'b0;
       _zz_io_pop_valid <= 1'b0;
     end else begin

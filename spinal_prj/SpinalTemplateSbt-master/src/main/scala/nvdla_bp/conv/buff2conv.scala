@@ -21,20 +21,18 @@ case class buff2conv(eleWidth: Int, addrwidth: Int) extends Component {
 
     // control flag
     val read_enable = in Bool()
+    val conv_finished = in Bool()
+    val acc_enable = out Bool()
 
   }
   noIoPrefix()
 
 
-  val idx = Reg(UInt(addrwidth bits)) init (0)
-  val idy = Reg(UInt(addrwidth bits)) init (0)
+  val idx,idy = Reg(UInt(addrwidth bits)) init (0)
 
-  val window_posx = Reg(UInt(addrwidth bits)) init (0)
-  val window_posy = Reg(UInt(addrwidth bits)) init (0)
+  val window_posx, window_posy= Reg(UInt(addrwidth bits)) init (0)
 
-  val last_window_x = Reg(UInt(addrwidth bits)) init (0)
-  val last_window_y = Reg(UInt(addrwidth bits)) init (0)
-
+  val last_window_x, last_window_y= Reg(UInt(addrwidth bits)) init (0)
 
   val dt_rd_addr = Reg(UInt(addrwidth bits)) init (0)
   val wt_rd_addr = Reg(UInt(addrwidth bits)) init (0)
@@ -52,6 +50,10 @@ case class buff2conv(eleWidth: Int, addrwidth: Int) extends Component {
 
   val read_en = Bool()
   val outvalid = Bool()
+
+  val acc_enable = Reg(Bool())init(False)
+
+  io.acc_enable := acc_enable
 
   io.cfg.ready := True
 
@@ -73,7 +75,7 @@ case class buff2conv(eleWidth: Int, addrwidth: Int) extends Component {
     io.wt_ramrd(i).en := wire_wt_rden
     io.wt_ramrd(i).addr := wt_rd_addr // weight address is the same
   }
-  wt_rd_addr :=(idy*param.dtWidth + idx).resized
+  wt_rd_addr :=(idy*param.wtWidth + idx).resized
 
 //------- out
   io.o_ft.valid := outvalid
@@ -97,9 +99,11 @@ case class buff2conv(eleWidth: Int, addrwidth: Int) extends Component {
     val UPDATA_ADDR = new State
     val UPDATA_CONV_WINDOW = new State
     val CACU_ADDR = new State
+    val END = new State
 
     IDLE.whenIsActive {
       when(io.read_enable) {
+        acc_enable := True
         goto(INIT)
       }
     }
@@ -138,28 +142,26 @@ case class buff2conv(eleWidth: Int, addrwidth: Int) extends Component {
         idy := 0
         goto(UPDATA_CONV_WINDOW) //
       }.otherwise{
+        goto(CACU_ADDR)
         when(idx === param.wtWidth - 1){
           idy := idy + 1
           idx := 0
-          goto(CACU_ADDR)
         }.otherwise{
           idx := idx + 1
-          goto(CACU_ADDR)
         }
       }
     }
 
     UPDATA_CONV_WINDOW.whenIsActive{
       when(window_posy === last_window_y && window_posx === last_window_x){
-          goto(IDLE) //
+          goto(END) //
         }.otherwise{
-          when(window_posx === last_window_x){
+        goto(CACU_ADDR)
+        when(window_posx === last_window_x){
             window_posx := 0
             window_posy := window_posy + 1
-            goto(CACU_ADDR)
           }.otherwise{
             window_posx := window_posx + 1
-            goto(CACU_ADDR)
           }
       }
     }
@@ -168,6 +170,12 @@ case class buff2conv(eleWidth: Int, addrwidth: Int) extends Component {
      goto(READ_EN)
    }
 
+   END.whenIsActive{
+     when(io.conv_finished){
+       acc_enable := False
+     }
+     goto(IDLE)
+   }
 
 
   }
