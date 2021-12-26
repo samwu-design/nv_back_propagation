@@ -1,0 +1,29 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Fri Dec 24 08:15:54 2021
+# Process ID: 16944
+# Current directory: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent23632 D:\VM_share\NVDLA_BP\spinal_prj\vivado\nvdla_bp\nvdla_bp.xpr
+# Log file: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/vivado.log
+# Journal file: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.xpr
+update_compile_order -fileset sources_1
+launch_simulation
+launch_simulation
+open_wave_config D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg
+source tb.tcl
+restart
+run 40 us
+run 40 us
+run 40 us
+relaunch_sim
+run 40 us
+run 40 us
+relaunch_sim
+run 40 us
+run 40 us
+relaunch_sim

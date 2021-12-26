@@ -1,0 +1,199 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Fri Dec 17 08:42:46 2021
+# Process ID: 7880
+# Current directory: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent18180 D:\VM_share\NVDLA_BP\spinal_prj\vivado\nvdla_bp\nvdla_bp.xpr
+# Log file: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/vivado.log
+# Journal file: D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/nvdla_bp.xpr
+update_compile_order -fileset sources_1
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top bp_fpga_top [current_fileset]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sources_1
+launch_simulation
+open_wave_config D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg
+source tb.tcl
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+current_wave_config {tb_behav.wcfg}
+add_wave {{/tb/dut/rdma/dma_rd/dtfifo/io_push_valid}} {{/tb/dut/rdma/dma_rd/dtfifo/io_push_ready}} {{/tb/dut/rdma/dma_rd/dtfifo/io_push_payload}} {{/tb/dut/rdma/dma_rd/dtfifo/io_pop_valid}} {{/tb/dut/rdma/dma_rd/dtfifo/io_pop_ready}} {{/tb/dut/rdma/dma_rd/dtfifo/io_pop_payload}} {{/tb/dut/rdma/dma_rd/dtfifo/io_flush}} {{/tb/dut/rdma/dma_rd/dtfifo/io_occupancy}} {{/tb/dut/rdma/dma_rd/dtfifo/io_availability}} {{/tb/dut/rdma/dma_rd/dtfifo/clk}} {{/tb/dut/rdma/dma_rd/dtfifo/reset}} 
+current_wave_config {tb_behav.wcfg}
+add_wave {{/tb/dut/rdma/dma_rd/wtfifo/io_push_valid}} {{/tb/dut/rdma/dma_rd/wtfifo/io_push_ready}} {{/tb/dut/rdma/dma_rd/wtfifo/io_push_payload}} {{/tb/dut/rdma/dma_rd/wtfifo/io_pop_valid}} {{/tb/dut/rdma/dma_rd/wtfifo/io_pop_ready}} {{/tb/dut/rdma/dma_rd/wtfifo/io_pop_payload}} {{/tb/dut/rdma/dma_rd/wtfifo/io_flush}} {{/tb/dut/rdma/dma_rd/wtfifo/io_occupancy}} {{/tb/dut/rdma/dma_rd/wtfifo/io_availability}} {{/tb/dut/rdma/dma_rd/wtfifo/clk}} {{/tb/dut/rdma/dma_rd/wtfifo/reset}} 
+run 25 us
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+relaunch_sim
+run 25 us
+relaunch_sim
+run 25 us
+relaunch_sim
+run 25 us
+relaunch_sim
+run 25 us
+relaunch_sim
+run 25 us
+relaunch_sim
+run 25 us
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+set_property target_simulator ModelSim [current_project]
+close_sim
+launch_simulation -install_path C:/modeltech64_2019.2/win64
+launch_simulation -install_path C:/modeltech64_2019.2/win64
+launch_simulation -install_path C:/modeltech64_2019.2/win64
+set_property target_simulator XSim [current_project]
+launch_simulation
+open_wave_config D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg
+source tb.tcl
+relaunch_sim
+relaunch_sim
+close_sim
+reset_run synth_1
+launch_runs synth_1 -jobs 8
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 8
+wait_on_run synth_1
+launch_simulation
+launch_simulation
+open_wave_config D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg
+source tb.tcl
+run 25 us
+set_property target_simulator ModelSim [current_project]
+close_sim
+launch_simulation -install_path C:/modeltech64_2019.2/win64
+set_property target_simulator XSim [current_project]
+launch_simulation
+open_wave_config D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg
+source tb.tcl
+run 25 us
+relaunch_sim
+run 25 us
+relaunch_sim
+relaunch_sim
+run 25 us
+relaunch_sim
+run 25 us
+relaunch_sim
+run 25 us
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+relaunch_sim
+run 25 us
+relaunch_sim
+run 25 us
+relaunch_sim
+relaunch_sim
+run 25 us
+relaunch_sim
+run 25 us
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+relaunch_sim
+run 25 us
+run 25 us
+run 25 us
+relaunch_sim
+run 25 us
+run 25 us
+relaunch_sim
+run 40 us
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg
+source tb.tcl
+run 40 us
+current_wave_config {tb_behav.wcfg}
+add_wave {{/tb/dut/cfg/io_apb_PADDR}} {{/tb/dut/cfg/io_apb_PSEL}} {{/tb/dut/cfg/io_apb_PENABLE}} {{/tb/dut/cfg/io_apb_PREADY}} {{/tb/dut/cfg/io_apb_PWRITE}} {{/tb/dut/cfg/io_apb_PWDATA}} {{/tb/dut/cfg/io_apb_PRDATA}} {{/tb/dut/cfg/io_apb_PSLVERROR}} {{/tb/dut/cfg/io_rdma_glb_param_valid}} {{/tb/dut/cfg/io_rdma_glb_param_ready}} {{/tb/dut/cfg/io_rdma_glb_param_payload_rd_dtBaseAddr}} {{/tb/dut/cfg/io_rdma_glb_param_payload_rd_wtBaseAddr}} {{/tb/dut/cfg/io_rdma_glb_param_payload_wr_delta_wt_BaseAddr}} {{/tb/dut/cfg/io_rdma_glb_param_payload_wr_sigma_BaseAddr}} {{/tb/dut/cfg/io_rdma_glb_param_payload_dtWidth}} {{/tb/dut/cfg/io_rdma_glb_param_payload_dtHeight}} {{/tb/dut/cfg/io_rdma_glb_param_payload_wtWidth}} {{/tb/dut/cfg/io_rdma_glb_param_payload_wtHeight}} {{/tb/dut/cfg/io_rdma_glb_param_payload_oWidth}} {{/tb/dut/cfg/io_rdma_glb_param_payload_oHeight}} {{/tb/dut/cfg/io_wdma_glb_param_valid}} {{/tb/dut/cfg/io_wdma_glb_param_ready}} {{/tb/dut/cfg/io_wdma_glb_param_payload_rd_dtBaseAddr}} {{/tb/dut/cfg/io_wdma_glb_param_payload_rd_wtBaseAddr}} {{/tb/dut/cfg/io_wdma_glb_param_payload_wr_delta_wt_BaseAddr}} {{/tb/dut/cfg/io_wdma_glb_param_payload_wr_sigma_BaseAddr}} {{/tb/dut/cfg/io_wdma_glb_param_payload_dtWidth}} {{/tb/dut/cfg/io_wdma_glb_param_payload_dtHeight}} {{/tb/dut/cfg/io_wdma_glb_param_payload_wtWidth}} {{/tb/dut/cfg/io_wdma_glb_param_payload_wtHeight}} {{/tb/dut/cfg/io_wdma_glb_param_payload_oWidth}} {{/tb/dut/cfg/io_wdma_glb_param_payload_oHeight}} {{/tb/dut/cfg/io_conv_glb_param_valid}} {{/tb/dut/cfg/io_conv_glb_param_ready}} {{/tb/dut/cfg/io_conv_glb_param_payload_rd_dtBaseAddr}} {{/tb/dut/cfg/io_conv_glb_param_payload_rd_wtBaseAddr}} {{/tb/dut/cfg/io_conv_glb_param_payload_wr_delta_wt_BaseAddr}} {{/tb/dut/cfg/io_conv_glb_param_payload_wr_sigma_BaseAddr}} {{/tb/dut/cfg/io_conv_glb_param_payload_dtWidth}} {{/tb/dut/cfg/io_conv_glb_param_payload_dtHeight}} {{/tb/dut/cfg/io_conv_glb_param_payload_wtWidth}} {{/tb/dut/cfg/io_conv_glb_param_payload_wtHeight}} {{/tb/dut/cfg/io_conv_glb_param_payload_oWidth}} {{/tb/dut/cfg/io_conv_glb_param_payload_oHeight}} {{/tb/dut/cfg/io_glb_enable}} {{/tb/dut/cfg/io_is_delta_wt}} {{/tb/dut/cfg/io_conv_finished}} {{/tb/dut/cfg/io_interrupter}} {{/tb/dut/cfg/clk}} {{/tb/dut/cfg/reset}} 
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+relaunch_sim
+run 40 us
+close_sim
+launch_simulation
+open_wave_config D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg
+source tb.tcl
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+run 40 us
+close_sim
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top design_1_wrapper [current_fileset]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sources_1
+launch_simulation
+open_wave_config D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg
+source tb.tcl
+run 40 us
+run 40 us
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+relaunch_sim
+run 100us
+relaunch_sim
+run 100us
+relaunch_sim
+relaunch_sim
+run 100us
+close_sim
+launch_simulation
+open_wave_config D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg
+source tb.tcl
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+run 40 us
+run 40 us
+current_wave_config {tb_behav.wcfg}
+add_wave {{/tb/dut/cfg/start}} {{/tb/dut/cfg/is_delta_wt}} {{/tb/dut/cfg/interrupter}} {{/tb/dut/cfg/apb_addr}} {{/tb/dut/cfg/clear_interrupter}} {{/tb/dut/cfg/state_reg}} 
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+restart
+restart
+run 40 us
+run 40 us
+relaunch_sim
+run 40 us
+run 40 us
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+save_wave_config {D:/VM_share/NVDLA_BP/spinal_prj/vivado/nvdla_bp/tb_behav.wcfg}
+relaunch_sim
+run 40 us
+run 40 us
+relaunch_sim
+run 100us
+relaunch_sim
+run 100us
+relaunch_sim
+run 40 us
+run 40 us
+relaunch_sim
+run 80us
+relaunch_sim
+run 40 us
+relaunch_sim
+run 80us
+relaunch_sim
+run 40 us
+run 40 us
+relaunch_sim
+run 40 us
+run 40 us
+relaunch_sim
+run 40 us
+run 40 us
+close_sim

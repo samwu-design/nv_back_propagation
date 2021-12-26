@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.5.0    git head : 83a031922866b078c411ec5529e00f1b6e79f8e7
 // Component : bp_fpga_top
-// Git hash  : 4271e1cc02cfdc98d5f5668afd78bc4007098f4d
+// Git hash  : 1856ea86926dfca730abc474b97a711a6e2fd2e0
 
 
 `define dma_rdctrl_fsm_enumDefinition_binary_sequential_type [3:0]
@@ -632,44 +632,44 @@
 
 
 module bp_fpga_top (
-  output              io_axim_r_ar_valid,
-  input               io_axim_r_ar_ready,
-  output     [31:0]   io_axim_r_ar_payload_addr,
-  output     [5:0]    io_axim_r_ar_payload_id,
-  output     [7:0]    io_axim_r_ar_payload_len,
-  output     [2:0]    io_axim_r_ar_payload_size,
-  output     [1:0]    io_axim_r_ar_payload_burst,
-  input               io_axim_r_r_valid,
-  output              io_axim_r_r_ready,
-  input      [255:0]  io_axim_r_r_payload_data,
-  input      [5:0]    io_axim_r_r_payload_id,
-  input      [1:0]    io_axim_r_r_payload_resp,
-  input               io_axim_r_r_payload_last,
-  output              io_axim_w_aw_valid,
-  input               io_axim_w_aw_ready,
-  output     [31:0]   io_axim_w_aw_payload_addr,
-  output     [5:0]    io_axim_w_aw_payload_id,
-  output     [7:0]    io_axim_w_aw_payload_len,
-  output     [2:0]    io_axim_w_aw_payload_size,
-  output     [1:0]    io_axim_w_aw_payload_burst,
-  output              io_axim_w_w_valid,
-  input               io_axim_w_w_ready,
-  output     [255:0]  io_axim_w_w_payload_data,
-  output     [31:0]   io_axim_w_w_payload_strb,
-  output              io_axim_w_w_payload_last,
-  input               io_axim_w_b_valid,
-  output              io_axim_w_b_ready,
-  input      [5:0]    io_axim_w_b_payload_id,
-  input      [1:0]    io_axim_w_b_payload_resp,
-  input      [31:0]   io_apb_PADDR,
-  input      [0:0]    io_apb_PSEL,
-  input               io_apb_PENABLE,
-  output              io_apb_PREADY,
-  input               io_apb_PWRITE,
-  input      [31:0]   io_apb_PWDATA,
-  output     [31:0]   io_apb_PRDATA,
-  output              io_apb_PSLVERROR,
-  output              io_interrupter,
+  output              axim_r_ar_valid,
+  input               axim_r_ar_ready,
+  output     [31:0]   axim_r_ar_payload_addr,
+  output     [5:0]    axim_r_ar_payload_id,
+  output     [7:0]    axim_r_ar_payload_len,
+  output     [2:0]    axim_r_ar_payload_size,
+  output     [1:0]    axim_r_ar_payload_burst,
+  input               axim_r_r_valid,
+  output              axim_r_r_ready,
+  input      [255:0]  axim_r_r_payload_data,
+  input      [5:0]    axim_r_r_payload_id,
+  input      [1:0]    axim_r_r_payload_resp,
+  input               axim_r_r_payload_last,
+  output              axim_w_aw_valid,
+  input               axim_w_aw_ready,
+  output     [31:0]   axim_w_aw_payload_addr,
+  output     [5:0]    axim_w_aw_payload_id,
+  output     [7:0]    axim_w_aw_payload_len,
+  output     [2:0]    axim_w_aw_payload_size,
+  output     [1:0]    axim_w_aw_payload_burst,
+  output              axim_w_w_valid,
+  input               axim_w_w_ready,
+  output     [255:0]  axim_w_w_payload_data,
+  output     [31:0]   axim_w_w_payload_strb,
+  output              axim_w_w_payload_last,
+  input               axim_w_b_valid,
+  output              axim_w_b_ready,
+  input      [5:0]    axim_w_b_payload_id,
+  input      [1:0]    axim_w_b_payload_resp,
+  input      [31:0]   apb_PADDR,
+  input      [0:0]    apb_PSEL,
+  input               apb_PENABLE,
+  output              apb_PREADY,
+  input               apb_PWRITE,
+  input      [31:0]   apb_PWDATA,
+  output     [31:0]   apb_PRDATA,
+  output              apb_PSLVERROR,
+  output              interrupter,
   input               clk,
   input               reset
 );
@@ -1180,18 +1180,18 @@ module bp_fpga_top (
 
   dmaReadCtrl rdma (
     .axim_ar_valid                       (rdma_axim_ar_valid                                  ), //o
-    .axim_ar_ready                       (io_axim_r_ar_ready                                  ), //i
+    .axim_ar_ready                       (axim_r_ar_ready                                     ), //i
     .axim_ar_payload_addr                (rdma_axim_ar_payload_addr                           ), //o
     .axim_ar_payload_id                  (rdma_axim_ar_payload_id                             ), //o
     .axim_ar_payload_len                 (rdma_axim_ar_payload_len                            ), //o
     .axim_ar_payload_size                (rdma_axim_ar_payload_size                           ), //o
     .axim_ar_payload_burst               (rdma_axim_ar_payload_burst                          ), //o
-    .axim_r_valid                        (io_axim_r_r_valid                                   ), //i
+    .axim_r_valid                        (axim_r_r_valid                                      ), //i
     .axim_r_ready                        (rdma_axim_r_ready                                   ), //o
-    .axim_r_payload_data                 (io_axim_r_r_payload_data                            ), //i
-    .axim_r_payload_id                   (io_axim_r_r_payload_id                              ), //i
-    .axim_r_payload_resp                 (io_axim_r_r_payload_resp                            ), //i
-    .axim_r_payload_last                 (io_axim_r_r_payload_last                            ), //i
+    .axim_r_payload_data                 (axim_r_r_payload_data                               ), //i
+    .axim_r_payload_id                   (axim_r_r_payload_id                                 ), //i
+    .axim_r_payload_resp                 (axim_r_r_payload_resp                               ), //i
+    .axim_r_payload_last                 (axim_r_r_payload_last                               ), //i
     .cfg_valid                           (cfg_io_rdma_glb_param_valid                         ), //i
     .cfg_ready                           (rdma_cfg_ready                                      ), //o
     .cfg_payload_rd_dtBaseAddr           (cfg_io_rdma_glb_param_payload_rd_dtBaseAddr         ), //i
@@ -1218,21 +1218,21 @@ module bp_fpga_top (
   );
   dmaWriteCtrl wdma (
     .io_axim_aw_valid                       (wdma_io_axim_aw_valid                               ), //o
-    .io_axim_aw_ready                       (io_axim_w_aw_ready                                  ), //i
+    .io_axim_aw_ready                       (axim_w_aw_ready                                     ), //i
     .io_axim_aw_payload_addr                (wdma_io_axim_aw_payload_addr                        ), //o
     .io_axim_aw_payload_id                  (wdma_io_axim_aw_payload_id                          ), //o
     .io_axim_aw_payload_len                 (wdma_io_axim_aw_payload_len                         ), //o
     .io_axim_aw_payload_size                (wdma_io_axim_aw_payload_size                        ), //o
     .io_axim_aw_payload_burst               (wdma_io_axim_aw_payload_burst                       ), //o
     .io_axim_w_valid                        (wdma_io_axim_w_valid                                ), //o
-    .io_axim_w_ready                        (io_axim_w_w_ready                                   ), //i
+    .io_axim_w_ready                        (axim_w_w_ready                                      ), //i
     .io_axim_w_payload_data                 (wdma_io_axim_w_payload_data                         ), //o
     .io_axim_w_payload_strb                 (wdma_io_axim_w_payload_strb                         ), //o
     .io_axim_w_payload_last                 (wdma_io_axim_w_payload_last                         ), //o
-    .io_axim_b_valid                        (io_axim_w_b_valid                                   ), //i
+    .io_axim_b_valid                        (axim_w_b_valid                                      ), //i
     .io_axim_b_ready                        (wdma_io_axim_b_ready                                ), //o
-    .io_axim_b_payload_id                   (io_axim_w_b_payload_id                              ), //i
-    .io_axim_b_payload_resp                 (io_axim_w_b_payload_resp                            ), //i
+    .io_axim_b_payload_id                   (axim_w_b_payload_id                                 ), //i
+    .io_axim_b_payload_resp                 (axim_w_b_payload_resp                               ), //i
     .io_cfg_valid                           (cfg_io_wdma_glb_param_valid                         ), //i
     .io_cfg_ready                           (wdma_io_cfg_ready                                   ), //o
     .io_cfg_payload_rd_dtBaseAddr           (cfg_io_wdma_glb_param_payload_rd_dtBaseAddr         ), //i
@@ -2155,12 +2155,12 @@ module bp_fpga_top (
     .clk                  (clk                       )  //i
   );
   config_top cfg (
-    .io_apb_PADDR                                      (io_apb_PADDR                                        ), //i
-    .io_apb_PSEL                                       (io_apb_PSEL                                         ), //i
-    .io_apb_PENABLE                                    (io_apb_PENABLE                                      ), //i
+    .io_apb_PADDR                                      (apb_PADDR                                           ), //i
+    .io_apb_PSEL                                       (apb_PSEL                                            ), //i
+    .io_apb_PENABLE                                    (apb_PENABLE                                         ), //i
     .io_apb_PREADY                                     (cfg_io_apb_PREADY                                   ), //o
-    .io_apb_PWRITE                                     (io_apb_PWRITE                                       ), //i
-    .io_apb_PWDATA                                     (io_apb_PWDATA                                       ), //i
+    .io_apb_PWRITE                                     (apb_PWRITE                                          ), //i
+    .io_apb_PWDATA                                     (apb_PWDATA                                          ), //i
     .io_apb_PRDATA                                     (cfg_io_apb_PRDATA                                   ), //o
     .io_apb_PSLVERROR                                  (cfg_io_apb_PSLVERROR                                ), //o
     .io_rdma_glb_param_valid                           (cfg_io_rdma_glb_param_valid                         ), //o
@@ -2206,28 +2206,28 @@ module bp_fpga_top (
     .clk                                               (clk                                                 ), //i
     .reset                                             (reset                                               )  //i
   );
-  assign io_axim_r_ar_valid = rdma_axim_ar_valid;
-  assign io_axim_r_ar_payload_addr = rdma_axim_ar_payload_addr;
-  assign io_axim_r_ar_payload_id = rdma_axim_ar_payload_id;
-  assign io_axim_r_ar_payload_len = rdma_axim_ar_payload_len;
-  assign io_axim_r_ar_payload_size = rdma_axim_ar_payload_size;
-  assign io_axim_r_ar_payload_burst = rdma_axim_ar_payload_burst;
-  assign io_axim_r_r_ready = rdma_axim_r_ready;
-  assign io_axim_w_aw_valid = wdma_io_axim_aw_valid;
-  assign io_axim_w_aw_payload_addr = wdma_io_axim_aw_payload_addr;
-  assign io_axim_w_aw_payload_id = wdma_io_axim_aw_payload_id;
-  assign io_axim_w_aw_payload_len = wdma_io_axim_aw_payload_len;
-  assign io_axim_w_aw_payload_size = wdma_io_axim_aw_payload_size;
-  assign io_axim_w_aw_payload_burst = wdma_io_axim_aw_payload_burst;
-  assign io_axim_w_w_valid = wdma_io_axim_w_valid;
-  assign io_axim_w_w_payload_data = wdma_io_axim_w_payload_data;
-  assign io_axim_w_w_payload_strb = wdma_io_axim_w_payload_strb;
-  assign io_axim_w_w_payload_last = wdma_io_axim_w_payload_last;
-  assign io_axim_w_b_ready = wdma_io_axim_b_ready;
-  assign io_apb_PREADY = cfg_io_apb_PREADY;
-  assign io_apb_PRDATA = cfg_io_apb_PRDATA;
-  assign io_apb_PSLVERROR = cfg_io_apb_PSLVERROR;
-  assign io_interrupter = cfg_io_interrupter;
+  assign axim_r_ar_valid = rdma_axim_ar_valid;
+  assign axim_r_ar_payload_addr = rdma_axim_ar_payload_addr;
+  assign axim_r_ar_payload_id = rdma_axim_ar_payload_id;
+  assign axim_r_ar_payload_len = rdma_axim_ar_payload_len;
+  assign axim_r_ar_payload_size = rdma_axim_ar_payload_size;
+  assign axim_r_ar_payload_burst = rdma_axim_ar_payload_burst;
+  assign axim_r_r_ready = rdma_axim_r_ready;
+  assign axim_w_aw_valid = wdma_io_axim_aw_valid;
+  assign axim_w_aw_payload_addr = wdma_io_axim_aw_payload_addr;
+  assign axim_w_aw_payload_id = wdma_io_axim_aw_payload_id;
+  assign axim_w_aw_payload_len = wdma_io_axim_aw_payload_len;
+  assign axim_w_aw_payload_size = wdma_io_axim_aw_payload_size;
+  assign axim_w_aw_payload_burst = wdma_io_axim_aw_payload_burst;
+  assign axim_w_w_valid = wdma_io_axim_w_valid;
+  assign axim_w_w_payload_data = wdma_io_axim_w_payload_data;
+  assign axim_w_w_payload_strb = wdma_io_axim_w_payload_strb;
+  assign axim_w_w_payload_last = wdma_io_axim_w_payload_last;
+  assign axim_w_b_ready = wdma_io_axim_b_ready;
+  assign apb_PREADY = cfg_io_apb_PREADY;
+  assign apb_PRDATA = cfg_io_apb_PRDATA;
+  assign apb_PSLVERROR = cfg_io_apb_PSLVERROR;
+  assign interrupter = cfg_io_interrupter;
 
 endmodule
 
@@ -2317,7 +2317,7 @@ module config_top (
   wire                when_config_top_l74;
   wire       [31:0]   switch_config_top_l77;
   wire                when_config_top_l80;
-  wire       [31:0]   switch_config_top_l128;
+  wire       [31:0]   switch_config_top_l130;
 
   assign _zz_apb_addr = io_apb_PADDR[15 : 0];
   assign _zz_cfg_dtWidth = io_apb_PWDATA;
@@ -2374,7 +2374,7 @@ module config_top (
     io_apb_PRDATA = 32'h0;
     if(when_config_top_l72) begin
       if(!when_config_top_l74) begin
-        case(switch_config_top_l128)
+        case(switch_config_top_l130)
           32'h0 : begin
             io_apb_PRDATA = state_reg;
           end
@@ -2422,7 +2422,7 @@ module config_top (
   assign when_config_top_l74 = (io_apb_PWRITE == 1'b1);
   assign switch_config_top_l77 = apb_addr;
   assign when_config_top_l80 = (interrupter == 1'b0);
-  assign switch_config_top_l128 = apb_addr;
+  assign switch_config_top_l130 = apb_addr;
   always @(posedge clk or posedge reset) begin
     if(reset) begin
       start <= 1'b0;
@@ -2452,10 +2452,10 @@ module config_top (
               end
             end
             32'h00000004 : begin
-              is_delta_wt <= io_apb_PWDATA[0];
+              clear_interrupter <= io_apb_PWDATA[0];
             end
             32'h00000008 : begin
-              clear_interrupter <= io_apb_PWDATA[0];
+              is_delta_wt <= io_apb_PWDATA[0];
             end
             default : begin
             end
@@ -6400,12 +6400,12 @@ module dmaWriteCtrl (
   wire                cvt_sgm_io_in_7_ready;
   wire                cvt_sgm_io_out_valid;
   wire       [255:0]  cvt_sgm_io_out_payload;
-  wire       [15:0]   _zz_when_dmaWriteCtrl_l203;
-  wire       [15:0]   _zz_when_dmaWriteCtrl_l203_1;
-  wire       [15:0]   _zz_when_dmaWriteCtrl_l203_2;
-  wire       [15:0]   _zz_when_dmaWriteCtrl_l203_3;
-  wire       [15:0]   _zz_when_dmaWriteCtrl_l207;
-  wire       [15:0]   _zz_when_dmaWriteCtrl_l207_1;
+  wire       [15:0]   _zz_when_dmaWriteCtrl_l205;
+  wire       [15:0]   _zz_when_dmaWriteCtrl_l205_1;
+  wire       [15:0]   _zz_when_dmaWriteCtrl_l205_2;
+  wire       [15:0]   _zz_when_dmaWriteCtrl_l205_3;
+  wire       [15:0]   _zz_when_dmaWriteCtrl_l209;
+  wire       [15:0]   _zz_when_dmaWriteCtrl_l209_1;
   reg        [31:0]   addr;
   reg        [7:0]    burst_len;
   reg        [7:0]    burst_cnt;
@@ -6440,31 +6440,31 @@ module dmaWriteCtrl (
   wire                dma_wrctrl_fsm_wantKill;
   reg        `dma_wrctrl_fsm_enumDefinition_binary_sequential_type dma_wrctrl_fsm_stateReg;
   reg        `dma_wrctrl_fsm_enumDefinition_binary_sequential_type dma_wrctrl_fsm_stateNext;
-  wire                when_dmaWriteCtrl_l109;
-  wire                when_dmaWriteCtrl_l115;
-  wire                when_dmaWriteCtrl_l127;
-  wire                when_dmaWriteCtrl_l140;
-  wire                when_dmaWriteCtrl_l151;
-  wire                when_dmaWriteCtrl_l160;
-  wire                when_dmaWriteCtrl_l161;
-  wire                when_dmaWriteCtrl_l172;
-  wire                when_dmaWriteCtrl_l181;
-  wire                when_dmaWriteCtrl_l189;
-  wire                when_dmaWriteCtrl_l196;
-  wire                when_dmaWriteCtrl_l203;
-  wire                when_dmaWriteCtrl_l207;
+  wire                when_dmaWriteCtrl_l111;
+  wire                when_dmaWriteCtrl_l117;
+  wire                when_dmaWriteCtrl_l129;
+  wire                when_dmaWriteCtrl_l142;
+  wire                when_dmaWriteCtrl_l153;
+  wire                when_dmaWriteCtrl_l162;
+  wire                when_dmaWriteCtrl_l163;
+  wire                when_dmaWriteCtrl_l174;
+  wire                when_dmaWriteCtrl_l183;
+  wire                when_dmaWriteCtrl_l191;
+  wire                when_dmaWriteCtrl_l198;
+  wire                when_dmaWriteCtrl_l205;
+  wire                when_dmaWriteCtrl_l209;
   `ifndef SYNTHESIS
   reg [231:0] dma_wrctrl_fsm_stateReg_string;
   reg [231:0] dma_wrctrl_fsm_stateNext_string;
   `endif
 
 
-  assign _zz_when_dmaWriteCtrl_l203 = {12'd0, o_vcnt};
-  assign _zz_when_dmaWriteCtrl_l203_1 = (cfg_oHeight - 16'h0001);
-  assign _zz_when_dmaWriteCtrl_l203_2 = {12'd0, o_wcnt};
-  assign _zz_when_dmaWriteCtrl_l203_3 = (cfg_oWidth - 16'h0001);
-  assign _zz_when_dmaWriteCtrl_l207 = {12'd0, o_wcnt};
-  assign _zz_when_dmaWriteCtrl_l207_1 = (cfg_oWidth - 16'h0001);
+  assign _zz_when_dmaWriteCtrl_l205 = {12'd0, o_vcnt};
+  assign _zz_when_dmaWriteCtrl_l205_1 = (cfg_oHeight - 16'h0001);
+  assign _zz_when_dmaWriteCtrl_l205_2 = {12'd0, o_wcnt};
+  assign _zz_when_dmaWriteCtrl_l205_3 = (cfg_oWidth - 16'h0001);
+  assign _zz_when_dmaWriteCtrl_l209 = {12'd0, o_wcnt};
+  assign _zz_when_dmaWriteCtrl_l209_1 = (cfg_oWidth - 16'h0001);
   cvt_stream2uint cvt_wt_0 (
     .io_in_0_valid      (io_i_delta_wt_0_0_valid    ), //i
     .io_in_0_ready      (cvt_wt_0_io_in_0_ready     ), //o
@@ -7079,37 +7079,37 @@ module dmaWriteCtrl (
     dma_wrctrl_fsm_stateNext = dma_wrctrl_fsm_stateReg;
     case(dma_wrctrl_fsm_stateReg)
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE : begin
-        if(when_dmaWriteCtrl_l109) begin
+        if(when_dmaWriteCtrl_l111) begin
           dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_INIT_GET_PARAM;
         end
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_INIT_GET_PARAM : begin
-        if(when_dmaWriteCtrl_l115) begin
+        if(when_dmaWriteCtrl_l117) begin
           dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT;
         end else begin
           dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM;
         end
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_UPDATE_ADDR : begin
-        if(when_dmaWriteCtrl_l127) begin
+        if(when_dmaWriteCtrl_l129) begin
           dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT;
         end else begin
           dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM;
         end
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT : begin
-        if(when_dmaWriteCtrl_l140) begin
+        if(when_dmaWriteCtrl_l142) begin
           dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW;
         end
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM : begin
-        if(when_dmaWriteCtrl_l151) begin
+        if(when_dmaWriteCtrl_l153) begin
           dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW;
         end
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW : begin
-        if(when_dmaWriteCtrl_l160) begin
-          if(when_dmaWriteCtrl_l161) begin
+        if(when_dmaWriteCtrl_l162) begin
+          if(when_dmaWriteCtrl_l163) begin
             dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT;
           end else begin
             dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA;
@@ -7117,24 +7117,24 @@ module dmaWriteCtrl (
         end
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT : begin
-        if(when_dmaWriteCtrl_l172) begin
-          if(when_dmaWriteCtrl_l181) begin
+        if(when_dmaWriteCtrl_l174) begin
+          if(when_dmaWriteCtrl_l183) begin
             dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_WBRESP;
           end
         end
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_SIGMA : begin
-        if(when_dmaWriteCtrl_l189) begin
+        if(when_dmaWriteCtrl_l191) begin
           dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_WBRESP;
         end
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_WBRESP : begin
-        if(when_dmaWriteCtrl_l196) begin
+        if(when_dmaWriteCtrl_l198) begin
           dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_CHECK;
         end
       end
       `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_CHECK : begin
-        if(when_dmaWriteCtrl_l203) begin
+        if(when_dmaWriteCtrl_l205) begin
           dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_END;
         end else begin
           dma_wrctrl_fsm_stateNext = `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_UPDATE_ADDR;
@@ -7154,19 +7154,19 @@ module dmaWriteCtrl (
     end
   end
 
-  assign when_dmaWriteCtrl_l109 = (io_enable == 1'b1);
-  assign when_dmaWriteCtrl_l115 = (io_is_delta_wt == 1'b1);
-  assign when_dmaWriteCtrl_l127 = (io_is_delta_wt == 1'b1);
-  assign when_dmaWriteCtrl_l140 = ((cvt_wt_o_ready == 1'b1) && (cvt_wt_o_valid == 1'b1));
-  assign when_dmaWriteCtrl_l151 = ((cvt_sgm_io_out_valid == 1'b1) && (cvt_sgm_io_out_ready == 1'b1));
-  assign when_dmaWriteCtrl_l160 = (io_axim_aw_valid && io_axim_aw_ready);
-  assign when_dmaWriteCtrl_l161 = (io_is_delta_wt == 1'b1);
-  assign when_dmaWriteCtrl_l172 = (io_axim_w_valid && io_axim_w_ready);
-  assign when_dmaWriteCtrl_l181 = (burst_cnt == burst_len);
-  assign when_dmaWriteCtrl_l189 = (io_axim_w_valid && io_axim_w_ready);
-  assign when_dmaWriteCtrl_l196 = (io_axim_b_valid && io_axim_b_ready);
-  assign when_dmaWriteCtrl_l203 = ((_zz_when_dmaWriteCtrl_l203 == _zz_when_dmaWriteCtrl_l203_1) && (_zz_when_dmaWriteCtrl_l203_2 == _zz_when_dmaWriteCtrl_l203_3));
-  assign when_dmaWriteCtrl_l207 = (_zz_when_dmaWriteCtrl_l207 == _zz_when_dmaWriteCtrl_l207_1);
+  assign when_dmaWriteCtrl_l111 = (io_enable == 1'b1);
+  assign when_dmaWriteCtrl_l117 = (io_is_delta_wt == 1'b1);
+  assign when_dmaWriteCtrl_l129 = (io_is_delta_wt == 1'b1);
+  assign when_dmaWriteCtrl_l142 = ((cvt_wt_o_ready == 1'b1) && (cvt_wt_o_valid == 1'b1));
+  assign when_dmaWriteCtrl_l153 = ((cvt_sgm_io_out_valid == 1'b1) && (cvt_sgm_io_out_ready == 1'b1));
+  assign when_dmaWriteCtrl_l162 = (io_axim_aw_valid && io_axim_aw_ready);
+  assign when_dmaWriteCtrl_l163 = (io_is_delta_wt == 1'b1);
+  assign when_dmaWriteCtrl_l174 = (io_axim_w_valid && io_axim_w_ready);
+  assign when_dmaWriteCtrl_l183 = (burst_cnt == burst_len);
+  assign when_dmaWriteCtrl_l191 = (io_axim_w_valid && io_axim_w_ready);
+  assign when_dmaWriteCtrl_l198 = (io_axim_b_valid && io_axim_b_ready);
+  assign when_dmaWriteCtrl_l205 = ((_zz_when_dmaWriteCtrl_l205 == _zz_when_dmaWriteCtrl_l205_1) && (_zz_when_dmaWriteCtrl_l205_2 == _zz_when_dmaWriteCtrl_l205_3));
+  assign when_dmaWriteCtrl_l209 = (_zz_when_dmaWriteCtrl_l209 == _zz_when_dmaWriteCtrl_l209_1);
   always @(posedge clk or posedge reset) begin
     if(reset) begin
       addr <= 32'h0;
@@ -7188,9 +7188,11 @@ module dmaWriteCtrl (
       dma_wrctrl_fsm_stateReg <= dma_wrctrl_fsm_stateNext;
       case(dma_wrctrl_fsm_stateReg)
         `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_IDLE : begin
+          o_vcnt <= 4'b0000;
+          o_wcnt <= 4'b0000;
         end
         `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_INIT_GET_PARAM : begin
-          if(when_dmaWriteCtrl_l115) begin
+          if(when_dmaWriteCtrl_l117) begin
             addr <= cfg_wr_delta_wt_BaseAddr;
             burst_len <= 8'h07;
           end else begin
@@ -7199,7 +7201,7 @@ module dmaWriteCtrl (
           end
         end
         `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_UPDATE_ADDR : begin
-          if(when_dmaWriteCtrl_l127) begin
+          if(when_dmaWriteCtrl_l129) begin
             addr <= (addr + 32'h00000100);
             burst_len <= 8'h07;
           end else begin
@@ -7208,7 +7210,7 @@ module dmaWriteCtrl (
           end
         end
         `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_DELTA_WT : begin
-          if(when_dmaWriteCtrl_l140) begin
+          if(when_dmaWriteCtrl_l142) begin
             data_wt_0 <= cvt_wt_0_io_out_payload;
             data_wt_1 <= cvt_wt_1_io_out_payload;
             data_wt_2 <= cvt_wt_2_io_out_payload;
@@ -7220,14 +7222,14 @@ module dmaWriteCtrl (
           end
         end
         `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_GET_SGM : begin
-          if(when_dmaWriteCtrl_l151) begin
+          if(when_dmaWriteCtrl_l153) begin
             data_sgm <= cvt_sgm_io_out_payload;
           end
         end
         `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_AW : begin
         end
         `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_DELTA_WT : begin
-          if(when_dmaWriteCtrl_l172) begin
+          if(when_dmaWriteCtrl_l174) begin
             data_wt_0 <= data_wt_1;
             data_wt_1 <= data_wt_2;
             data_wt_2 <= data_wt_3;
@@ -7244,8 +7246,8 @@ module dmaWriteCtrl (
         end
         `dma_wrctrl_fsm_enumDefinition_binary_sequential_dma_wrctrl_fsm_W_CHECK : begin
           burst_cnt <= 8'h0;
-          if(!when_dmaWriteCtrl_l203) begin
-            if(when_dmaWriteCtrl_l207) begin
+          if(!when_dmaWriteCtrl_l205) begin
+            if(when_dmaWriteCtrl_l209) begin
               o_wcnt <= 4'b0000;
               o_vcnt <= (o_vcnt + 4'b0001);
             end else begin

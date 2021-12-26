@@ -106,6 +106,8 @@ case class dmaWriteCtrl(datawidth:Int, addrwidth:Int, idwidth:Int, eleWidth:Int)
 
 
     IDLE.whenIsActive{
+      o_vcnt := 0
+      o_wcnt := 0
       when(io.enable === True){
         goto(INIT_GET_PARAM)
       }

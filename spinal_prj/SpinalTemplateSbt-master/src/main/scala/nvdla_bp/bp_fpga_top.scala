@@ -24,7 +24,7 @@ case class bp_fpga_top(datawidth:Int,addrwidth:Int,idwidth:Int,eleWidth:Int,deep
     val apb = slave(Apb3(apb3cfg))
     val interrupter = out Bool()
   }
-
+  noIoPrefix()
   val rdma = new  dmaReadCtrl(datawidth,addrwidth,idwidth)
   val wdma = new dmaWriteCtrl(datawidth, addrwidth, idwidth, eleWidth)
   val cbuf = new cbuff_top(datawidth,addrwidth,eleWidth,deepth)

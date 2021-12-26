@@ -27,10 +27,10 @@ void main(){
     state = 0;
 
 
-	apbwrite(0x00000000,0); // clear interrupter
+	apbwrite(0x00000004,0); // clear interrupter
 
 	// 5x5x8  3x3x8x8 is delta wt
-	apbwrite(0x00000004,1); //is delta wt
+	apbwrite(0x00000008,1); //is delta wt
 
 	apbwrite(0x00000010,5); //dt width
 	apbwrite(0x00000014,5); //dt height
@@ -58,9 +58,9 @@ void main(){
 
 	}while(state != 0x2);
 
-	apbwrite(0x00000008,0); // clear interrupter
+	apbwrite(0x00000004,1); // clear interrupter
 
-	apbwrite(0x00000004,0); //is sigma
+	apbwrite(0x00000008,0); //is sigma
 
 	apbwrite(0x00000010,5); //dt width
 	apbwrite(0x00000014,5); //dt height

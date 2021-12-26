@@ -29,8 +29,8 @@ case class config_top(apbAddr: Int, apbdata: Int) extends Component {
   val is_delta_wt = Reg(Bool())init(False)
   val interrupter = Reg(Bool())init(False)
   val apb_addr = UInt(apbAddr bits)
-  val clear_interrupter = Reg(Bits(1 bits))init(0)
-  clear_interrupter := 0
+  val clear_interrupter = Reg(Bool())init(False)
+  clear_interrupter := False
 
   val state_reg = Reg(UInt(32 bits))init(0)
 
@@ -41,7 +41,7 @@ case class config_top(apbAddr: Int, apbdata: Int) extends Component {
   // interrupter
   when(io.conv_finished){
     interrupter := True
-  }.elsewhen(clear_interrupter === 0){
+  }.elsewhen(clear_interrupter === True){
     interrupter := False
   }
 
@@ -83,12 +83,14 @@ case class config_top(apbAddr: Int, apbdata: Int) extends Component {
         }
 
         is(B"32'h00000004") {
-          is_delta_wt := io.apb.PWDATA(0)
+          clear_interrupter := io.apb.PWDATA(0)// only one cycle
         }
 
         is(B"32'h00000008") {
-          clear_interrupter := io.apb.PWDATA(0)// only one cycle
+          is_delta_wt := io.apb.PWDATA(0)
         }
+
+
 
         is(B"32'h00000010") {
           cfg.dtWidth := io.apb.PWDATA.asUInt.resized
